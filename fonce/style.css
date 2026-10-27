@@ -689,3 +689,9 @@
 
   /* 装飾の光(hero__light)が画面の外にはみ出して、スマホで横にスクロールしてしまうのを防ぐ */
   html, body { overflow-x: clip; }
+
+  /* ラインナップ下のボタンは中央に */
+  .lineup__cta { justify-content: center; }
+  /* スマホだけで改行する<br> */
+  .sp-br { display: none; }
+  @media (max-width: 859px) { .sp-br { display: inline; } }

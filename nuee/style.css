@@ -1613,3 +1613,11 @@ html.is-menu-open {
     word-break: auto-phrase;
     text-wrap: balance;
 }
+
+
+/* スマホだけで改行する<br> */
+.sp-br { display: none; }
+
+@media (max-width: 768px) {
+    .sp-br { display: inline; }
+}

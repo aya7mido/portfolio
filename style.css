@@ -422,3 +422,21 @@ html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
 /* タグが折り返しても、行頭に「/」が来ないよう、区切りを各タグの後ろに付ける */
 .tags li+li::before{content:none}
 .tags li:not(:last-child)::after{content:"/";margin:0 .7em;opacity:.45}
+
+/* ===== v11: スマホの調整 ===== */
+@media (max-width:820px){
+  /* ① 説明を開いてもカードの高さは変えない(説明はカードの中でスクロール) */
+  .card,.slide[data-view="desc"] .card{height:calc(var(--cw) * .75)}
+  /* ② 左右の切り替えボタンは、枠なしの控えめな文字リンクに */
+  .side-btn{border:0;padding:10px 2px;font-size:14px;letter-spacing:.06em;opacity:calc(var(--c,1) * .8);background:none!important;color:var(--pink)!important}
+  .side-btn .lbl{font-size:1em;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;padding-bottom:3px}
+  .side-btn .arr{font-size:.9em}
+}
+/* ④ 一覧のスクショ: Safariで画像が下の余白にはみ出して枠が消えるのを防ぐ(画像を枠の内側に固定) */
+.gv-thumb{position:relative;--gp:8px;padding:0}
+.gv-thumb img{position:absolute;left:var(--gp);top:var(--gp);width:calc(100% - var(--gp) * 2);height:calc(100% - var(--gp) * 2)}
+@media (max-width:820px){.gv-thumb{--gp:5px}}
+/* スマホ: 説明の続きがあることが伝わるよう、カードの下端をふわっと消す(最後までスクロールすると全文読める) */
+@media (max-width:820px){
+  .desc-in{padding-bottom:36px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent)}
+}
