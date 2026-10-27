@@ -1,0 +1,832 @@
+  /* ============ TOKENS ============ */
+  :root{
+    --cream:      #F4EFE4;
+    --cream-2:    #ECE4D3;
+    --ink:        #3A2E27;
+    --ink-soft:   #6B5D51;
+    --blue:       #9DB7D1;
+    --blue-deep:  #7C9DBE;
+    --brown:      #6B4A38;
+    --stripe-navy:#232C3B;
+    --paper:      #FBF8F1;
+    --line:       rgba(58,46,39,0.18);
+
+    --font-display: 'Jost', sans-serif;
+    --font-jp: 'Zen Kaku Gothic New', 'Jost', sans-serif;
+
+    --wave-shift: 0px;
+    --edge-pad: 28px;
+    --content-max: 600px;
+    color-scheme: light dark;
+  }
+
+  @media (min-width: 720px){
+    :root{ --edge-pad: 48px; --content-max: 860px; }
+  }
+  @media (min-width: 1080px){
+    :root{ --edge-pad: 64px; --content-max: 1120px; }
+  }
+
+  /* Brand identity is intentional and stays constant across OS themes;
+     we still declare tokens under dark scheme per platform convention,
+     and pin an explicit page background either way. */
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --cream:      #F4EFE4;
+      --cream-2:    #ECE4D3;
+      --ink:        #3A2E27;
+      --paper:      #FBF8F1;
+    }
+  }
+  :root[data-theme="dark"]{
+    --cream:      #F4EFE4;
+    --cream-2:    #ECE4D3;
+    --ink:        #3A2E27;
+    --paper:      #FBF8F1;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+  }
+
+  body{
+    margin:0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-jp);
+    line-height: 1.9;
+    overflow-x: hidden;
+  }
+
+  img, svg{ max-width:100%; display:block; }
+
+  .inner{
+    max-width: var(--content-max);
+    margin: 0 auto;
+    padding-left: var(--edge-pad);
+    padding-right: var(--edge-pad);
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .eyebrow-en{
+    font-family: var(--font-display);
+    letter-spacing: 0.22em;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  /* ============ REVEAL ON SCROLL ============ */
+  .reveal{
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.is-visible{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+  .reveal-stagger > *{
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal-stagger.is-visible > *{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal-stagger > *{ opacity:1; transform:none; transition:none; }
+  }
+
+  /* ============ HEADER ============ */
+  header.site{
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 30;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 26px var(--edge-pad);
+    background: transparent;
+    transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
+  }
+  header.site.scrolled{
+    background: var(--cream);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    box-shadow: 0 2px 14px rgba(58,46,39,0.08);
+  }
+  .logo{
+    font-family: var(--font-display);
+    letter-spacing: 0.42em;
+    font-size: 3.05rem;
+    font-weight: 500;
+    color: var(--paper);
+    transition: color 0.3s ease;
+  }
+  header.site.scrolled .logo{
+    letter-spacing: 0.3em;
+    font-size: 1.7rem;
+    font-weight: 500;
+    color:#465E78;
+}
+  .menu-btn{
+    display:flex;
+    flex-direction: column;
+    gap: 5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding: 6px;
+  }
+  .menu-btn span{
+    width: 22px;
+    height: 2px;
+    background: var(--paper);
+    display:block;
+    transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  }
+  header.site.scrolled .menu-btn span{ background: #465E78; }
+  .menu-btn.is-open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+  .menu-btn.is-open span:nth-child(2){ opacity: 0; }
+  .menu-btn.is-open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+  .menu-btn.is-open span{ background: var(--ink) !important; }
+
+  /* ============ NAV DRAWER ============ */
+  .nav-backdrop{
+    position: fixed;
+    inset: 0;
+    background: rgba(28,38,50,0.24);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 35;
+  }
+  .nav-backdrop.is-open{
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mobile-nav{
+    position: fixed;
+    top: 0; right: 0;
+    height: 100%;
+    width: min(220px, 84vw);
+    background: var(--paper);
+    z-index: 40;
+    padding: 28px;
+    display:flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    box-shadow: -8px 0 30px rgba(58,46,39,0.12);
+  }
+  .mobile-nav.is-open{ transform: translateX(0); }
+  .nav-close{
+    align-self: flex-end;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink);
+    padding: 6px;
+    margin-bottom: 30px;
+  }
+  .nav-close svg{ width: 20px; height: 20px; }
+  .nav-links{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .nav-links a{
+    font-family: var(--font-display);
+    letter-spacing: 0.16em;
+    font-size: 1rem;
+      }
+
+  .nav-links a:hover{
+   color:#465E78;
+   transition: 0.5s;
+      }
+  .nav-sns{
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display:flex;
+    gap: 18px;
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: #465E78;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .mobile-nav, .nav-backdrop, .menu-btn span, header.site{ transition: none; }
+  }
+
+  /* ============ HERO ============ */
+.hero{
+  position: relative;
+  height: 100vh;
+  min-height: 420px;
+  overflow: hidden;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background: url(image/hero5.webp) center/cover;
+  /* タグのくっきり感を少し抑え、ページのやわらかさに寄せる */
+  filter: contrast(0.96) saturate(1.03);
+}
+/* スマホ(縦長)では左右が大きく切れるので、タグが画面の中央に来るよう寄せる */
+@media (max-width: 719px){
+  .hero::before{ background-position: 64% center; }
+}
+
+  .hero::after{
+    content:"";
+    position:absolute; inset:0;
+    /* 上はロゴを読みやすくするため薄く暗く、下はほぼ素のまま */
+    background: linear-gradient(180deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0.06) 100%);
+  }
+
+  .hero-tag{
+    position:absolute;
+    right: 30px;
+    top: 40%;
+    z-index: 2;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 10px 22px;
+    font-family: var(--font-display);
+    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.22);
+    transform: rotate(-6deg);
+  }
+
+  /* ============ INTRO ============ */
+  .intro{
+    padding: 56px 0 48px;
+  }
+  .intro h1{
+    font-family: var(--font-display);
+    letter-spacing: 0.34em;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 0 0 22px;
+  }
+  .intro .jp-lead{
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin: 0 0 18px;
+  }
+  .intro p.desc{
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+    max-width: 50ch;
+  }
+  .rule{
+    width: 28px;
+    height: 1px;
+    background: var(--ink);
+    margin: 0 0 4px;
+    opacity: 0.5;
+  }
+  .intro .closing-en{
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    line-height: 1.7;
+  }
+  .intro-media{
+    margin-top: 34px;
+    position: relative;
+  }
+  .intro-photo{
+    aspect-ratio: 4/3;
+    border-radius: 2px;
+    background: url(image/hand.webp) center/cover;
+    filter: saturate(0.92) contrast(1.03) brightness(1.02);
+  }
+  .intro-photo::before{
+    content:"";
+  }
+
+  /* ============ LINEUP ============ */
+  .lineup{
+    padding: 72px 0 72px;
+    background: var(--cream-2);
+  }
+  .lineup-head{
+    display:flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 var(--edge-pad);
+    margin-bottom: 30px;
+  }
+  .gift h2, .shop h2, .lineup h2, .intro .sec-title{
+    font-family: var(--font-display);
+    letter-spacing: 0.3em;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 0;
+    color:#465E78;
+  }
+  .lineup-nav{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+  }
+  .lineup-count{
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+    min-width: 46px;
+  }
+  .nav-dash{
+    width: 30px; height: 1px;
+    background: var(--line);
+  }
+  .nav-btn{
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    color: var(--ink);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .nav-btn.next{
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .nav-btn:hover:not(:disabled){
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .nav-btn:disabled{ opacity: 0.35; cursor: default; }
+  .nav-btn svg{ width: 15px; height: 15px; }
+
+  .lineup-track{
+    display:flex;
+    gap: 34px;
+    overflow-x: auto;
+    padding: 10px var(--edge-pad) 10px;
+    scrollbar-width: none;
+    cursor: grab;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--edge-pad), #000 calc(100% - var(--edge-pad)), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 var(--edge-pad), #000 calc(100% - var(--edge-pad)), transparent 100%);
+  }
+  .lineup-track:active{ cursor: grabbing; }
+  .lineup-track::-webkit-scrollbar{ display:none; }
+
+  .lineup-item{
+    flex: 0 0 auto;
+    text-align:center;
+    width: 118px;
+  }
+  .swatch{
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    position: relative;
+    margin-bottom: 16px;
+    transform: scale(0.88);
+    filter: saturate(0.75) brightness(0.98);
+    transition: transform 0.35s ease, filter 0.35s ease;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    background-size: cover;
+    background-position: center;
+    background-color: var(--cream-2); /* shows briefly while the photo loads */
+  }
+  .lineup-item.active .swatch{
+    transform: scale(1.06);
+    filter: saturate(1) brightness(1);
+  }
+  @media (hover: hover) and (pointer: fine){
+    .swatch:hover{
+      transform: scale(1.14);
+      filter: saturate(1) brightness(1.02);
+      transition: transform 0.28s ease, filter 0.28s ease;
+    }
+  }
+  .lineup-item .name{
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+  }
+  .lineup-item .rule{ margin: 8px auto 0; }
+
+  .lineup-cta{
+    text-align: center;
+    margin-top: 52px;
+  }
+  .btn-outline{
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.22em;
+    padding: 15px 40px;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    transition: background 0.25s ease, color 0.25s ease;
+  }
+  .btn-outline:hover{
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+    /* ============ SHOP ============ */
+  .shop{
+    padding: 56px 0 48px;
+  }
+  .shop-head{
+    margin-bottom: 24px;
+  }
+  .shop-media{
+    position: relative;
+  }
+  .shop-photo{
+    aspect-ratio: 4 / 3;
+    border-radius: 2px;
+    background: url(image/shop.webp) center 30% / cover;
+    filter: saturate(0.92) contrast(1.03) brightness(1.02);
+  }
+  .shop-copy{
+    margin-top: 24px;
+  }
+  .shop p.desc{
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 50ch;
+  }
+  .shop-info{
+    margin-top: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .shop-info-row{
+    font-size: 0.86rem;
+  }
+  .shop-info-label{
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    margin-right: 10px;
+  }
+  .access-guide{
+    margin-top: 20px;
+    padding-top: 0;
+    border-top: none;
+  }
+
+/* ============ GIFT ============ */
+
+.gift{
+  padding: 58px 0 60px;
+}
+
+.gift-head{
+  margin-bottom: 0;
+}
+
+.gift-head h2{
+  margin-bottom: 28px;
+}
+
+.gift-head img{
+  display: block;
+  width: 100%;
+}
+
+.gift-guide{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 0;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  transition: gap 0.2s ease, opacity 0.2s ease;
+}
+
+.gift-guide svg{
+  width: 14px;
+  height: 14px;
+}
+
+.gift-guide:hover{
+  gap: 14px;
+  opacity: 0.7;
+}
+
+p.desc {
+  padding: 10px 0px 0px 0px;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 50ch;
+}
+
+  /* ============ CLOSING  ============ */
+  .closing{
+    position: relative;
+    padding: 70px 0 0;
+    text-align: center;
+    overflow: hidden;
+  }
+  .closing h2{
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    font-size: 1.9rem;
+    line-height: 1.35;
+    margin: 0 0 26px;
+    color:#465E78;
+  }
+  .closing .foot-brand{
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: #465E78;
+  }
+  .closing .foot-brand .b{
+    letter-spacing: 0.3em;
+    display:block;
+    margin-bottom: 6px;
+    color:#465E78;
+  }
+
+  footer.legal{
+    background: var(--cream);
+    text-align:center;
+    padding: 58px 0 26px;
+    font-family: var(--font-display);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+  }
+  .footer-sns{
+    display: flex;
+    justify-content: center;
+    gap: 22px;
+    margin-bottom: 20px;
+    font-family: var(--font-display);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+  }
+  .footer-sns a{
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .footer-sns a:hover{
+    color: var(--ink);
+  }
+
+  @media (min-width: 720px){
+    .hero{ min-height: 480px; }
+    .intro-inner{ display:grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items:center; }
+    .intro{ padding: 96px 0; }
+    .intro-media{ margin-top:0; }
+    .intro h1{ font-size: 2.4rem; }
+    .intro p.desc{ font-size: 0.98rem; }
+    .lineup h2, .gift h2, .shop h2, .intro .sec-title{ font-size: 1.45rem; }
+    .lineup{ padding: 96px 0; }
+    .lineup-head{ margin-bottom: 40px; }
+    .lineup-item{ width: 140px; }
+    .swatch{ width: 140px; height: 140px; }
+    .lineup-track{ gap: 44px; }
+    .gift{ padding: 88px 0 96px; }
+    .closing{ padding: 96px 0 88px; }
+    .closing h2{ font-size: 2.3rem; }
+    .shop{ padding: 96px 0; }
+    .shop-head{ margin-bottom: 36px; }
+    .shop-inner{ display:grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items:center; }
+    .shop-copy{ margin-top: 0; }
+    .shop p.desc{ font-size: 0.98rem; }
+  }
+
+  @media (min-width: 1080px){
+    .hero{ min-height: 560px; }
+    .intro-inner{ grid-template-columns: 1fr 1.05fr; gap: 80px; }
+    .intro{ padding: 120px 0; }
+    .intro h1{ font-size: 2.8rem; letter-spacing: 0.3em; }
+    .intro .jp-lead{ font-size: 1.4rem; }
+    .intro p.desc{ font-size: 1.02rem; }
+    .lineup{ padding: 112px 0 112px; }
+    .lineup h2, .gift h2, .shop h2, .intro .sec-title{ font-size: 1.6rem; }
+    .lineup-item{ width: 168px; }
+    .swatch{ width: 168px; height: 168px; }
+    .lineup-track{ gap: 56px; }
+    .gift{ padding: 104px 0 112px; }
+    .closing{ padding: 112px 0 100px; }
+    .closing h2{ font-size: 2.8rem; }
+    .shop{ padding: 120px 0; }
+    .shop-inner{ gap: 80px; }
+    .shop p.desc{ font-size: 1.02rem; }
+  }
+
+/* ============ ABOUT / 購入導線(追加) ============ */
+section[id]{ scroll-margin-top: 64px; }
+.intro .sec-title{ margin-bottom: 26px; }
+.features{
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+.features li{ display: flex; align-items: baseline; gap: 12px; }
+.f-label{
+  flex: 0 0 74px;
+  font-family: var(--font-display);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: #465E78;
+}
+.lineup-head{ align-items: flex-end; flex-wrap: wrap; gap: 16px; }
+.lineup-spec{ margin: 10px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
+.lineup-price{ color: var(--ink); font-weight: 500; white-space: nowrap; }
+.lineup-price small, .gift-set-price small{ font-size: 0.72em; font-weight: 400; }
+.lineup-item .name-jp{ font-size: 0.72rem; color: var(--ink-soft); line-height: 1.4; margin-top: 2px; }
+.btn-buy{
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 34px;
+  background: #465E78;
+  color: var(--paper);
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  border-radius: 2px;
+  transition: background 0.25s ease;
+}
+.btn-buy:hover{ background: var(--ink); }
+.btn-en{
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  opacity: 0.8;
+}
+.ship-note{ margin: 14px 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+.gift-body{ margin-top: 24px; display: grid; gap: 24px; }
+.gift-body p.desc{ padding: 0; }
+.gift-set{
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 26px 24px 28px;
+}
+.gift-set p{ margin: 0; }
+.gift-set-label{ font-family: var(--font-display); font-size: 0.62rem; letter-spacing: 0.2em; color: #465E78; }
+.gift-set-name{ margin-top: 8px !important; font-size: 1.05rem; font-weight: 500; }
+.gift-set-price{ margin-top: 6px !important; font-size: 1.15rem; font-weight: 500; }
+.gift-set-note{ margin-top: 2px !important; font-size: 0.8rem; color: var(--ink-soft); }
+.gift-set .btn-buy{ margin-top: 18px; }
+@media (min-width: 720px){
+  .gift-body{ grid-template-columns: 1fr 1fr; align-items: start; gap: 40px; }
+  .features{ font-size: 0.95rem; }
+}
+.lineup-head{ max-width: var(--content-max); margin-left: auto; margin-right: auto; }
+@media (max-width: 719px){
+  .intro .jp-lead{ font-size: 1.25rem; }
+  .f-label{ flex-basis: 64px; }
+}
+
+/* LINEUP: 英語の仕様表記(スペースで区切る) */
+.lineup-spec{display:flex;flex-wrap:wrap;gap:4px 22px;font-family:var(--font-display);font-size:0.78rem;letter-spacing:0.14em}
+.lineup-price{letter-spacing:0.06em}
+/* ボタン: 英語を大きく、日本語を小さく */
+.btn-buy{gap:4px}
+.btn-main{font-family:var(--font-display);font-size:0.84rem;letter-spacing:0.22em;margin-right:-0.22em}
+.btn-sub{font-size:0.66rem;letter-spacing:0.08em;opacity:0.85}
+
+.lineup-spec{letter-spacing:0.08em;gap:4px 16px}
+
+/* 動きを減らす設定のときは、流れる代わりに6色をすべて並べて見せる(矢印なしでも全色見られる) */
+@media (prefers-reduced-motion: reduce){
+  .lineup-track{flex-wrap:wrap;justify-content:center;overflow:visible;cursor:default;-webkit-mask-image:none;mask-image:none;row-gap:28px}
+}
+
+/* ============ FOOTER(TENOらしい終わり方: 波線 + 水色の帯) ============ */
+.site-foot{position:relative;margin-top:96px;background:#465E78;color:var(--paper);padding:72px 0 28px}
+.foot-wave{position:absolute;left:0;top:-19px;width:100%;height:20px;overflow:visible}
+.foot-wave path{fill:#465E78;stroke:none}
+.foot-inner{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:40px}
+.foot-copy{margin:0;font-family:var(--font-display);font-weight:500;font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.3;letter-spacing:0.09em}
+.foot-side{display:flex;flex-direction:column;align-items:flex-end;gap:18px}
+.foot-logo{margin:0;font-family:var(--font-display);font-weight:500;font-size:1.5rem;letter-spacing:0.42em;margin-right:-0.42em}
+.foot-nav{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.16em}
+.foot-nav a{opacity:0.85;transition:opacity 0.2s ease}
+.foot-nav a:hover{opacity:1}
+.foot-legal{max-width:var(--content-max);margin:56px auto 0;padding:20px var(--edge-pad) 0;border-top:1px solid rgba(251,248,241,0.25);font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.08em;opacity:0.75}
+@media (max-width:719px){
+  .site-foot{margin-top:64px;padding-top:56px}
+  .foot-side{align-items:flex-start}
+  .foot-logo{margin-right:0}
+}
+
+/* ============ ページの先頭へ ============ */
+.to-top{position:fixed;right:20px;bottom:20px;z-index:25;display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:var(--paper);color:#465E78;box-shadow:0 6px 18px rgba(58,46,39,0.16);opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .3s ease,visibility .3s,transform .3s ease}
+.to-top svg{width:20px;height:20px}
+.to-top.is-show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--blue-area);color:var(--paper)}
+@media (prefers-reduced-motion: reduce){.to-top{transition:none}}
+@media (prefers-reduced-motion: reduce){
+  .lineup-track{display:grid;grid-template-columns:repeat(3,auto);justify-content:center;gap:28px 28px}
+}
+@media (prefers-reduced-motion: reduce) and (min-width:1080px){
+  .lineup-track{grid-template-columns:repeat(6,auto);gap:28px 36px}
+}
+@media (prefers-reduced-motion: reduce) and (max-width:440px){
+  .lineup-track{grid-template-columns:repeat(2,auto);gap:24px 32px}
+}
+
+/* 面積の広い青(フッター・購入ボタン)は、表題の紺より明るく・少し鮮やかにして重さを抜く */
+:root{ --blue-area: #6281a2; }
+.btn-buy{ background: #56748f; } /* 白文字が読みやすいよう、フッターの青より少しだけ濃く */
+.btn-buy:hover{ background: #465E78; }
+.site-foot{ background: var(--blue-area); }
+.foot-wave path{ fill: var(--blue-area); }
+.foot-legal{ opacity: 0.9; }
+.lineup-price small{ font-family: var(--font-jp); letter-spacing: 0.04em; }
+
+/* フッター: Instagramのアイコン(枠なし) */
+.foot-sns{display:inline-grid;place-items:center;width:40px;height:40px;margin:-6px -10px -10px 0;opacity:0.9;transition:opacity .2s ease}
+.foot-sns:hover{opacity:1}
+@media (max-width:719px){.foot-sns{margin:-6px 0 -10px -10px}}
+/* スマホ: 左下の「← portfolio」と右下の「↑」にコピーライトが隠れないよう、下に余白を足す */
+@media (max-width:719px){.foot-legal{padding-bottom:64px}}
+
+/* ============ クーポン(右下・小さな縦長カード) ============ */
+.coupon{position:fixed;right:40px;bottom:84px;z-index:26;width:88px;opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s ease,visibility .35s,transform .35s ease}
+.coupon.is-show{opacity:.96;visibility:visible;transform:none}
+.coupon-ticket{display:flex;flex-direction:column;align-items:center;justify-content:center;aspect-ratio:7/8;padding:8px 10px;border-radius:3px;background:#6d8cad;color:var(--paper);text-align:center;box-shadow:0 6px 16px rgba(58,46,39,0.14)}
+.coupon-label{margin:0;font-family:var(--font-display);font-size:0.5rem;font-weight:500;letter-spacing:0.2em;margin-right:-0.2em;line-height:1.4}
+.coupon-off{margin:6px 0 0;font-family:var(--font-display);font-weight:500;font-size:1.2rem;letter-spacing:0.02em;line-height:1}
+.coupon-off small{display:block;margin-top:3px;font-size:0.5em;letter-spacing:0.2em;margin-right:-0.2em}
+.coupon-code{margin-top:8px;width:100%;padding:4px 0;border:none;border-radius:2px;background:rgba(251,248,241,0.18);color:var(--paper);font-family:var(--font-display);font-size:0.56rem;font-weight:500;letter-spacing:0.1em;cursor:pointer;transition:background .25s ease}
+.coupon-code:hover,.coupon-code.is-copied{background:rgba(251,248,241,0.32)}
+.coupon-close{position:absolute;top:-9px;right:-9px;display:grid;place-items:center;width:22px;height:22px;padding:0;border:none;border-radius:50%;background:var(--paper);color:var(--ink-soft);box-shadow:0 2px 6px rgba(58,46,39,0.16);cursor:pointer}
+.coupon-close svg{width:10px;height:10px}
+.coupon-close:hover{color:var(--ink)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media (max-width:719px){.coupon{right:28px;bottom:80px}}
+@media (prefers-reduced-motion: reduce){.coupon{transition:none}}
+
+/* ============ ヒーロー上のメニューボタン: 白い丸+水色の線 → スクロール後は丸が消えて紺の線 ============ */
+.menu-btn{
+  width: 46px; height: 46px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 4px 14px rgba(58,46,39,0.12);
+  transition: background .3s ease, box-shadow .3s ease;
+}
+.menu-btn span{ background: var(--blue-area); }
+header.site.scrolled .menu-btn{ background: transparent; box-shadow: none; }
+header.site.scrolled .menu-btn span{ background: #465E78; }
+@media (prefers-reduced-motion: reduce){ .menu-btn{ transition: none; } }
+
+/* LINEUP: BLUEのタオルを、ヒーローの水色(グレーがかった青)に少し寄せる。複製された丸にも効くよう data-index で指定 */
+.lineup-item[data-index="0"] .swatch{ filter: hue-rotate(14deg) saturate(0.71) brightness(1.02); }
+.lineup-item[data-index="0"].active .swatch{ filter: hue-rotate(14deg) saturate(0.95) brightness(1.04); }
+@media (hover: hover) and (pointer: fine){
+  .lineup-item[data-index="0"] .swatch:hover{ filter: hue-rotate(14deg) saturate(0.95) brightness(1.06); }
+}
+
+/* フッター: SNSアイコンを3つ並べる(Instagram / LINE / X) */
+.foot-sns-list{display:flex;align-items:center;gap:6px;margin:-6px -10px -10px 0}
+.foot-sns-list .foot-sns{margin:0}
+.foot-sns-x{font-family:var(--font-display);font-size:1.05rem;font-weight:500;line-height:1}
+@media (max-width:719px){.foot-sns-list{margin:-6px 0 -10px -10px}}
+
+/* メニュー: オンラインストア(ページ内リンクと区別して、線で区切り「↗」を添える) */
+.nav-links .nav-store{margin-top:8px;padding-top:20px;border-top:1px solid var(--line)}
+.nav-links .nav-store a, .foot-nav .foot-store{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.nav-links .nav-store a{font-size:0.86rem}
+.nav-links .nav-store svg, .foot-nav .foot-store svg{width:13px;height:13px;flex:none}
