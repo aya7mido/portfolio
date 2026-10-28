@@ -549,3 +549,57 @@ html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
   .slide[data-view] .ph{height:100%;top:50%}
   .ph-dots{display:none}
 }
+
+/* ===== v18 ===== */
+/* 説明: POINT → COLOR → TOOL の順。TOOL の行のタグは、他の行と同じ並びに */
+.facts dd .tags{margin:0;font-size:inherit}
+@media (max-width:820px){
+  /* スマホ: カードの比率を 3:2 に(スクショ 16:10 の左右が大きく切れないように) */
+  .card,.slide[data-view="desc"] .card{height:calc(var(--cw) / 1.5)}
+  /* スマホ画面のスクショの間隔を詰める */
+  .slide[data-view] .ph{transform:translate(calc(-50% + var(--d,0) * 118%),-50%) scale(var(--s,1))!important}
+}
+
+/* ===== v19: TOOL のタグは、さりげない英語の羅列に(細身の等幅フォント・本文より小さく・薄く) ===== */
+.facts .tags{font-family:var(--mono);font-weight:400;font-size:max(11px,1.2cqw);letter-spacing:.02em;opacity:.7;line-height:1.8}
+.facts .tags li:not(:last-child)::after{margin:0 .5em;opacity:.6}
+@media (max-width:820px){.facts .tags{font-size:10.5px}}
+.facts .tags{font-size:max(10.5px,1.05cqw);line-height:1.6;row-gap:0}
+@media (max-width:820px){.facts .tags{font-size:10px}}
+
+/* ===== v20: ツール名は「TOOL」ラベルなし。POINT・COLOR と同じ書体と大きさで、左端から。少しだけ薄い色にして補足の一行に ===== */
+.facts dd.tools{grid-column:1 / -1;margin-top:2px}
+.facts .tools .tags{font-family:var(--round);font-weight:500;font-size:max(10.5px,1.15cqw);letter-spacing:.06em;line-height:1.7;opacity:.45;gap:2px 1.3em}
+.facts .tools .tags li::after{content:none!important}
+@media (max-width:820px){.facts .tools .tags{font-size:10px;gap:0 1.2em}.facts dd.tools{margin-top:8px}}
+
+/* ===== v21: ツール名は本文・色見本と同じ列から。POINT・COLOR・ツールの行間を少し広く(カード内の上下中央はそのまま) ===== */
+.facts dd.tools{grid-column:2;margin-top:0}
+.facts{row-gap:clamp(12px,1.9vh,18px)}
+@media (max-width:820px){
+  .facts dd.tools{grid-column:1;margin-top:12px}
+  .facts dt{margin-top:12px}
+}
+@media (max-width:820px){
+  .facts{row-gap:2px}
+  .facts dt{margin-top:14px}
+  .facts dd.tools{margin-top:14px}
+}
+
+/* ===== v22: スマホ: 内容(サブタイトル)と POINT の間を詰め、作品名の上に少し余白を足す ===== */
+@media (max-width:820px){
+  .desc-in{padding-top:24px}
+  .facts{margin-top:14px}
+  .facts dt:first-child{margin-top:0}
+}
+
+/* ===== スマホ: slide / grid の切り替えは、画面の下中央に浮かべる(星の進捗表示は上にそのまま) ===== */
+@keyframes riseFade{from{opacity:0}to{opacity:1}}
+@media (max-width:820px){
+  .view-toggle{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);background:var(--navy);box-shadow:0 8px 22px -8px rgba(0,0,0,.6);border-color:rgba(255,226,226,.55)}
+  html.dark .prog{display:flex}
+}
+@media (max-width:820px) and (prefers-reduced-motion:no-preference){
+  /* ナビの出現アニメーションは動きなしのフェードに(動いている間は、下に固定したボタンが上にずれるため) */
+  .topbar{animation-name:riseFade}
+}
