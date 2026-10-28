@@ -1,0 +1,332 @@
+/* ===== トークン ===== */
+:root{
+  /* ピンクの面の、ごく薄い粒状感 */
+  --grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.09 0 0 0 0 0.29 0 0 0 0.156 -0.049'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.156 -0.052'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.09 0 0 0 0 0.29 0 0 0 0.070 -0.025'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
+  --pink:#ffe2e2; --ivory:#f8f4ec; --navy:#07184a; --shotbg:#f1eee7;
+  --fg:var(--navy); --fgl:var(--navy);
+  --gut:clamp(22px,5.6vw,88px);
+  --hh:72px;
+  --round:"Fredoka","Zen Maru Gothic",system-ui,sans-serif;
+  --jp:"Zen Maru Gothic","Hiragino Maru Gothic ProN",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  /* 章の切り替えにかけるスクロール量(script.js が実際の値に書き換える) */
+  --W1:75svh; --W2:75svh; --F:40svh;
+}
+html.dark{--fg:var(--pink)}
+html.dl{--fgl:var(--pink)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html.gridmode{overflow:hidden}
+body{margin:0;background:var(--pink);color:var(--navy);font-family:var(--jp);font-weight:500;line-height:1.8}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* ===== ヘッダー: 表示切り替え / 進捗の星と線 / ナビ ===== */
+.topbar{position:fixed;inset:0 0 auto 0;height:var(--hh);z-index:30;display:flex;align-items:center;justify-content:flex-end;gap:clamp(18px,2.4vw,34px);padding-inline:var(--gut);color:var(--fg);transition:color .4s}
+.topbar nav{display:flex;gap:clamp(14px,1.8vw,26px);font-family:var(--round);font-weight:600;font-size:clamp(19px,1.95vw,29px);line-height:1;letter-spacing:.01em;transition:opacity .4s,visibility .4s}
+.topbar nav a{position:relative;padding:6px 0;transition:opacity .3s}
+.topbar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.topbar nav a:hover::after,.topbar nav a.on::after{transform:scaleX(1)}
+.prog{display:flex;align-items:center;width:clamp(60px,6.4vw,100px);height:26px;color:var(--fg);transition:opacity .4s,visibility .4s}
+.pd{flex:0 0 auto;width:calc(var(--pp,0) * (100% - 24px));height:6px;background:radial-gradient(circle at 3.5px 3px,currentColor 2px,transparent 2.6px) 0 0/12px 6px repeat-x}
+.ps{flex:0 0 24px;width:24px;height:24px;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linejoin:round;transform:rotate(calc(var(--pp,0) * 360deg))}
+.pl{flex:1 1 0;min-width:0;height:4px;border-radius:2px;background:currentColor}
+/* 一覧を開いている間は、ナビと星を隠す */
+html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
+
+/* slide / grid の切り替え(作品パートにいる間だけ表示) */
+.view-toggle{margin-right:auto;display:flex;gap:4px;padding:4px;border:1.5px solid rgba(255,226,226,.45);border-radius:999px;color:var(--fg);opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+html.dark .view-toggle{opacity:1;visibility:visible}
+.vt-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px 7px 11px;border-radius:999px;font-family:var(--round);font-weight:500;font-size:14px;line-height:1;letter-spacing:.04em;transition:background-color .3s,color .3s}
+.vt-btn svg{width:15px;height:15px;fill:currentColor}
+.vt-btn[aria-pressed="true"]{background:var(--pink);color:var(--navy)}
+.vt-btn[aria-pressed="false"]:hover{background:rgba(255,226,226,.14)}
+
+/* 左端の縦のラベル(パソコンのみ) */
+.vt{position:fixed;left:clamp(14px,2.6vw,44px);z-index:20;margin:0;writing-mode:vertical-rl;font-family:var(--round);font-weight:500;font-size:clamp(13px,1vw,16px);letter-spacing:.1em;line-height:1;color:var(--fgl);opacity:.75;transition:color .4s,opacity .5s,visibility .5s;display:none;white-space:nowrap}
+.vt-top{top:max(14vh,96px)}
+.vt-bot{bottom:10vh}
+.vt b{font-weight:500;display:inline-block;transition:opacity .35s,transform .45s var(--ease)}
+.vt b.sw{opacity:0;transform:translateY(-6px)}
+@media (min-width:821px){.vt{display:block}}
+html.dl .vt{opacity:0;visibility:hidden}
+
+/* ===== ① ヒーロー ===== */
+.hero{position:sticky;top:0;z-index:0;height:100svh;display:flex;align-items:center;padding-inline:var(--gut);background:var(--grain-l),var(--pink);overflow:hidden}
+.hero-in{width:100%;padding-left:clamp(0px,6vw,110px);padding-bottom:4svh}
+.hero-title{margin:0;font-weight:inherit;line-height:1}
+.word{position:relative;display:inline-block;font-family:var(--round);font-weight:700;font-size:clamp(56px,13.4vw,185px);line-height:.95;letter-spacing:-.01em;color:var(--navy);white-space:nowrap;opacity:calc(1 - var(--hs,0) * .4)}
+/* マウスに合わせてロゴがほんの少し浮く(視差) */
+.chs{display:inline-block;translate:calc(var(--mx,0) * -1.1vw) calc(var(--my,0) * -1.1vw);transition:translate .9s var(--ease)}
+.ch{display:inline-block;transition:transform .6s var(--ease);will-change:transform}
+.ch:hover{transform:translateY(-5%) rotate(-3deg)}
+.handle{position:absolute;right:.02em;top:calc(92% + .2em);font-size:.15em;line-height:1;letter-spacing:.005em;font-weight:700;translate:calc(var(--mx,0) * .6vw) calc(var(--my,0) * .6vw);transition:translate .9s var(--ease)}
+
+/* scroll to explore: 点線の上を星が下へ進む(ナビの進捗表示と同じ表現) */
+.hero-cue{position:absolute;right:calc(var(--gut) + clamp(0px,2vw,36px));bottom:clamp(36px,9svh,96px);margin:0;display:flex;align-items:flex-end;gap:clamp(20px,3vw,48px);opacity:calc(1 - var(--hs,0) * 3)}
+.cue-t{font-family:var(--round);font-weight:500;font-size:clamp(15px,1.3vw,21px);line-height:1;letter-spacing:.06em;padding-top:3px}
+.cue-line{--cl:46px;position:relative;display:block;width:6px;height:var(--cl);margin-left:1.75px;background:radial-gradient(circle,rgba(7,24,74,.8) 1.35px,transparent 1.8px) center top/6px 9px repeat-y}
+.cue-line i{position:absolute;left:50%;top:0;width:16px;height:16px;margin-left:-8px;animation:cue 2.6s var(--ease) infinite}
+.cue-line svg{display:block;width:100%;height:100%;fill:var(--navy)}
+@keyframes cue{0%{transform:translateY(-6px);opacity:0}18%{opacity:1}72%{opacity:1}100%{transform:translateY(calc(var(--cl) - 10px));opacity:0}}
+@media (min-width:821px){
+  .hero-cue{gap:clamp(16px,2vw,32px)}
+  .cue-t{font-size:clamp(13px,1.05vw,17px);letter-spacing:.08em}
+  .cue-line{--cl:clamp(46px,6.5svh,66px)}
+}
+
+/* ===== ② 作品: 紺の背景に、アイボリーのカード ===== */
+/* 章の切り替え: 縦の境目が左から右へ流れ、次の画面が現れる */
+.works{position:relative;z-index:1;color:var(--pink);--step:calc(100svh * .85);margin-top:-100svh;height:calc(100svh + var(--W1) + 4 * var(--step) + var(--W2))}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--navy);clip-path:inset(0 calc((1 - var(--w1,1)) * 100%) 0 0)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;translate:calc((1 - var(--w1,1)) * -4vw) 0;pointer-events:none}
+.slide .card,.slide .side-btn,.slide .cap a{pointer-events:auto}
+.wk{position:relative;--cw:min(60vw,calc((100svh - 2 * var(--hh) - 84px) * 1.6));width:var(--cw)}
+.card{transform:translateY(calc((1 - var(--t,1)) * 115svh));will-change:transform;position:relative;width:100%;aspect-ratio:16/10;--pad:clamp(10px,1.1vw,16px);--ir:12px;background:var(--ivory);border-radius:calc(var(--pad) + var(--ir));overflow:hidden;color:var(--navy);container-type:inline-size;box-shadow:0 30px 60px -40px rgba(0,0,0,.4)}
+/* カードの中身: 説明 / デスクトップ / レスポンシブ が横に並び、ボタンでスライドする */
+.track{display:flex;width:300%;height:100%;transition:transform .9s var(--ease)}
+.slide[data-view="desc"] .track{transform:translateX(0)}
+.slide[data-view="desk"] .track{transform:translateX(-33.3333%)}
+.slide[data-view="mob"] .track{transform:translateX(-66.6667%)}
+.pane{flex:0 0 33.3333%;height:100%;padding:var(--pad)}
+.screen{position:relative;height:100%;border:1.5px solid var(--navy);border-radius:var(--ir);background:var(--ivory);overflow:hidden}
+
+/* デスクトップのスクショ(クリックでサイトが開く) */
+.shot{position:relative;display:block;width:100%;height:100%;background:var(--shotbg);overflow:hidden}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transform:scale(calc(1.07 - var(--t,1) * .07));transition:transform .9s var(--ease)}
+.shot:hover img{transform:scale(1.02)}
+
+/* 説明: 作品名 → 内容 → POINT / COLOR / ツール */
+.desc-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:safe center;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:clamp(30px,5vw,76px)}
+.desc-in>*{opacity:0;transition:opacity .4s}
+.slide[data-view="desc"] .desc-in>*{opacity:1;transition:opacity .9s var(--ease) .3s}
+.desc-in h3{margin:0;font-family:var(--round);font-weight:600;font-size:max(17px,2.1cqw);line-height:1.3;letter-spacing:.02em}
+.desc-in .sub{margin:.5em 0 0;font-size:max(12px,1.4cqw);font-weight:500;opacity:.8}
+.facts{margin:clamp(12px,2.2vh,22px) 0 0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(12px,1.9vh,18px) clamp(14px,2cqw,24px);max-width:40em;align-items:baseline}
+.facts dt{font-family:var(--round);font-weight:500;font-size:max(10.5px,1.15cqw);letter-spacing:.12em;opacity:.6}
+.facts dd{margin:0;font-size:max(12.5px,1.5cqw);line-height:1.8;text-wrap:pretty;line-break:strict;word-break:auto-phrase}
+.facts dd.tools{grid-column:2}
+/* ツール名: ラベルと同じ書体で、少し薄く。区切りは空白だけ */
+.facts .tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 1.3em;font-family:var(--round);font-weight:500;font-size:max(10.5px,1.15cqw);letter-spacing:.06em;line-height:1.7;opacity:.45}
+/* 色見本 */
+.sws{display:inline-flex;gap:5px;margin-right:.7em;vertical-align:-.15em}
+.sw{display:inline-block;width:1.2em;height:1.2em;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(7,24,74,.25)}
+
+/* レスポンシブ: スマホ画面のスクショ */
+.phones{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:4%}
+.ph{position:relative;display:block;height:74%;aspect-ratio:397/812;border:1.5px solid var(--navy);border-radius:14px;background:var(--navy);overflow:hidden;box-shadow:0 14px 24px -14px rgba(7,24,74,.5);opacity:0;transition:opacity .4s}
+.ph:nth-child(1){transform:translateY(-5%)}
+.ph:nth-child(2){transform:translateY(7%)}
+.ph:nth-child(3){transform:translateY(-2%)}
+.slide[data-view="mob"] .ph{opacity:1;transition:opacity .9s var(--ease) .3s}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+
+/* 両脇の丸いボタン。ホバーで、縁に沿って名前が回りだす */
+.side-btn{position:absolute;top:50%;z-index:3;display:inline-flex;align-items:center;justify-content:center;width:clamp(46px,3.9vw,60px);height:clamp(46px,3.9vw,60px);border:1.5px solid currentColor;border-radius:50%;font-family:var(--round);font-weight:500;font-size:clamp(22px,1.9vw,30px);line-height:1;letter-spacing:.01em;color:var(--pink);white-space:nowrap;translate:0 -50%;opacity:var(--c,1);transition:opacity .4s,visibility .4s,background-color .35s,color .35s}
+.side-btn:hover,.side-btn:focus-visible{background:var(--pink);color:var(--navy)}
+.side-btn[data-hide]{opacity:0;visibility:hidden;pointer-events:none}
+.side-btn .lbl{display:none}
+.side-btn .arr{line-height:1;transition:transform .5s var(--ease)}
+.side-l{right:calc(100% + clamp(24px,3.6vw,64px))}
+.side-r{left:calc(100% + clamp(24px,3.6vw,64px))}
+.side-l:hover .arr{transform:translateX(-6px)}
+.side-r:hover .arr{transform:translateX(6px)}
+.side-btn .ring{position:absolute;width:215%;height:215%;left:-57.5%;top:-57.5%;overflow:visible;pointer-events:none;opacity:0;transform:scale(.8) rotate(-40deg);transition:opacity .4s,transform .8s var(--ease)}
+.side-btn .ring text{font-family:var(--round);font-size:8.4px;font-weight:500;fill:var(--pink)}
+.side-btn .ring g{transform-origin:50px 50px;animation:ringspin 14s linear infinite;animation-play-state:paused}
+.side-btn:hover .ring,.side-btn:focus-visible .ring{opacity:1;transform:none}
+.side-btn:hover .ring g,.side-btn:focus-visible .ring g{animation-play-state:running}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+/* ボタンの文字が変わるときは、ふわっと入れ替える */
+.side-btn.lbl-in .lbl{animation:lblIn .45s var(--ease)}
+@keyframes lblIn{from{opacity:0}to{opacity:1}}
+
+/* 作品名(カードの下)。次の作品が上がってくる間だけ、ふっと入れ替わる */
+.cap{position:absolute;left:2px;right:2px;top:calc(100% + 20px);margin:0;display:flex;align-items:baseline;gap:18px;color:var(--pink);line-height:1.2;opacity:var(--c,1)}
+.cap-n{font-family:var(--round);font-size:14px;letter-spacing:.06em}
+.cap-n i{font-style:normal;opacity:.6}
+.cap-t{font-family:var(--round);font-weight:600;font-size:clamp(19px,1.5vw,24px);letter-spacing:.01em}
+
+/* ===== 一覧(グリッド): スライドの上に開くパネル ===== */
+.grid-view{position:absolute;z-index:11;inset:var(--hh) 0 0;overflow-y:auto;overscroll-behavior:contain;padding:clamp(48px,8vh,88px) var(--gut) 120px;background:rgba(7,24,74,.9);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28px);mask-image:linear-gradient(to bottom,transparent 0,#000 28px);animation:gvfade .45s var(--ease)}
+.grid-view[hidden]{display:none}
+@keyframes gvfade{from{opacity:0}to{opacity:1}}
+.gv-sec{max-width:1120px;margin:0 auto}
+.gv-sec+.gv-sec{margin-top:clamp(100px,13vh,110px)}
+.gv-head{margin:0 0 clamp(36px,5.5vh,56px);font-family:var(--round);font-weight:500;font-size:clamp(17px,1.4vw,21px);letter-spacing:.12em;color:var(--ivory)}
+.gv-list{list-style:none;margin:0 auto;padding:0;max-width:1120px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(56px,8vh,84px) clamp(24px,2.8vw,40px)}
+.gv-item{position:relative;animation:gvin .6s var(--ease) backwards}
+.gv-item:nth-child(2){animation-delay:.05s}
+.gv-item:nth-child(3){animation-delay:.1s}
+.gv-item:nth-child(4){animation-delay:.15s}
+.gv-item:nth-child(5){animation-delay:.2s}
+@keyframes gvin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.gv-card{display:block;color:var(--pink)}
+.gv-thumb{position:relative;display:block;aspect-ratio:16/10;--gp:8px;border-radius:16px;background:var(--ivory);overflow:hidden}
+.gv-thumb img{position:absolute;left:var(--gp);top:var(--gp);display:block;width:calc(100% - var(--gp) * 2);height:calc(100% - var(--gp) * 2);object-fit:cover;object-position:top;border-radius:9px;border:1.5px solid var(--navy);transition:transform .6s var(--ease)}
+.gv-card:hover .gv-thumb img,.gv-card:focus-visible .gv-thumb img{transform:scale(1.03)}
+.gv-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px;margin:20px 0 0;line-height:1.3}
+.gv-n{font-family:var(--round);font-size:13px;letter-spacing:.06em;opacity:.7}
+.gv-t{font-family:var(--round);font-weight:600;font-size:clamp(17px,1.4vw,21px);background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .4s var(--ease)}
+.gv-card:hover .gv-t,.gv-card:focus-visible .gv-t{background-size:100% 1.5px}
+.gv-s{flex-basis:100%;margin-top:2px;font-size:13px;opacity:.75}
+/* タッチ操作では、タップした瞬間にページが移るので下線は出さない */
+@media (hover:none){.gv-t,.gv-card:hover .gv-t,.gv-card:focus-visible .gv-t{background:none}}
+
+/* ===== ③ About ===== */
+.about{position:sticky;top:0;z-index:2;height:100svh;overflow:hidden;margin-top:calc(-100svh - var(--W2));clip-path:inset(0 calc((1 - var(--w2,1)) * 100%) 0 0);background:var(--grain-l),var(--pink);color:var(--navy);display:flex;padding:var(--hh) var(--gut) calc(44px + clamp(18px,4svh,40px)) calc(var(--gut) + clamp(0px,6vw,110px))}
+.about-in{width:100%;display:flex;flex-direction:column;translate:calc((1 - var(--w2,1)) * -4vw) 0}
+.about-main{margin-block:auto}
+.about h2{margin:0;font-family:var(--round);font-weight:700;font-size:clamp(26px,2.3vw,38px);line-height:1;letter-spacing:0}
+.about-body{padding-top:clamp(22px,4.5vh,44px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(10px,2vw,28px);row-gap:32px}
+.about dl{grid-column:1 / span 5;margin:0;display:grid;grid-template-columns:6em minmax(0,1fr);gap:10px 14px;font-size:clamp(13px,.95vw,15px);align-content:start}
+.about dt{font-family:var(--round);font-size:14px;letter-spacing:.04em;padding-top:.3em}
+.about dd{margin:0}
+.about dd.lic span:not(.nw){display:block;word-break:keep-all;overflow-wrap:anywhere}
+.about dd.lic span+span{margin-top:4px}
+.nw{white-space:nowrap}
+.about .txt{grid-column:7 / span 6}
+.about .txt p{margin:0 0 1.5em;font-size:clamp(13px,.92vw,14.5px);line-height:2;max-width:30em;text-wrap:pretty;line-break:strict;word-break:auto-phrase}
+.about .txt p:last-child{margin-bottom:0}
+.about-foot{display:flex;justify-content:space-between;margin:0;font-family:var(--round);font-weight:500;font-size:15px;letter-spacing:.06em}
+/* About: カーソルに合わせて、見出しが少しずれる(ヒーローと同じ仕組み) */
+.split .ls{display:inline-block;translate:calc(var(--mx,0) * -.9vw) calc(var(--my,0) * -.9vw);transition:translate .9s var(--ease)}
+.split.in .l:hover{transition-delay:0s;transition-duration:.5s;transform:translateY(-4%) rotate(4deg)}
+.split.in .l:nth-child(even):hover{transform:translateY(-4%) rotate(-4deg)}
+.tail{height:calc(var(--W2) + var(--F))}
+
+/* back to top の帯: 一番下で、中央から左右に広がる */
+.foot{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;align-items:center;height:44px;background:var(--navy);color:var(--pink);font-family:var(--round);font-size:14px;letter-spacing:.06em;clip-path:inset(0 calc((1 - var(--f,1)) * 50%) 0 calc((1 - var(--f,1)) * 50%))}
+.foot a{display:inline-flex;gap:.6em;opacity:calc((var(--f,1) - .6) * 2.5);pointer-events:none;transition:opacity .3s}
+.foot a:hover{opacity:1}
+.foot.on a{pointer-events:auto}
+
+/* スクロールスナップの止まる位置の印(見えない。スマホのみ有効) */
+.snaps{position:absolute;left:0;top:0;width:1px;height:0;pointer-events:none;visibility:hidden}
+.snaps i{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;scroll-snap-stop:always}
+
+/* ===== カーソル: 7つの角の星 ===== */
+.cur-star{overflow:visible;position:fixed;left:0;top:0;z-index:100;width:30px;height:30px;margin:-15px 0 0 -15px;pointer-events:none;opacity:0;transition:opacity .3s;will-change:transform}
+.cur-star polygon{fill:var(--navy);stroke:#fff;stroke-width:1.6;stroke-linejoin:round;paint-order:stroke;transition:transform .3s var(--ease),fill .3s,stroke .3s;transform-origin:12px 12px}
+html.dark .cur-star polygon{fill:var(--pink);stroke:var(--navy)}
+html.dark.cur-card .cur-star polygon{fill:var(--navy);stroke:#fff}
+.cur-on .cur-star{opacity:1}
+.cur-hover .cur-star polygon{transform:scale(1.7)}
+html.has-cursor,html.has-cursor *{cursor:none!important}
+@media (hover:none),(pointer:coarse){.cur-star{display:none}}
+
+/* ===== 読み込み時とスクロールで、ふわっと現れる ===== */
+@keyframes chin{from{opacity:0;transform:translateY(55%) rotate(6deg)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes riseFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:no-preference){
+  .ch{animation:chin 1.5s var(--ease) calc(.6s + var(--i) * .06s) backwards}
+  .handle{animation:rise 1.4s var(--ease) 1.5s backwards}
+  .vt{animation:rise 1.5s var(--ease) 1.2s backwards}
+  .topbar{animation:rise 1.5s var(--ease) .8s backwards}
+  .hero-cue{animation:rise 1.5s var(--ease) 1s backwards}
+  .rv{opacity:0;transition:opacity 1.2s var(--ease)}
+  .rv.in{opacity:1}
+  .about-body .rv:nth-child(2){transition-delay:.15s}
+  .split .l{display:inline-block;opacity:0;transition:opacity 1.2s var(--ease),transform .5s var(--ease)}
+  .split.in .l{opacity:1}
+}
+
+/* ===== スマホ(820px以下) ===== */
+@media (max-width:820px){
+  :root{--hh:60px}
+  .hero-in{padding-left:0}
+  .word{font-size:17.5vw}
+  .hero-cue{left:var(--gut);right:auto;bottom:36px}
+  /* Safariのアドレスバーが縮んでも、紺の面が画面の下まで届くように */
+  .stage{height:100lvh}
+
+  /* カードの下に「作品名 → ボタン」を中央揃えで */
+  .wk{--cw:calc(100vw - 2 * var(--gut));display:grid;grid-template-columns:1fr 1fr;gap:0 10px;align-content:center}
+  .card{grid-column:1 / -1;aspect-ratio:auto;height:calc(var(--cw) / 1.5);--ir:8px;touch-action:pan-y;transition:height .6s var(--ease),background-color .5s,box-shadow .5s}
+  .screen{transition:border-color .5s,background-color .5s}
+  .cap{position:static;grid-column:1 / -1;grid-row:2;margin-top:18px;flex-wrap:wrap;justify-content:center;gap:4px 10px}
+  .side-btn{position:static;translate:none;grid-row:3;flex-direction:row-reverse;width:auto;height:auto;margin-top:12px;padding:4px 0;gap:8px;border:0;font-size:12px;letter-spacing:.06em;opacity:calc(var(--c,1) * .75);background:none!important;color:var(--pink)!important}
+  .side-l{grid-column:1;justify-self:end}
+  .side-r{grid-column:2;justify-self:start}
+  .side-btn .lbl{display:inline;letter-spacing:.04em}
+  .side-btn .ring{display:none}
+  .side-btn .arr{position:relative;display:block;width:30px;height:30px;border:1.2px solid currentColor;border-radius:50%;font-size:0}
+  .side-btn .arr::before{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;border-top:1.4px solid currentColor;border-right:1.4px solid currentColor}
+  .side-r .arr::before{transform:translate(-65%,-50%) rotate(45deg)}
+  .side-l .arr::before{transform:translate(-35%,-50%) rotate(-135deg)}
+
+  /* 説明: カードの中でスクロール。続きがあることが伝わるよう、下端をふわっと消す */
+  .desc-in{padding:24px 18px 36px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent)}
+  .desc-in h3{font-size:16px}
+  .desc-in .sub{font-size:11.5px}
+  .facts{margin-top:14px;grid-template-columns:1fr;gap:2px}
+  .facts dt{margin-top:14px;font-size:10px}
+  .facts dt:first-child{margin-top:0}
+  .facts dd{font-size:12px;line-height:1.75}
+  .facts dd.tools{grid-column:1;margin-top:14px}
+  .facts .tags{font-size:10px;gap:0 1.2em}
+
+  /* レスポンシブ: カードの面を消して、スマホ画面のスクショを1枚ずつ大きく。前後の1枚は左右に見切れる */
+  .slide[data-view="mob"] .card{background-color:transparent;box-shadow:none}
+  .slide[data-view] .pane-mob{padding:0}
+  .slide[data-view] .pane-mob .screen{border-width:0;border-radius:0}
+  .slide[data-view="mob"] .pane-mob .screen{border-color:transparent;background:transparent;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%)}
+  .phones{gap:0}
+  .slide[data-view] .ph{position:absolute;left:50%;top:50%;height:100%;transform:translate(calc(-50% + var(--d,0) * 118%),-50%) scale(var(--s,1))!important;border:6px solid var(--ivory);border-radius:20px;background:var(--ivory);box-shadow:0 14px 28px -16px rgba(0,0,0,.55);cursor:pointer;transition:transform .55s var(--ease),opacity .4s}
+  .slide[data-view] .ph:not(.on){opacity:0}
+  .slide[data-view="mob"] .ph:not(.on){opacity:.5}
+  .slide[data-view="mob"] .ph.on{opacity:1}
+  .ph img{border-radius:13px}
+
+  /* slide / grid の切り替えは、画面の下中央に浮かべる */
+  .view-toggle{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);padding:3px;background:var(--navy);border-color:rgba(255,226,226,.55);box-shadow:0 8px 22px -8px rgba(0,0,0,.6)}
+  .vt-btn{font-size:12px;padding:5px 10px 5px 8px;gap:4px}
+  .vt-btn svg{width:13px;height:13px}
+
+  /* 一覧 */
+  .grid-view{padding:40px var(--gut) 90px}
+  .gv-sec+.gv-sec{margin-top:84px}
+  .gv-head{margin-bottom:28px;font-size:15px}
+  .gv-list{grid-template-columns:1fr 1fr;row-gap:40px}
+  .gv-thumb{--gp:5px;border-radius:11px}
+  .gv-thumb img{border-radius:7px}
+  .gv-meta{margin-top:12px;row-gap:4px}
+  .gv-t{font-size:15px}
+  .gv-s{font-size:11px}
+
+  /* About */
+  .about{padding-top:var(--hh)}
+  .about h2{font-size:26px}
+  .about-body{display:block}
+  .about dl{margin-bottom:32px}
+  .about-foot{display:none}
+  /* back to top: about に着いたら、帯をそのまま表示(広がるアニメーションなし) */
+  .foot{clip-path:none;visibility:hidden}
+  .foot a{opacity:1;pointer-events:auto}
+  html.at-about .foot{visibility:visible}
+}
+@media (max-width:820px) and (prefers-reduced-motion:no-preference){
+  /* ナビの出現は動きなしのフェードに(動いている間は、下に固定した切り替えボタンがずれるため) */
+  .topbar{animation-name:riseFade}
+}
+/* スマホ(タッチ操作): 1画面ずつ止まる。章の切り替えは縦に(指の動きと同じ向き) */
+@media (max-width:820px) and (pointer:coarse){
+  html{scroll-snap-type:y mandatory}
+  html.gridmode{scroll-snap-type:none}
+  .stage{clip-path:inset(calc((1 - var(--w1,1)) * 100%) 0 0 0)}
+  .slide{translate:0 calc((1 - var(--w1,1)) * 6svh)}
+  .about{clip-path:inset(calc((1 - var(--w2,1)) * 100%) 0 0 0)}
+  .about-in{translate:0 calc((1 - var(--w2,1)) * 6svh)}
+}
+
+/* ===== 動きを減らす設定のとき ===== */
+@media (prefers-reduced-motion:reduce){
+  .track,.side-btn,.topbar,.chs,.handle,.split .ls,.card,.gv-thumb img,.slide[data-view] .ph{transition:none}
+  .cue-line i{animation:none;opacity:1;transform:translateY(calc(var(--cl) / 2 - 8px))}
+  .desc-in>*,.ph{opacity:1;transform:none;translate:none;transition:none}
+  .side-btn .ring g,.side-btn.lbl-in .lbl,.gv-item,.grid-view{animation:none}
+}

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio 2026</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Zen+Maru+Gothic:wght@500;700;900&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261029">
+</head><body>
+<header class="topbar" id="topbar">
+  <div class="view-toggle" role="group" aria-label="作品の表示方法">
+      <button type="button" class="vt-btn" data-mode="slide" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="5" width="14" height="10" rx="2"/></svg>slide</button>
+      <button type="button" class="vt-btn" data-mode="grid" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>grid</button>
+    </div>
+  <div class="prog" aria-hidden="true"><span class="pd"></span><svg class="ps" viewBox="0 0 24 24"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg><span class="pl"></span></div>
+  <nav><a href="#works">works</a><a href="#about">about</a></nav>
+</header>
+<p class="vt vt-top" aria-hidden="true">selected 2026 works</p>
+<p class="vt vt-bot" aria-hidden="true">now / <b id="now">intro</b></p>
+<svg class="cur-star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg>
+
+<section class="hero" id="top" aria-label="ファーストビュー">
+  <div class="hero-in">
+    <h1 class="hero-title" aria-label="portfolio"><span class="word"><span class="chs" aria-hidden="true"><span class="ch" style="--i:0">p</span><span class="ch" style="--i:1">o</span><span class="ch" style="--i:2">r</span><span class="ch" style="--i:3">t</span><span class="ch" style="--i:4">f</span><span class="ch" style="--i:5">o</span><span class="ch" style="--i:6">l</span><span class="ch" style="--i:7">i</span><span class="ch" style="--i:8">o</span></span><small class="handle">@murashita</small></span></h1>
+  </div>
+  <p class="hero-cue" aria-hidden="true"><span class="cue-t">scroll to explore</span><span class="cue-line"><i><svg viewBox="0 0 24 24"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg></i></span></p>
+</section>
+
+<section class="works" id="works" aria-label="作品">
+  <p class="sr" id="live" aria-live="polite">1 / 5</p>
+  <div class="stage" id="stage">
+    <div class="grid-view" id="gridView" hidden>
+      <section class="gv-sec" aria-labelledby="gv-web"><h2 class="gv-head" id="gv-web">web site</h2>
+      <ul class="gv-list">
+        <li class="gv-item"><a class="gv-card" href="nuee/index.html"><span class="gv-thumb"><img src="images/n.webp" alt="" loading="lazy" width="1503" height="938"></span><span class="gv-meta"><span class="gv-n">01</span><span class="gv-t">nuée</span><span class="gv-s">架空のフレグランスブランド</span></span></a></li>
+        <li class="gv-item"><a class="gv-card" href="teno/index.html"><span class="gv-thumb"><img src="images/t.webp" alt="" loading="lazy" width="1500" height="935"></span><span class="gv-meta"><span class="gv-n">02</span><span class="gv-t">TENO</span><span class="gv-s">架空のハンドタオルブランド</span></span></a></li>
+        <li class="gv-item"><a class="gv-card" href="fonce/index.html"><span class="gv-thumb"><img src="images/f.webp" alt="" loading="lazy" width="1503" height="938"></span><span class="gv-meta"><span class="gv-n">03</span><span class="gv-t">FONCÉ</span><span class="gv-s">架空の贅沢なスイーツブランド</span></span></a></li>
+        <li class="gv-item"><a class="gv-card" href="mido/index.html"><span class="gv-thumb"><img src="images/c.webp" alt="" loading="lazy" width="1502" height="938"></span><span class="gv-meta"><span class="gv-n">04</span><span class="gv-t">ねこのみどり</span><span class="gv-s">飼い猫の紹介サイト</span></span></a></li>
+      </ul></section>
+      <section class="gv-sec" aria-labelledby="gv-app"><h2 class="gv-head" id="gv-app">web app</h2>
+      <ul class="gv-list">
+        <li class="gv-item"><a class="gv-card" href="timer/index.html"><span class="gv-thumb"><img src="images/timer.webp" alt="" loading="lazy" width="1507" height="940"></span><span class="gv-meta"><span class="gv-n">05</span><span class="gv-t">タイマーアプリ</span><span class="gv-s">授業と休憩の時間をカウントするWebアプリ</span></span></a></li>
+      </ul></section>
+    </div>
+      <article class="slide" id="w1" data-view="desk" aria-roledescription="スライド" aria-label="1 / 5 香水ブランドのサイト">
+        <div class="wk">
+          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp1l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp1l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+          <div class="card">
+            <div class="track">
+              <div class="pane pane-desc" inert><div class="screen">
+                <div class="desc-in"><h3>nuée</h3><p class="sub">架空のフレグランスブランド</p><dl class="facts"><dt>POINT</dt><dd>最初に制作したページです。自分の好みを詰め込もうと、好きな配色やモチーフを集めて組み立てました。おしゃれな空間に仕上げたく、インジケーターバーやナビなど装飾にこだわりました。ページの構成はCanvaで作り、実装はAIにお任せしました。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ブラウン、グレージュ、クリーム"><i class="sw" style="--c:#523E32" title="ブラウン #523E32"></i><i class="sw" style="--c:#D9D4CC" title="グレージュ #D9D4CC"></i><i class="sw" style="--c:#F1EEE7" title="クリーム #F1EEE7"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Canva</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
+              </div></div>
+              <div class="pane pane-desk"><div class="screen">
+                <a class="shot" href="nuee/index.html" aria-label="nuéeのサイトを開く"><img src="images/n.webp" width="1503" height="938" alt="香水ブランド nuée のトップページ。花を顔に添えて目を閉じる女性の写真に、ロゴが重なる"></a>
+                
+              </div></div>
+              <div class="pane pane-mob" inert><div class="screen">
+                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/nuee-sp1.webp" alt="" width="433" height="903"></i><i class="ph"><img src="images/nuee-sp2.webp" alt="" width="438" height="905"></i><i class="ph"><img src="images/nuee-sp3.webp" alt="" width="435" height="902"></i></span>
+              </div></div>
+            </div>
+          </div>
+          <p class="cap"><span class="cap-n">01<i>/05</i></span><span class="cap-t"><a href="nuee/index.html">nuée</a></span></p>
+          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp1r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp1r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+        </div>
+      </article>
+      <article class="slide" id="w2" data-view="desk" aria-roledescription="スライド" aria-label="2 / 5 ハンドタオルブランドのサイト" inert aria-hidden="true">
+        <div class="wk">
+          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp2l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp2l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+          <div class="card">
+            <div class="track">
+              <div class="pane pane-desc" inert><div class="screen">
+                <div class="desc-in"><h3>TENO</h3><p class="sub">架空のハンドタオルブランド</p><dl class="facts"><dt>POINT</dt><dd>nuéeとは異なる軽やかさをテーマに制作しました。この作品から、Illustratorで構成を作り、AIに実装してもらう流れになりました。細かな修正や調整は自身で行っています。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ブルー、ブルーグレー、クリーム"><i class="sw" style="--c:#9DB7D1" title="ブルー #9DB7D1"></i><i class="sw" style="--c:#6281a2" title="ブルーグレー #6281a2"></i><i class="sw" style="--c:#F4EFE4" title="クリーム #F4EFE4"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
+              </div></div>
+              <div class="pane pane-desk"><div class="screen">
+                <a class="shot" href="teno/index.html" aria-label="TENOのサイトを開く"><img src="images/t.webp" width="1500" height="935" alt="ハンドタオルブランド TENO のトップページ。水色のタオルのアップ写真"></a>
+                
+              </div></div>
+              <div class="pane pane-mob" inert><div class="screen">
+                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/teno-sp1.webp" alt="" width="426" height="874"></i><i class="ph"><img src="images/teno-sp2.webp" alt="" width="426" height="874"></i><i class="ph"><img src="images/teno-sp3.webp" alt="" width="425" height="877"></i></span>
+              </div></div>
+            </div>
+          </div>
+          <p class="cap"><span class="cap-n">02<i>/05</i></span><span class="cap-t"><a href="teno/index.html">TENO</a></span></p>
+          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp2r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp2r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+        </div>
+      </article>
+      <article class="slide" id="w3" data-view="desk" aria-roledescription="スライド" aria-label="3 / 5 スイーツブランドのサイト" inert aria-hidden="true">
+        <div class="wk">
+          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp3l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp3l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+          <div class="card">
+            <div class="track">
+              <div class="pane pane-desc" inert><div class="screen">
+                <div class="desc-in"><h3>FONCÉ</h3><p class="sub">架空の贅沢スイーツブランド</p><dl class="facts"><dt>POINT</dt><dd>これまでのカジュアルな雰囲気とは異なるテーマに。1作目のnuéeとブラウンの配色が重なりましたが、異なる方向性のデザインに仕上がったと思います。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ダークブラウン、キャラメル、クリーム"><i class="sw" style="--c:#1a1108" title="ダークブラウン #1a1108"></i><i class="sw" style="--c:#c99a55" title="キャラメル #c99a55"></i><i class="sw" style="--c:#eadfca" title="クリーム #eadfca"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
+              </div></div>
+              <div class="pane pane-desk"><div class="screen">
+                <a class="shot" href="fonce/index.html" aria-label="FONCÉのサイトを開く"><img src="images/f.webp" width="1503" height="938" alt="スイーツブランド FONCÉ のトップページ。暗い背景に焼き菓子の写真と、ロゴ"></a>
+                
+              </div></div>
+              <div class="pane pane-mob" inert><div class="screen">
+                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/fonce-sp1.webp" alt="" width="422" height="876"></i><i class="ph"><img src="images/fonce-sp2.webp" alt="" width="424" height="876"></i><i class="ph"><img src="images/fonce-sp3.webp" alt="" width="423" height="875"></i></span>
+              </div></div>
+            </div>
+          </div>
+          <p class="cap"><span class="cap-n">03<i>/05</i></span><span class="cap-t"><a href="fonce/index.html">FONCÉ</a></span></p>
+          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp3r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp3r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+        </div>
+      </article>
+      <article class="slide" id="w4" data-view="desk" aria-roledescription="スライド" aria-label="4 / 5 飼い猫の紹介サイト" inert aria-hidden="true">
+        <div class="wk">
+          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp5l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp5l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+          <div class="card">
+            <div class="track">
+              <div class="pane pane-desc" inert><div class="screen">
+                <div class="desc-in"><h3>ねこのみどり</h3><p class="sub">飼い猫の紹介サイト</p><dl class="facts"><dt>POINT</dt><dd>モバイルファーストとポップなデザインをテーマに制作しました。STUDIOにも挑戦したく、大部分をSTUDIOで作っています。発表にあたりAIにHTMLへ変換してもらい、アニメーションも追加しました。写真の雰囲気に頼らないページ作りに苦戦しました。サイト内のイラストは自分で描いています。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: グリーン、ピンク、クリーム"><i class="sw" style="--c:#2a8a5a" title="グリーン #2a8a5a"></i><i class="sw" style="--c:#f8c4cf" title="ピンク #f8c4cf"></i><i class="sw" style="--c:#fbf9f5" title="クリーム #fbf9f5"></i></span></dd><dd class="tools"><ul class="tags"><li>STUDIO</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Photoshop</li><li>Claude</li></ul></dd></dl></div>
+              </div></div>
+              <div class="pane pane-desk"><div class="screen">
+                <a class="shot" href="mido/index.html" aria-label="ねこのみどりのサイトを開く"><img src="images/c.webp" width="1502" height="938" alt="飼い猫みどりの紹介サイト。緑の背景に、ロゴと寝そべる猫のイラスト。左にメニュー、右にお知らせ"></a>
+                
+              </div></div>
+              <div class="pane pane-mob" inert><div class="screen">
+                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/midori-sp1.webp" alt="" width="421" height="877"></i><i class="ph"><img src="images/midori-sp2.webp" alt="" width="426" height="877"></i><i class="ph"><img src="images/midori-sp3.webp" alt="" width="424" height="874"></i></span>
+              </div></div>
+            </div>
+          </div>
+          <p class="cap"><span class="cap-n">04<i>/05</i></span><span class="cap-t"><a href="mido/index.html">ねこのみどり</a></span></p>
+          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp5r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp5r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+        </div>
+      </article>
+      <article class="slide" id="w5" data-view="desk" aria-roledescription="スライド" aria-label="5 / 5 タイマーアプリ" inert aria-hidden="true">
+        <div class="wk">
+          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp4l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp4l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+          <div class="card">
+            <div class="track">
+              <div class="pane pane-desc" inert><div class="screen">
+                <div class="desc-in"><h3>タイマーアプリ</h3><p class="sub">授業と休憩をカウントするWebアプリ</p><dl class="facts"><dt>POINT</dt><dd>生成AIの授業で制作しました。閉鎖的な空間に苦手意識があり、終わりの時間がひと目でわかるこのアプリは安心材料になりました。授業中はピンク、休憩中は水色に自動で切り替わります。背景画像はIllustratorで作成しました。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: サーモンピンク、水色、チャコール"><i class="sw" style="--c:#f8a898" title="サーモンピンク #f8a898"></i><i class="sw" style="--c:#9fcdec" title="水色 #9fcdec"></i><i class="sw" style="--c:#3d3733" title="チャコール #3d3733"></i></span></dd><dd class="tools"><ul class="tags"><li>Illustrator</li><li>Claude</li></ul></dd></dl></div>
+              </div></div>
+              <div class="pane pane-desk"><div class="screen">
+                <a class="shot" href="timer/index.html" aria-label="タイマーアプリのサイトを開く"><img src="images/timer.webp" width="1507" height="940" alt="タイマーアプリの画面。時間の設定欄と、残り時間の表示"></a>
+                
+              </div></div>
+              <div class="pane pane-mob" inert><div class="screen">
+                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/timer-sp1.webp" alt="" width="425" height="874"></i><i class="ph"><img src="images/timer-sp2.webp" alt="" width="425" height="878"></i></span>
+              </div></div>
+            </div>
+          </div>
+          <p class="cap"><span class="cap-n">05<i>/05</i></span><span class="cap-t"><a href="timer/index.html">タイマーアプリ</a></span></p>
+          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp4r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp4r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
+        </div>
+      </article>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-in">
+    <div class="about-main">
+    <h2 class="split" aria-label="about"><span class="ls"><span class="l" aria-hidden="true" style="--i:0">a</span><span class="l" aria-hidden="true" style="--i:1">b</span><span class="l" aria-hidden="true" style="--i:2">o</span><span class="l" aria-hidden="true" style="--i:3">u</span><span class="l" aria-hidden="true" style="--i:4">t</span></span></h2>
+    <div class="about-body">
+      <dl class="rv"><dt>Learning</dt><dd>Web制作(職業訓練)</dd><dt>Tools</dt><dd>HTML / CSS / JavaScript</dd><dt>License</dt><dd class="lic"><span>Illustrator®クリエイター<wbr>能力認定試験 <span class="nw">エキスパート</span></span><span>Webクリエイター<wbr>能力認定試験 <span class="nw">エキスパート</span></span></dd></dl>
+      <div class="txt rv"><p>職業訓練で学んだ知識を活かし、これらのページを制作しました。<br>
+        思い描いた構想が形になっていく過程はとても楽しく、<br>
+        多くの学びを得ることができました。</p></div>
+    </div>
+    </div>
+    <p class="about-foot"><span>2026</span><span>web portfolio</span></p>
+  </div>
+</section>
+<div class="tail" aria-hidden="true"></div>
+<footer class="foot" id="foot"><a href="#top">back to top <span aria-hidden="true">↑</span></a></footer>
+
+<script src="script.js?v=20261029"></script>
+</body></html>

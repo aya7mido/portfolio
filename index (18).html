@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FONCÉ | 生バターキャラメルのフォンダンサンド</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20261029">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <a class="site-header__logo" href="#top" aria-label="FONCÉ トップへ">FONCÉ</a>
+  <div class="site-header__end">
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="メニューを開く">
+      <span class="menu-btn__bars"></span>
+    </button>
+  </div>
+</header>
+
+<nav class="menu" id="menu" aria-label="メインメニュー" aria-hidden="true">
+  <ul class="menu__list">
+    <li><a href="#concept">コンセプト</a></li>
+    <li><a href="#secret">FONCÉの秘密</a></li>
+    <li><a href="#lineup">ラインナップ</a></li>
+    <li><a href="#store">店舗</a></li>
+    <li><a href="#news">お知らせ</a></li>
+  </ul>
+  <div class="menu__cta"><a class="btn" href="#" data-dummy="架空のブランドのため、オンラインストアはありません">オンラインストア</a></div>
+</nav>
+
+<div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+
+<main id="top">
+
+  <!-- ファーストビュー -->
+  <section class="hero" aria-label="FONCÉ">
+    <div class="hero__photo ph ph--hero"><img src="images/hero.webp" alt=""></div>
+    <div class="hero__light" aria-hidden="true"></div>
+    <div class="hero__veil"></div>
+    <p class="hero__copy" lang="ja"><span>ひと口で、</span><span>ふわりとほどける。</span></p>
+    <div class="wrap hero__body">
+      <h1 class="hero__logo" id="heroLogo">FONCÉ</h1>
+      <p class="hero__sub"><span>素材が織りなす<br class="sp-br">ひとくちの贅沢。</span></p>
+    </div>
+  </section>
+
+  <!-- コンセプト -->
+  <section class="concept" id="concept">
+    <div class="wrap">
+      <div class="concept__text">
+        <h2 class="h2">香ばしさの奥に、<br>キャラメルの余韻を。</h2>
+        <p class="lead">とろりとほどけていく、生バターキャラメル。</p>
+        <p class="body">生地の香ばしさに、キャラメルの甘さ、<br>
+          生バターのコク、ショコラの深みを。<br>
+甘さだけでは終わらない深い味わいに仕立てています。<br>
+FONCÉが届ける、静かに残るひとときを。</p>
+      </div>
+
+    </div>
+    <!-- スクロールで混ざる素材。mix-stage が固定表示(②)のときのスクロール距離になる -->
+    <div class="mix-stage" id="mixStage">
+      <div class="mix-pin">
+        <div class="mix-light" aria-hidden="true"></div>
+        <div class="wrap">
+          <div class="collage" role="group" aria-label="素材のイメージ">
+            <div class="mix-glow mix-glow--a" aria-hidden="true"></div>
+            <div class="mix-glow mix-glow--b" aria-hidden="true"></div>
+            <div class="mix-glow mix-glow--c" aria-hidden="true"></div>
+            <div class="collage__item collage__item--a"><div class="ph ph--texture"><video src="videos/cream-scrub.mp4" poster="videos/cream-scrub.webp" muted playsinline preload="none" aria-label="生バタークリーム"></video></div></div>
+            <div class="collage__item collage__item--b"><div class="ph ph--caramel"><video src="videos/chocolate-scrub.mp4" poster="videos/chocolate-scrub.webp" muted playsinline preload="none" aria-label="チョコレート"></video></div></div>
+            <div class="collage__item collage__item--c"><div class="ph ph--choco-white"><video src="videos/caramel-scrub.mp4" poster="videos/caramel-scrub.webp" muted playsinline preload="none" aria-label="キャラメル"></video></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 秘密 -->
+  <section class="secret" id="secret">
+    <div class="wrap">
+      <div class="secret__inner" data-reveal>
+        <div class="secret__photo ph ph--whip"><img src="images/secret.webp" alt="炊き上げたキャラメルに注がれる生バター"></div>
+        <div class="secret__panel">
+          <h2 class="h2">FONCÉの秘密</h2>
+          <p class="lead">余熱で溶かし込み、風味を閉じ込める。</p>
+          <p class="body">キャラメルを炊き上げたら火を止め、生バターを加えます。<br>
+            熱に弱い生バターの繊細な香りを、余熱でゆっくりと溶かし込み、<br>軽やかさと深い余韻を閉じ込めました。</p>
+        </div>
+        <p class="secret__side" aria-hidden="true">le savoir-faire</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 商品 -->
+  <section class="lineup" id="lineup">
+    <div class="wrap">
+      <div class="lineup__head">
+        <h2 class="display">Lineup</h2>
+      </div>
+
+      <div class="products" data-reveal>
+        <a class="card" href="#lineup">
+          <div class="ph ph--p1"><img src="images/sand.webp" alt="フォンダンサンド キャラメル"></div>
+          <h3 class="card__name">フォンダンサンド・キャラメル</h3>
+          <p class="card__desc">FONCÉの看板商品。<br>
+            香ばしいサブレで、とろける生バターキャラメルを挟みました。</p>
+          <p class="card__price"><b>¥3,240</b><span>6個入・税込</span></p>
+        </a>
+        <a class="card" href="#lineup">
+          <div class="ph ph--p2"><img src="images/butter.webp" alt="ブールサンド"></div>
+          <h3 class="card__name">ブールサンド</h3>
+          <p class="card__desc">ほろりと崩れるサブレに、<br>生バタークリームをたっぷりと。</p>
+          <p class="card__price"><b>¥2,700</b><span>3個入・税込</span></p>
+        </a>
+        <a class="card" href="#lineup">
+          <div class="ph ph--p3"><img src="images/choco.webp" alt="ショコラ プラリネ"></div>
+          <h3 class="card__name">ショコラ・プラリネ</h3>
+          <p class="card__desc">濃厚なショコラケーキに、<br>生バターキャラメルをひとさじ。</p>
+          <p class="card__price"><b>¥3,780</b><span>5個入・税込</span></p>
+        </a>
+      </div>
+
+      <div class="lineup__cta">
+        <a class="btn" href="#" data-dummy="架空のブランドのため、オンラインストアはありません">オンラインストア</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 店舗 -->
+  <section class="store" id="store">
+    <div class="wrap">
+      <div class="store__inner">
+        <div class="store__photo ph ph--store"><img src="images/shop.webp" alt="店内"></div>
+        <div class="store__info">
+          <h2 class="h2">店舗</h2>
+          <p class="store__name">FONCÉ 本店</p>
+          <dl class="store__list">
+            <div class="store__row"><dt>住所</dt><dd>東京都●●区●●1-2-3</dd></div>
+            <div class="store__row"><dt>営業時間</dt><dd>10:00〜20:00</dd></div>
+            <div class="store__row"><dt>定休日</dt><dd>水曜日</dd></div>
+            <div class="store__row"><dt>アクセス</dt><dd>●●駅から徒歩3分</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- お知らせ -->
+  <section class="news" id="news">
+    <div class="wrap">
+      <h2 class="h2">お知らせ</h2>
+      <ul class="news__list">
+        <li class="news__item"><a href="#news"><time datetime="2026-09-12">2026.09.12</time><span>10月、大阪にてFONCÉポップアップストアを開催します</span></a></li>
+        <li class="news__item"><a href="#news"><time datetime="2026-07-10">2026.07.10</time><span>本店の夏季営業時間について(7月20日〜8月31日)</span></a></li>
+        <li class="news__item"><a href="#news"><time datetime="2026-06-01">2026.06.01</time><span>オンラインストアを開設しました</span></a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <p class="footer__logo">FONCÉ</p>
+      <div class="footer__info">
+        <p class="footer__addr">東京都●●区●●1-2-3<br>10:00〜20:00(水曜定休)</p>
+        <ul class="footer__sns-list">
+          <li><a href="#" data-dummy="架空のブランドのため、SNSはありません">Instagram</a></li>
+          <li><a href="#" data-dummy="架空のブランドのため、SNSはありません">LINE</a></li>
+        </ul>
+      </div>
+      <nav class="footer__nav" aria-label="フッターメニュー">
+        <a href="#concept">コンセプト</a>
+        <a href="#secret">FONCÉの秘密</a>
+        <a href="#lineup">ラインナップ</a>
+        <a href="#store">店舗</a>
+        <a href="#news">お知らせ</a>
+        <a href="#" data-dummy="架空のブランドのため、オンラインストアはありません">オンラインストア</a>
+      </nav>
+    </div>
+    <p class="footer__copy">© 2026 FONCÉ</p>
+  </div>
+</footer>
+<a href="../index.html#fonce" class="pf-back" style="position:fixed;left:14px;bottom:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.88);color:#333;font:500 12px/1 system-ui,-apple-system,sans-serif;letter-spacing:.04em;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.15);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)">← portfolio</a>
+<script>/* URLの末尾に ?shot を付けて開くと、スクショ用に「← portfolio」ボタンを隠す */if(/[?&]shot\b/.test(location.search)){var pfb=document.querySelector(".pf-back");if(pfb)pfb.style.display="none";}</script>
+
+<!-- 架空のリンク: 押すと画面下に小さく案内を出す(ページは移動しない) -->
+<div class="dummy-toast" id="dummyToast" role="status" aria-live="polite"></div>
+<style>
+.dummy-toast{position:fixed;left:50%;bottom:72px;z-index:2147483646;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;padding:12px 20px;border-radius:999px;background:#eadfca;color:#1a1108;font-family:inherit;font-size:13px;line-height:1.5;letter-spacing:.04em;text-align:center;word-break:auto-phrase;text-wrap:balance;border-radius:22px;box-shadow:0 8px 24px rgba(0,0,0,.18);opacity:0;visibility:hidden;transform:translate(-50%,8px);transition:opacity .35s ease,transform .35s ease,visibility .35s;pointer-events:none}
+.dummy-toast.is-show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.dummy-toast{transition:none}}
+</style>
+<script>
+(function(){
+  var toast=document.getElementById('dummyToast'),timer;
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('[data-dummy]');
+    if(!a) return;
+    e.preventDefault();
+    toast.textContent=a.getAttribute('data-dummy');
+    toast.classList.add('is-show');
+    clearTimeout(timer);
+    timer=setTimeout(function(){toast.classList.remove('is-show');},2600);
+  });
+})();
+</script>
+<script>
+/* 素材動画: スクロール量に合わせて再生位置を動かす(戻ると逆に戻る)。
+   ①そのまま: 各写真が画面を通り過ぎる間にそれぞれ混ざる
+   ②固定: コラージュを画面に止め、スクロールで クリーム→チョコ→キャラメル の順に混ぜる */
+(function(){
+  var stage=document.getElementById('mixStage');
+  var order=['cream','chocolate','caramel'];
+  var vids=order.map(function(n){return document.querySelector('.collage video[aria-label][src*="'+n+'"]');}).filter(Boolean);
+  if(!stage||!vids.length) return;
+  document.body.classList.add('mix-pin-mode'); /* ②固定して順番に */
+  var EASE=0.12; /* 追従のなめらかさ(小さいほど、指を離したあとも余韻でゆっくり動く) */
+  var shown=vids.map(function(){return 0;});
+  vids.forEach(function(v,i){
+    v.pause();
+    /* 静止画を背景に敷いておき、動画が出ない環境でも写真は見えるようにする */
+    if(v.poster) v.parentNode.style.backgroundImage='url("'+v.poster+'")', v.parentNode.style.backgroundSize='cover', v.parentNode.style.backgroundPosition='center';
+  });
+  /* 動画はページを開いた時点では読み込まず、コラージュの手前(画面0.6枚分)まで来たら読み込み始める。
+     サーバーによっては動画の途中へ飛べない(シークできない)ため、丸ごと読み込んだ複製を用意し、
+     ちゃんと再生できると確認できたときだけ差し替える(失敗したら元の動画をそのまま読み込む) */
+  var loaded=false;
+  function loadVideos(){
+    if(loaded) return; loaded=true;
+    vids.forEach(function(v,i){
+      if(!(window.fetch&&window.URL&&URL.createObjectURL)){ v.preload='auto'; v.load(); return; }
+      fetch(v.currentSrc||v.src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+        var n=v.cloneNode(false);
+        n.muted=true; n.preload='auto'; n.src=URL.createObjectURL(b);
+        n.addEventListener('loadeddata',function(){
+          try{ n.currentTime=v.currentTime||0; }catch(e){}
+          v.parentNode.replaceChild(n,v); vids[i]=n;
+        },{once:true});
+        n.load();
+      }).catch(function(){ v.preload='auto'; v.load(); });
+    });
+  }
+  if('IntersectionObserver' in window){
+    var lio=new IntersectionObserver(function(e){ if(e[0].isIntersecting){ loadVideos(); lio.disconnect(); } },{rootMargin:'60% 0px'});
+    lio.observe(stage);
+  } else { loadVideos(); }
+  function clamp(x){ return x<0?0:x>1?1:x; }
+  function smooth(x){ return x*x*(3-2*x); }
+  function targets(){
+    var vh=window.innerHeight;
+    if(document.body.classList.contains('mix-pin-mode')){
+      var r=stage.getBoundingClientRect();
+      var p=clamp(-r.top/(r.height-vh)); /* 固定区間の進み具合 0→1 */
+      /* 3本を少しずつ重ねながら順番に */
+      return [clamp(p/0.3), clamp((p-0.2)/0.3), clamp((p-0.4)/0.3)]; /* 70%で混ざり終わり、残り30%は静止 */
+    }
+    return vids.map(function(v){
+      var r=v.getBoundingClientRect();
+      /* 写真の上端が画面下に入ってから、写真の中心が画面の35%の高さに来るまで */
+      return clamp((vh-r.top)/(vh*0.65+r.height/2));
+    });
+  }
+  /* 到達・退場のアニメーション(スクロール連動なので、戻ると逆再生になる)
+     到達: 枠が下から上へ幕を開けるように現れ、中の映像は1.06倍から落ち着く。3枚は少しずつずらす
+     退場: 3枚が違う速さで上へ流れながら、ほんのり暗くなる */
+  var items=vids.map(function(v){ return v.closest('.collage__item'); });
+  var DELAY=[0,0.16,0.32];   /* 到達の時間差 */
+  var DRIFT=[40,90,60];      /* 退場時に余分に上へ流れる量(px) */
+  var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var rev=items.map(function(){return 0;}), ext=items.map(function(){return 0;});
+  var glows=['a','b','c'].map(function(k){ return document.querySelector('.mix-glow--'+k); });
+  var light=document.querySelector('.mix-light');
+  function easeOut(x){ return 1-Math.pow(1-x,3); }
+  function motion(){
+    var vh=window.innerHeight, r=stage.getBoundingClientRect();
+    var enter=clamp((vh-r.top)/(vh*0.85));         /* ステージが画面下に入ってから、固定が始まるまで */
+    var leave=clamp((vh-r.bottom)/(vh*0.75));      /* 固定が終わってから、画面の上へ抜けるまで */
+    return items.map(function(_,i){
+      return { rev: still?1:easeOut(clamp((enter-DELAY[i])/0.68)), ext: still?0:leave };
+    });
+  }
+  (function tick(){
+    var t=targets();
+    vids.forEach(function(v,i){
+      shown[i]+=(t[i]-shown[i])*EASE;
+      if(Math.abs(t[i]-shown[i])<0.0005) shown[i]=t[i];
+      if(v.duration){
+        var time=smooth(shown[i])*(v.duration-0.05);
+        if(Math.abs(v.currentTime-time)>0.02){ try{ v.currentTime=time; }catch(e){} }
+      }
+    });
+    /* 背景の光: 混ざっている素材の後ろがふわっと明るくなり、混ざり終えると少し落ち着く */
+    var sum=0;
+    shown.forEach(function(k,i){
+      sum+=k;
+      if(glows[i]) glows[i].style.opacity=(Math.max(0.3+0.7*Math.sin(Math.PI*k), 0.3+0.35*k)*(1-ext[i])).toFixed(3);
+    });
+    if(light) light.style.opacity=((0.35+0.65*sum/shown.length)*Math.min(rev[0],1)*(1-ext[0])).toFixed(3);
+    motion().forEach(function(m,i){
+      rev[i]+=(m.rev-rev[i])*EASE; ext[i]+=(m.ext-ext[i])*EASE;
+      if(Math.abs(m.rev-rev[i])<0.001) rev[i]=m.rev;
+      if(Math.abs(m.ext-ext[i])<0.001) ext[i]=m.ext;
+      var s=items[i].style;
+      s.setProperty('--rev',rev[i].toFixed(4));
+      s.setProperty('--exit',ext[i].toFixed(4));
+      s.setProperty('--drift',DRIFT[i]);
+    });
+    requestAnimationFrame(tick);
+  })();
+})();
+
+</script>
+
+</body>
+<script src="script.js?v=20261029"></script>
+</html>

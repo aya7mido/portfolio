@@ -1,171 +1,301 @@
-<!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Portfolio 2026</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Zen+Maru+Gothic:wght@500;700;900&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261028b">
-</head><body>
-<header class="topbar" id="topbar">
-  <div class="view-toggle" role="group" aria-label="作品の表示方法">
-      <button type="button" class="vt-btn" data-mode="slide" aria-pressed="true"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="5" width="14" height="10" rx="2"/></svg>slide</button>
-      <button type="button" class="vt-btn" data-mode="grid" aria-pressed="false"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1.5"/><rect x="11" y="3" width="6" height="6" rx="1.5"/><rect x="3" y="11" width="6" height="6" rx="1.5"/><rect x="11" y="11" width="6" height="6" rx="1.5"/></svg>grid</button>
-    </div>
-  <div class="prog" aria-hidden="true"><span class="pd"></span><svg class="ps" viewBox="0 0 24 24"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg><span class="pl"></span></div>
-  <nav><a href="#works">works</a><a href="#about">about</a></nav>
-</header>
-<p class="vt vt-top" aria-hidden="true">selected 2026 works</p>
-<p class="vt vt-bot" aria-hidden="true">now / <b id="now">intro</b></p>
-<svg class="cur-star" viewBox="0 0 24 24" aria-hidden="true"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ねこの！みどり | midochan.com</title>
+  <meta name="description" content="3さいのおんなのこ、みどりちゃんのおうちサイト。ねこしょうかい、とくちょう、にっきをのせています。">
+  <meta name="theme-color" content="#237a4e">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Mochiy+Pop+One&family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261029">
+</head>
+<body class="btn-swap">
 
-<section class="hero" id="top" aria-label="ファーストビュー">
-  <div class="hero-in">
-    <h1 class="hero-title" aria-label="portfolio"><span class="word"><span class="chs" aria-hidden="true"><span class="ch" style="--i:0">p</span><span class="ch" style="--i:1">o</span><span class="ch" style="--i:2">r</span><span class="ch" style="--i:3">t</span><span class="ch" style="--i:4">f</span><span class="ch" style="--i:5">o</span><span class="ch" style="--i:6">l</span><span class="ch" style="--i:7">i</span><span class="ch" style="--i:8">o</span></span><small class="handle">@murashita</small></span></h1>
-  </div>
-  <p class="hero-cue" aria-hidden="true"><span class="cue-t">scroll to explore</span><span class="cue-line"><i><svg viewBox="0 0 24 24"><polygon points="12,2.2 14.9,8.6 21.8,9.3 16.6,14 18.1,20.8 12,17.3 5.9,20.8 7.4,14 2.2,9.3 9.1,8.6"/></svg></i></span></p>
-</section>
+  <!-- 肉球のパーツ（足あとで使います） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="paw" viewBox="0 0 64 64">
+        <ellipse cx="32" cy="42" rx="15" ry="12"/>
+        <ellipse cx="13" cy="26" rx="6" ry="8" transform="rotate(-20 13 26)"/>
+        <ellipse cx="25" cy="14" rx="6" ry="8.5" transform="rotate(-6 25 14)"/>
+        <ellipse cx="39" cy="14" rx="6" ry="8.5" transform="rotate(6 39 14)"/>
+        <ellipse cx="51" cy="26" rx="6" ry="8" transform="rotate(20 51 26)"/>
+      </symbol>
+    </defs>
+  </svg>
 
-<section class="works" id="works" aria-label="作品">
-  <p class="sr" id="live" aria-live="polite">1 / 5</p>
-  <div class="stage" id="stage">
-    <div class="grid-view" id="gridView" hidden>
-      <section class="gv-sec" aria-labelledby="gv-web"><h2 class="gv-head" id="gv-web">web site</h2>
-      <ul class="gv-list">
-        <li class="gv-item"><a class="gv-card" href="nuee/index.html"><span class="gv-thumb"><img src="images/n.webp" alt="" loading="lazy" width="1503" height="938"></span><span class="gv-meta"><span class="gv-n">01</span><span class="gv-t">nuée</span><span class="gv-s">架空のフレグランスブランド</span></span></a></li>
-        <li class="gv-item"><a class="gv-card" href="teno/index.html"><span class="gv-thumb"><img src="images/t.webp" alt="" loading="lazy" width="1500" height="935"></span><span class="gv-meta"><span class="gv-n">02</span><span class="gv-t">TENO</span><span class="gv-s">架空のハンドタオルブランド</span></span></a></li>
-        <li class="gv-item"><a class="gv-card" href="fonce/index.html"><span class="gv-thumb"><img src="images/f.webp" alt="" loading="lazy" width="1503" height="938"></span><span class="gv-meta"><span class="gv-n">03</span><span class="gv-t">FONCÉ</span><span class="gv-s">架空の贅沢なスイーツブランド</span></span></a></li>
-        <li class="gv-item"><a class="gv-card" href="mido/index.html"><span class="gv-thumb"><img src="images/c.webp" alt="" loading="lazy" width="1502" height="938"></span><span class="gv-meta"><span class="gv-n">04</span><span class="gv-t">ねこのみどり</span><span class="gv-s">飼い猫の紹介サイト</span></span></a></li>
-      </ul></section>
-      <section class="gv-sec" aria-labelledby="gv-app"><h2 class="gv-head" id="gv-app">web app</h2>
-      <ul class="gv-list">
-        <li class="gv-item"><a class="gv-card" href="timer/index.html"><span class="gv-thumb"><img src="images/timer.webp" alt="" loading="lazy" width="1507" height="940"></span><span class="gv-meta"><span class="gv-n">05</span><span class="gv-t">タイマーアプリ</span><span class="gv-s">授業と休憩の時間をカウントするWebアプリ</span></span></a></li>
-      </ul></section>
-    </div>
-      <article class="slide" id="w1" data-view="desk" aria-roledescription="スライド" aria-label="1 / 5 香水ブランドのサイト">
-        <div class="wk">
-          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp1l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp1l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-          <div class="card">
-            <div class="track">
-              <div class="pane pane-desc" inert><div class="screen">
-                <div class="desc-in"><h3>nuée</h3><p class="sub">架空のフレグランスブランド</p><dl class="facts"><dt>POINT</dt><dd>最初に制作したページです。自分の好みを詰め込もうと、好きな配色やモチーフを集めて組み立てました。おしゃれな空間に仕上げたく、インジケーターバーやナビなど装飾にこだわりました。ページの構成はCanvaで作り、実装はAIにお任せしました。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ブラウン、グレージュ、クリーム"><i class="sw" style="--c:#523E32" title="ブラウン #523E32"></i><i class="sw" style="--c:#D9D4CC" title="グレージュ #D9D4CC"></i><i class="sw" style="--c:#F1EEE7" title="クリーム #F1EEE7"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Canva</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
-              </div></div>
-              <div class="pane pane-desk"><div class="screen">
-                <a class="shot" href="nuee/index.html" aria-label="nuéeのサイトを開く"><img src="images/n.webp" width="1503" height="938" alt="香水ブランド nuée のトップページ。花を顔に添えて目を閉じる女性の写真に、ロゴが重なる"></a>
-                
-              </div></div>
-              <div class="pane pane-mob" inert><div class="screen">
-                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/nuee-sp1.webp" alt="" width="433" height="903"></i><i class="ph"><img src="images/nuee-sp2.webp" alt="" width="438" height="905"></i><i class="ph"><img src="images/nuee-sp3.png" alt="" width="435" height="902"></i></span>
-              </div></div>
-            </div>
-          </div>
-          <p class="cap"><span class="cap-n">01<i>/05</i></span><span class="cap-t"><a href="nuee/index.html">nuée</a></span></p>
-          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp1r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp1r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-        </div>
-      </article>
-      <article class="slide" id="w2" data-view="desk" aria-roledescription="スライド" aria-label="2 / 5 ハンドタオルブランドのサイト" inert aria-hidden="true">
-        <div class="wk">
-          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp2l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp2l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-          <div class="card">
-            <div class="track">
-              <div class="pane pane-desc" inert><div class="screen">
-                <div class="desc-in"><h3>TENO</h3><p class="sub">架空のハンドタオルブランド</p><dl class="facts"><dt>POINT</dt><dd>nuéeとは異なる軽やかさをテーマに制作しました。この作品から、Illustratorで構成を作り、AIに実装してもらう流れになりました。細かな修正や調整は自身で行っています。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ブルー、ブルーグレー、クリーム"><i class="sw" style="--c:#9DB7D1" title="ブルー #9DB7D1"></i><i class="sw" style="--c:#6281a2" title="ブルーグレー #6281a2"></i><i class="sw" style="--c:#F4EFE4" title="クリーム #F4EFE4"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
-              </div></div>
-              <div class="pane pane-desk"><div class="screen">
-                <a class="shot" href="teno/index.html" aria-label="TENOのサイトを開く"><img src="images/t.webp" width="1500" height="935" alt="ハンドタオルブランド TENO のトップページ。水色のタオルのアップ写真"></a>
-                
-              </div></div>
-              <div class="pane pane-mob" inert><div class="screen">
-                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/teno-sp1.webp" alt="" width="426" height="874"></i><i class="ph"><img src="images/teno-sp2.webp" alt="" width="426" height="874"></i><i class="ph"><img src="images/teno-sp3.webp" alt="" width="425" height="877"></i></span>
-              </div></div>
-            </div>
-          </div>
-          <p class="cap"><span class="cap-n">02<i>/05</i></span><span class="cap-t"><a href="teno/index.html">TENO</a></span></p>
-          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp2r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp2r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-        </div>
-      </article>
-      <article class="slide" id="w3" data-view="desk" aria-roledescription="スライド" aria-label="3 / 5 スイーツブランドのサイト" inert aria-hidden="true">
-        <div class="wk">
-          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp3l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp3l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-          <div class="card">
-            <div class="track">
-              <div class="pane pane-desc" inert><div class="screen">
-                <div class="desc-in"><h3>FONCÉ</h3><p class="sub">架空の贅沢スイーツブランド</p><dl class="facts"><dt>POINT</dt><dd>これまでのカジュアルな雰囲気とは異なるテーマに。1作目のnuéeとブラウンの配色が重なりましたが、異なる方向性のデザインに仕上がったと思います。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: ダークブラウン、キャラメル、クリーム"><i class="sw" style="--c:#1a1108" title="ダークブラウン #1a1108"></i><i class="sw" style="--c:#c99a55" title="キャラメル #c99a55"></i><i class="sw" style="--c:#eadfca" title="クリーム #eadfca"></i></span></dd><dd class="tools"><ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Claude</li><li>ChatGPT</li></ul></dd></dl></div>
-              </div></div>
-              <div class="pane pane-desk"><div class="screen">
-                <a class="shot" href="fonce/index.html" aria-label="FONCÉのサイトを開く"><img src="images/f.webp" width="1503" height="938" alt="スイーツブランド FONCÉ のトップページ。暗い背景に焼き菓子の写真と、ロゴ"></a>
-                
-              </div></div>
-              <div class="pane pane-mob" inert><div class="screen">
-                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/fonce-sp1.webp" alt="" width="422" height="876"></i><i class="ph"><img src="images/fonce-sp2.webp" alt="" width="424" height="876"></i><i class="ph"><img src="images/fonce-sp3.webp" alt="" width="423" height="875"></i></span>
-              </div></div>
-            </div>
-          </div>
-          <p class="cap"><span class="cap-n">03<i>/05</i></span><span class="cap-t"><a href="fonce/index.html">FONCÉ</a></span></p>
-          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp3r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp3r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-        </div>
-      </article>
-      <article class="slide" id="w4" data-view="desk" aria-roledescription="スライド" aria-label="4 / 5 飼い猫の紹介サイト" inert aria-hidden="true">
-        <div class="wk">
-          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp5l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp5l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-          <div class="card">
-            <div class="track">
-              <div class="pane pane-desc" inert><div class="screen">
-                <div class="desc-in"><h3>ねこのみどり</h3><p class="sub">飼い猫の紹介サイト</p><dl class="facts"><dt>POINT</dt><dd>モバイルファーストとポップなデザインをテーマに制作しました。STUDIOにも挑戦したく、大部分をSTUDIOで作っています。発表にあたりAIにHTMLへ変換してもらい、アニメーションも追加しました。写真の雰囲気に頼らないページ作りに苦戦しました。サイト内のイラストは自分で描いています。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: グリーン、ピンク、クリーム"><i class="sw" style="--c:#2a8a5a" title="グリーン #2a8a5a"></i><i class="sw" style="--c:#f8c4cf" title="ピンク #f8c4cf"></i><i class="sw" style="--c:#fbf9f5" title="クリーム #fbf9f5"></i></span></dd><dd class="tools"><ul class="tags"><li>STUDIO</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Illustrator</li><li>Photoshop</li><li>Claude</li></ul></dd></dl></div>
-              </div></div>
-              <div class="pane pane-desk"><div class="screen">
-                <a class="shot" href="mido/index.html" aria-label="ねこのみどりのサイトを開く"><img src="images/c.webp" width="1502" height="938" alt="飼い猫みどりの紹介サイト。緑の背景に、ロゴと寝そべる猫のイラスト。左にメニュー、右にお知らせ"></a>
-                
-              </div></div>
-              <div class="pane pane-mob" inert><div class="screen">
-                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/midori-sp1.webp" alt="" width="421" height="877"></i><i class="ph"><img src="images/midori-sp2.webp" alt="" width="426" height="877"></i><i class="ph"><img src="images/midori-sp3.webp" alt="" width="424" height="874"></i></span>
-              </div></div>
-            </div>
-          </div>
-          <p class="cap"><span class="cap-n">04<i>/05</i></span><span class="cap-t"><a href="mido/index.html">ねこのみどり</a></span></p>
-          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp5r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp5r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-        </div>
-      </article>
-      <article class="slide" id="w5" data-view="desk" aria-roledescription="スライド" aria-label="5 / 5 タイマーアプリ" inert aria-hidden="true">
-        <div class="wk">
-          <button type="button" class="side-btn side-l" data-act="l" ><span class="arr" aria-hidden="true">←</span><span class="lbl">explanation</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp4l" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp4l" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-          <div class="card">
-            <div class="track">
-              <div class="pane pane-desc" inert><div class="screen">
-                <div class="desc-in"><h3>タイマーアプリ</h3><p class="sub">授業と休憩をカウントするWebアプリ</p><dl class="facts"><dt>POINT</dt><dd>生成AIの授業で制作しました。閉鎖的な空間に苦手意識があり、終わりの時間がひと目でわかるこのアプリは安心材料になりました。授業中はピンク、休憩中は水色に自動で切り替わります。背景画像はIllustratorで作成しました。</dd><dt>COLOR</dt><dd><span class="sws" role="img" aria-label="使用した色: サーモンピンク、水色、チャコール"><i class="sw" style="--c:#f8a898" title="サーモンピンク #f8a898"></i><i class="sw" style="--c:#9fcdec" title="水色 #9fcdec"></i><i class="sw" style="--c:#3d3733" title="チャコール #3d3733"></i></span></dd><dd class="tools"><ul class="tags"><li>Illustrator</li><li>Claude</li></ul></dd></dl></div>
-              </div></div>
-              <div class="pane pane-desk"><div class="screen">
-                <a class="shot" href="timer/index.html" aria-label="タイマーアプリのサイトを開く"><img src="images/timer.webp" width="1507" height="940" alt="タイマーアプリの画面。時間の設定欄と、残り時間の表示"></a>
-                
-              </div></div>
-              <div class="pane pane-mob" inert><div class="screen">
-                <span class="phones" aria-hidden="true"><i class="ph"><img src="images/timer-sp1.webp" alt="" width="425" height="874"></i><i class="ph"><img src="images/timer-sp2.webp" alt="" width="425" height="878"></i></span>
-              </div></div>
-            </div>
-          </div>
-          <p class="cap"><span class="cap-n">05<i>/05</i></span><span class="cap-t"><a href="timer/index.html">タイマーアプリ</a></span></p>
-          <button type="button" class="side-btn side-r" data-act="r" ><span class="lbl">responsive</span><span class="arr" aria-hidden="true">→</span><svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="rp4r" d="M10,50 a40,40 0 1,1 80,0 a40,40 0 1,1 -80,0"/></defs><g><text><textPath href="#rp4r" textLength="250" lengthAdjust="spacing"></textPath></text></g></svg></button>
-        </div>
-      </article>
-  </div>
-</section>
+  <!-- 左上のブランド名（広い画面だけ・固定） -->
+  <a href="#top" class="brand">midochan.com</a>
 
-<section class="about" id="about">
-  <div class="about-in">
-    <div class="about-main">
-    <h2 class="split" aria-label="about"><span class="ls"><span class="l" aria-hidden="true" style="--i:0">a</span><span class="l" aria-hidden="true" style="--i:1">b</span><span class="l" aria-hidden="true" style="--i:2">o</span><span class="l" aria-hidden="true" style="--i:3">u</span><span class="l" aria-hidden="true" style="--i:4">t</span></span></h2>
-    <div class="about-body">
-      <dl class="rv"><dt>Learning</dt><dd>Web制作(職業訓練)</dd><dt>Tools</dt><dd>HTML / CSS / JavaScript</dd><dt>License</dt><dd class="lic"><span>Illustrator®クリエイター<wbr>能力認定試験 <span class="nw">エキスパート</span></span><span>Webクリエイター<wbr>能力認定試験 <span class="nw">エキスパート</span></span></dd></dl>
-      <div class="txt rv"><p>職業訓練で学んだ知識を活かし、これらのページを制作しました。<br>
-        思い描いた構想が形になっていく過程はとても楽しく、<br>
-        多くの学びを得ることができました。</p></div>
-    </div>
-    </div>
-    <p class="about-foot"><span>2026</span><span>web portfolio</span></p>
-  </div>
-</section>
-<div class="tail" aria-hidden="true"></div>
-<footer class="foot" id="foot"><a href="#top">back to top <span aria-hidden="true">↑</span></a></footer>
+  <!-- 左：メニュー（固定） -->
+  <aside class="side-menu" aria-label="メニュー">
+    <p class="side-title">MENU</p>
+    <ol>
+      <li><a href="#profile"><span class="num">1</span><span class="label-text">ねこしょうかい</span></a></li>
+      <li><a href="#features"><span class="num">2</span><span class="label-text">とくちょう</span></a></li>
+      <li><a href="#qa"><span class="num">3</span><span class="label-text">しつもん</span></a></li>
+      <li><a href="#diary"><span class="num">4</span><span class="label-text">みどにっき</span></a></li>
+      <li><a href="#last"><span class="num">5</span><span class="label-text">さいごに</span></a></li>
+    </ol>
+  </aside>
 
-<script src="script.js?v=20261028b"></script>
-</body></html>
+  <!-- 右：NEWS -->
+  <aside class="side-menu side-news" aria-label="NEWS">
+    <p class="side-title">NEWS</p>
+    <ul>
+      <li><time>2024.04</time><p>初めてみどりに会いました</p></li>
+      <li><time>2024.04</time><p>トライアルを開始しました</p></li>
+      <li><time>2024.05</time><p>手からちゅ～るを食べました</p></li>
+      <li><time>2024.06</time><p>すこし仲良くなりました</p></li>
+      <li><time>2024.07</time><p>足で撫でれるようになりました</p></li>
+      <li><time>2024.08</time><p>手で撫でれるようになりました</p></li>
+      <li><time>2024.09</time><p>膝の上に乗りました</p></li>
+      <li><time>2024.09</time><p>足の上で寝ました</p></li>
+      <li><time>2024.10</time><p>膝の上が大好きになりました</p></li>
+    </ul>
+  </aside>
+
+  <!-- 画面の下の「地面」（広い画面だけ・固定） -->
+  <div class="floor floor-wave" aria-hidden="true"></div>
+  <a class="scroll-hint" href="#top" aria-label="ページの上へ">
+    <span class="lbl-scroll">scroll</span><span class="lbl-top">top</span>
+    <span class="paws">
+      <svg class="paw p1"><use href="#paw"/></svg>
+      <svg class="paw p2"><use href="#paw"/></svg>
+    </span>
+  </a>
+
+  <!-- ハンバーガーメニュー（画面が狭いときだけ。左右のメニューが隠れる幅1200px以下で出る） -->
+  <button type="button" class="menu-toggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="drawer-backdrop" hidden></div>
+  <nav class="drawer" id="drawer" aria-label="メニュー" aria-hidden="true">
+    <p class="side-title">MENU</p>
+    <ol>
+      <li><a href="#profile"><span class="label-text">ねこしょうかい</span></a></li>
+      <li><a href="#features"><span class="label-text">とくちょう</span></a></li>
+      <li><a href="#qa"><span class="label-text">しつもん</span></a></li>
+      <li><a href="#diary"><span class="label-text">みどにっき</span></a></li>
+      <li><a href="#last"><span class="label-text">さいごに</span></a></li>
+    </ol>
+  </nav>
+
+  <!-- トースト（data-toast を付けたリンクを押すと出る。本物のURLにするときは data-toast を消す） -->
+  <div class="toast" role="status" aria-live="polite"></div>
+
+  <!-- 「もう1回」の魚（広い画面だけ）：メインのカードのうしろから、外の緑の背景へ引っぱり出される -->
+  <button type="button" class="retry-btn retry-out" aria-label="もう1回"><img class="retry-fish" src="images/fish-white.webp" width="270" height="135" alt=""><span class="retry-bubble">もう1回！</span></button>
+
+  <main class="frame">
+    <div class="frame-inner">
+
+      <!-- ヒーロー：「おいで！」を3回押すと、猫が壁から少しずつ出てくる -->
+      <section id="top" class="hero dots" data-stage="0">
+        <h1 class="hero-logo">
+          <img src="images/logo.webp" width="700" height="286" alt="ねこの！みどり">
+        </h1>
+
+        <div class="cat-stage">
+          <!-- 猫じゃらし（魚のひも）：おいでを押すたびに、左へ引かれて見切れていく -->
+          <div class="toy" aria-hidden="true"><img src="images/toy-fish.webp" width="620" height="198" alt=""></div>
+          <button type="button" class="retry-btn retry-cat" aria-label="もう1回"><span class="retry-bubble">もう1回！</span></button>
+          <div class="cat" role="img" aria-label="壁からのぞくみどり">
+            <img width="1000" height="666" class="cat-body" src="images/neko-body.webp" alt="">
+            <img class="cat-tail" src="images/neko-tail.png" alt="">
+          </div>
+        </div>
+
+        <div class="call-area">
+          <button type="button" class="btn-pill call-btn"><span class="call-label">おいで</span></button>
+          <button type="button" class="retry-btn" aria-label="もう1回"><img class="retry-fish" src="images/toy-fish.webp" width="620" height="198" alt=""><span class="retry-bubble">もう1回！</span></button>
+        </div>
+      </section>
+
+      <!-- じこしょうかい：写真・名前・3つのタグだけ -->
+      <section id="profile" class="band band-green dots profile">
+        <header class="sec-head">
+          <p class="en">PROFILE</p>
+          <h2>じこしょうかい</h2>
+        </header>
+
+        <img loading="lazy" decoding="async" width="500" height="500" class="profile-img" src="images/profile-photo.webp" alt="かべからのぞくみどりちゃん">
+
+        <h3 class="name">みどりちゃん</h3>
+        <ul class="tags">
+          <li>3さい</li>
+          <li>おんなのこ</li>
+          <li>おっとり</li>
+        </ul>
+
+        <a class="next-link" href="#features" aria-label="とくちょう"><span class="lbl">とくちょう</span><span class="hint">いくにゃ</span><span class="next-arrow" aria-hidden="true">&#8595;</span></a>
+
+        <!-- 足あと（次の帯へ歩いていく） -->
+        <div class="paw-trail" aria-hidden="true">
+          <svg class="paw" style="left:12%; top:14px; --r:62deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:22%; top:38px; --r:56deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:33%; top:22px; --r:64deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:43%; top:46px; --r:58deg"><use href="#paw"/></svg>
+        </div>
+      </section>
+
+      <!-- とくちょう -->
+      <section id="features" class="band band-blush dots features">
+        <header class="sec-head">
+          <p class="en">FEATURES</p>
+          <h2>とくちょう</h2>
+        </header>
+
+        <ul class="feature-list">
+          <li>
+            <img loading="lazy" decoding="async" width="360" height="360" src="images/point-hana.webp" alt="みどりのおはな">
+            <div><h4>おはな</h4><p>黒色の点々がポイント<br>鼻の穴のようなのに可愛い</p></div>
+          </li>
+          <li>
+            <img loading="lazy" decoding="async" width="360" height="360" src="images/tail.webp" alt="みどりのしっぽ">
+            <div><h4>しっぽ</h4><p>うさぎのように丸くて短い<br>かぎしっぽが特徴</p></div>
+          </li>
+          <li>
+            <img loading="lazy" decoding="async" width="360" height="360" src="images/point-foot.webp" alt="みどりのあし">
+            <div><h4>あし</h4><p>茶色くてしましま<br>おしゃれだね～</p></div>
+          </li>
+        </ul>
+
+        <a class="next-link" href="#qa" aria-label="しつもん"><span class="lbl">しつもん</span><span class="hint">もっとみてにゃ</span><span class="next-arrow" aria-hidden="true">&#8595;</span></a>
+      </section>
+
+      <!-- Q&A -->
+      <section id="qa" class="band band-cream dots qa">
+        <!--
+          猫の「通りすがり」。セクションの境目に腰かけるように顔を出します。
+          ※今は、今の猫を仮に置いています。新しいポーズの猫ができたら、images/ の画像に差し替えてください。
+        -->
+        <div class="walker walker-left" aria-hidden="true"><img loading="lazy" decoding="async" width="740" height="604" src="images/neko-loaf.webp" alt=""></div>
+
+        <header class="sec-head">
+          <p class="en">Q&amp;A</p>
+          <h2>しつもん</h2>
+        </header>
+
+        <div class="accordion">
+          <div class="acc-item open">
+            <button class="acc-q" aria-expanded="true">みどりとの出会いは？</button>
+            <div class="acc-a"><p>保護猫サイトで見つけ会いに行きました。<br>人馴れしておらずたくさん悩みましたが、<br>衝撃かわいさが忘れられずお迎えすることに。</p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-q" aria-expanded="false">みどりの名前の由来は？</button>
+            <div class="acc-a"><p>出会ったときからみどりはみどりでした。<br>保護主さんのすきな色が由来だそうです。<br>みどりは自分がみどりだと自覚しています。</p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-q" aria-expanded="false">みどりの性格は？</button>
+            <div class="acc-a"><p>シャーしない！引っ搔かない！意思表示は声で！<br>
+            がモットーだそうです。今では飼い主にべったり。かしこくてやさしい子です。</p></div>
+          </div>
+          <div class="acc-item">
+            <button class="acc-q" aria-expanded="false">みどりのすききらいは？</button>
+            <div class="acc-a"><p>毎日のご飯とたまにのちゅ～るが楽しみで仕方がないそうです。黒いヘアゴムとお昼寝もすき。しらない人と雷が大嫌い。</p></div>
+          </div>
+        </div>
+
+        <a class="next-link" href="#diary" aria-label="みどにっき"><span class="lbl">みどにっき</span><span class="hint">つづくにゃ</span><span class="next-arrow" aria-hidden="true">&#8595;</span></a>
+
+        <!-- 足あと -->
+        <div class="paw-trail paw-pink" aria-hidden="true">
+          <svg class="paw" style="left:92%; top:14px; --r:264deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:82%; top:38px; --r:260deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:72%; top:22px; --r:262deg"><use href="#paw"/></svg>
+          <svg class="paw" style="left:62%; top:46px; --r:258deg"><use href="#paw"/></svg>
+        </div>
+
+        <!-- ジャンプする猫（足あとの先で、次のセクションへ飛び出す） -->
+        <div class="leaper" aria-hidden="true"><img loading="lazy" decoding="async" width="800" height="425" src="images/neko-jump.webp" alt=""></div>
+      </section>
+
+      <!-- にっき -->
+      <section id="diary" class="band band-green dots diary">
+        <header class="sec-head">
+          <p class="en">DIARY</p>
+          <h2>みどにっき</h2>
+        </header>
+
+        <div class="slider">
+          <article class="slide active">
+            <img loading="lazy" decoding="async" width="800" height="1422" src="images/diary4.webp" alt="ころんだみどり" style="object-position:50% 70%">
+            <h3>だいおうてん</h3>
+            <p>おきあがろうとしたらころんでしまったのにゃ。みないでほしかったにゃ</p>
+          </article>
+          <article class="slide">
+            <img loading="lazy" decoding="async" width="800" height="1422" src="images/diary1.webp" alt="こちらを見つめるみどり" style="object-position:50% 50%">
+            <h3>げんかい</h3>
+            <p>にんげんがなかなかねないのにゃ。さみしいからまってるけど、みどりもうげんかいかもにゃ</p>
+          </article>
+          <article class="slide">
+            <img loading="lazy" decoding="async" width="800" height="1422" src="images/diary2.webp" alt="おもちゃにさわるみどり" style="object-position:50% 62%">
+            <h3>さわるだけ</h3>
+            <p>にんげんはいろいろかってくるけどあんまりきょうみないのにゃ。いちおうふれておくのにゃ</p>
+          </article>
+          <article class="slide">
+            <img loading="lazy" decoding="async" width="800" height="450" src="images/diary3.webp" alt="ソファでねてしまったみどり" style="object-position:50% 100%">
+            <h3>まてない</h3>
+            <p>にんげんはぱそこんでいそがしそうだにゃ。みどりはどうどうとねてやるのにゃ</p>
+          </article>    
+        </div>
+        <div class="slider-nav">
+          <button class="prev" aria-label="前へ">&#8249;</button>
+          <button class="next" aria-label="次へ">&#8250;</button>
+        </div>
+
+        <a class="next-link" href="#last" aria-label="さいご！"><span class="lbl">さいご！</span><span class="hint">さいごだにゃ</span><span class="next-arrow" aria-hidden="true">&#8595;</span></a>
+      </section>
+
+      <!-- さいごに -->
+      <section id="last" class="band band-white dots last">
+        <div class="bubble">
+          <p>いっぱいみてくれて<br>かんしゃだにゃ<br>またあそびにきてにゃ</p>
+        </div>
+
+        <!--
+          寝そべり猫のイラストの置き場所。
+          ※今は、今の猫を仮に置いています。新しいイラストに差し替えてください。
+        -->
+        <!-- しっぽだけ別の画像にしてあり、触れる／クリックするとしっぽを振ります -->
+        <div class="last-cat" role="img" aria-label="ごろんと寝そべるみどり">
+          <img width="1000" height="666" class="cat-body" src="images/neko-body.webp" alt="">
+          <img class="cat-tail" src="images/neko-tail.png" alt="">
+        </div>
+
+        <ul class="links">
+          <li>
+            <a href="#" data-url="https://www.youtube.com/" data-toast="じゅんびちゅうだにゃ" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.4v5.2l4.4-2.6z" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" data-url="https://www.instagram.com/" data-toast="じゅんびちゅうだにゃ" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" data-url="https://x.com/" data-toast="じゅんびちゅうだにゃ" aria-label="X">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5l13 13M18.5 5.5l-13 13"/></svg>
+            </a>
+          </li>
+        </ul>
+
+        <a class="next-link" href="#top" aria-label="トップにもどる"><span class="lbl">トップにもどる</span><span class="hint">もどるのにゃ</span><span class="next-arrow up" aria-hidden="true">&#8593;</span></a>
+
+        <p class="site-foot">midochan.com</p>
+      </section>
+
+    </div>
+  </main>
+
+  <script src="script.js?v=20261029"></script>
+<a href="../index.html#mido" class="pf-back" style="position:fixed;left:14px;bottom:14px;z-index:2147483647;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.88);color:#333;font:500 12px/1 system-ui,-apple-system,sans-serif;letter-spacing:.04em;text-decoration:none;box-shadow:0 2px 10px rgba(0,0,0,.15);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)">← portfolio</a>
+<script>if(/[?&]shot\b/.test(location.search)){var pfb=document.querySelector(".pf-back");if(pfb)pfb.style.display="none";}</script>
+</body>
+</html>
