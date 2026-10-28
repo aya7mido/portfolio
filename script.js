@@ -134,32 +134,21 @@
   window.addEventListener('resize', onScroll);
   update();
 
-  /* ---- ③ スマホ: 1回のスワイプで進むのは1枚まで。指を離して止まったら、近いカードの位置にぴたっと合わせる ---- */
-  if (window.matchMedia('(pointer: coarse)').matches) {
-    var startIdx = null, settleTimer = null, snapping = false;
-    var slideIndexAt = function(y){ var m = metrics(); return (y - m.W1) / m.step; };
-    var inWorks = function(y){ var m = metrics(); return y > m.W1 * .5 && y < m.endS + m.step * .5; };
-    window.addEventListener('touchstart', function(){
-      if (root.classList.contains('gridmode')) return;
-      snapping = false;
-      startIdx = inWorks(window.scrollY) ? Math.round(slideIndexAt(window.scrollY)) : null;
-    }, { passive: true });
-    window.addEventListener('scroll', function(){
-      if (startIdx === null || snapping || root.classList.contains('gridmode')) return;
-      clearTimeout(settleTimer);
-      settleTimer = setTimeout(function(){
-        var y = window.scrollY;
-        if (!inWorks(y)) { startIdx = null; return; }
-        var m = metrics(), f = slideIndexAt(y);
-        var target = Math.round(f);
-        target = Math.max(startIdx - 1, Math.min(startIdx + 1, target));
-        target = Math.max(0, Math.min(N - 1, target));
-        var ty = m.W1 + target * m.step + 2;
-        startIdx = null;
-        if (Math.abs(ty - y) > 4) { snapping = true; goTo(ty); setTimeout(function(){ snapping = false; }, 700); }
-      }, 140);
-    }, { passive: true });
+  /* ---- スマホ: スクロールスナップ。止まる位置(ファーストビュー・5枚のカード・about・最後)に印を置き、
+     どんなに強くスワイプしても、必ず1画面ずつ止まるようにする(CSSの scroll-snap-stop: always) ---- */
+  var snapBox = document.createElement('div');
+  snapBox.className = 'snaps'; snapBox.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(snapBox);
+  function placeSnaps(){
+    var m = metrics(), tops = [0], i;
+    for (i = 0; i < N; i++) tops.push(m.W1 + i * m.step + 2);
+    tops.push(m.endS + m.W2 + 2);
+    tops.push(Math.max(0, document.documentElement.scrollHeight - m.vh));
+    snapBox.innerHTML = tops.map(function(t){ return '<i style="top:' + Math.round(t) + 'px"></i>'; }).join('');
   }
+  placeSnaps();
+  window.addEventListener('resize', placeSnaps);
+  window.addEventListener('load', placeSnaps);
 
   /* ---- 作品サイトの「← portfolio」から戻ったとき(#nuee など)は、その作品のスライドを表示する ---- */
   var WORK_IDS = ['nuee', 'teno', 'fonce', 'mido', 'timer'];

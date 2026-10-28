@@ -440,3 +440,17 @@ html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
 @media (max-width:820px){
   .desc-in{padding-bottom:36px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent)}
 }
+
+/* ===== v12: スマホ(タッチ操作)の調整 ===== */
+/* スクロールスナップの印(見えない) */
+.snaps{position:absolute;left:0;top:0;width:1px;height:0;pointer-events:none;visibility:hidden}
+.snaps i{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;scroll-snap-stop:always}
+@media (max-width:820px) and (pointer:coarse){
+  html{scroll-snap-type:y mandatory}
+  html.gridmode{scroll-snap-type:none}
+  /* 章の切り替えは縦に: 次の画面が下からせり上がる(指の動きと同じ向き) */
+  .stage{clip-path:inset(calc((1 - var(--w1,1)) * 100%) 0 0 0)}
+  .slide{translate:0 calc((1 - var(--w1,1)) * 6svh)}
+  .about{clip-path:inset(calc((1 - var(--w2,1)) * 100%) 0 0 0)}
+  .about-in{translate:0 calc((1 - var(--w2,1)) * 6svh)}
+}
