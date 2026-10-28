@@ -15,17 +15,22 @@
   var narrowMQ = window.matchMedia('(max-width: 820px)');
   function setView(slide, v){
     slide.setAttribute('data-view', v);
-    if (v === 'mob') setPhone(slide, 0);
     var L = slide.querySelector('.side-l'), R = slide.querySelector('.side-r');
     // 左のボタン: 説明へ(デスクトップ時) / デスクトップへ戻る(レスポンシブ時) / 説明を見ている間は隠す
     var lt = v === 'desk' ? 'desc' : (v === 'mob' ? 'desk' : null);
     var rt = v === 'desk' ? 'mob' : (v === 'desc' ? 'desk' : null);
+    // スマホのレスポンシブ表示では、右のボタンは「次の1枚へ」(文字なしの矢印だけ)
+    if (v === 'mob' && narrowMQ.matches && slide.querySelectorAll('.pane-mob .ph').length > 1) rt = 'next';
     [[L, lt], [R, rt]].forEach(function(p){
       var b = p[0], t = p[1];
       if (!t) { b.setAttribute('data-hide', ''); b.setAttribute('tabindex', '-1'); b.setAttribute('aria-hidden', 'true'); return; }
       b.removeAttribute('data-hide'); b.removeAttribute('tabindex'); b.removeAttribute('aria-hidden');
       b.setAttribute('data-to', t);
-      b.querySelector('.lbl').textContent = (narrowMQ.matches ? LABEL_SP : LABEL)[t];
+      if (t === 'next') { b.querySelector('.lbl').textContent = ''; b.setAttribute('aria-label', '次の画像へ'); return; }
+      var lblEl = b.querySelector('.lbl'), newTxt = (narrowMQ.matches ? LABEL_SP : LABEL)[t];
+      // 文字が変わるときは、ふわっと入れ替える(瞬時に変わると、ボタンが動いたように見えるため)
+      if (lblEl.textContent !== newTxt && lblEl.textContent) { b.classList.remove('lbl-in'); void b.offsetWidth; b.classList.add('lbl-in'); }
+      lblEl.textContent = newTxt;
       b.setAttribute('aria-label', LABEL[t]);
       var tp = b.querySelector('textPath');
       // 区切りの「·」の前後は消えないスペース(\u00a0)にして、円の継ぎ目でも点が単語にくっつかないようにする
@@ -36,6 +41,7 @@
       var p = slide.querySelector(panes[k]);
       if (k === v) p.removeAttribute('inert'); else p.setAttribute('inert', '');
     });
+    if (v === 'mob') setPhone(slide, 0);
   }
   /* ---- スマホ: レスポンシブ表示は1枚ずつ大きく(下のドットで何枚目か表示) ---- */
   var mqMob = window.matchMedia('(max-width: 820px)');
@@ -44,6 +50,12 @@
     if (!phs.length) return;
     k = Math.max(0, Math.min(phs.length - 1, k));
     slide.phIdx = k;
+    // 最後の1枚では、右の矢印を隠す(場所は空けたまま)
+    var R2 = slide.querySelector('.side-r');
+    if (R2 && R2.getAttribute('data-to') === 'next' && slide.getAttribute('data-view') === 'mob') {
+      if (k >= phs.length - 1) { R2.setAttribute('data-hide', ''); R2.setAttribute('tabindex', '-1'); R2.setAttribute('aria-hidden', 'true'); }
+      else { R2.removeAttribute('data-hide'); R2.removeAttribute('tabindex'); R2.removeAttribute('aria-hidden'); }
+    }
     Array.prototype.forEach.call(phs, function(p, i){ p.classList.toggle('on', i === k); p.style.setProperty('--d', i - k); p.style.setProperty('--s', i === k ? 1 : .86); });
     Array.prototype.forEach.call(slide.querySelectorAll('.ph-dots button'), function(d, i){ d.setAttribute('aria-current', i === k ? 'true' : 'false'); });
   }
@@ -92,7 +104,7 @@
   slides.forEach(function(s){
     setView(s, 'desk');
     s.querySelectorAll('.side-btn').forEach(function(b){
-      b.addEventListener('click', function(){ var t = b.getAttribute('data-to'); if (t) setView(s, t); });
+      b.addEventListener('click', function(){ var t = b.getAttribute('data-to'); if (t === 'next') setPhone(s, (s.phIdx || 0) + 1); else if (t) setView(s, t); });
     });
   });
 
