@@ -454,3 +454,25 @@ html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
   .about{clip-path:inset(calc((1 - var(--w2,1)) * 100%) 0 0 0)}
   .about-in{translate:0 calc((1 - var(--w2,1)) * 6svh)}
 }
+@media (max-width:820px){
+  /* スマホ: about下部の「2026 / web portfolio」は表示しない */
+  .about-foot{display:none}
+  /* スマホ: Safariのアドレスバーが縮んで画面が伸びたときも、作品パートの紺が画面の下まで届くように
+     (届かないと、後ろのピンクがすき間から見えてしまう) */
+  .stage{height:100lvh}
+}
+
+/* ===== v13: スマホのレスポンシブ表示は1枚ずつ大きく + スワイプ ===== */
+.ph-dots{display:none}
+@media (max-width:820px){
+  .card{touch-action:pan-y}
+  .phones{gap:0}
+  .slide[data-view] .ph{position:absolute;left:50%;top:46%;height:82%;transform:translate(calc(-50% + var(--d,0) * 130%),-50%)!important;transition:transform .55s var(--ease),opacity .4s}
+  .slide[data-view] .ph:not(.on){opacity:0}
+  .slide[data-view="mob"] .ph.on{opacity:1}
+  .ph-dots{position:absolute;left:0;right:0;bottom:7px;display:flex;justify-content:center;gap:4px;z-index:2}
+  .ph-dots button{width:22px;height:18px;display:grid;place-items:center;padding:0}
+  .ph-dots button::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--navy);opacity:.25;transition:opacity .3s}
+  .ph-dots button[aria-current="true"]::before{opacity:.85}
+}
+@media (max-width:820px) and (prefers-reduced-motion:reduce){.slide[data-view] .ph{transition:none}}

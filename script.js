@@ -12,6 +12,7 @@
   var LABEL = { desc: 'explanation', desk: 'desktop', mob: 'responsive' };
   function setView(slide, v){
     slide.setAttribute('data-view', v);
+    if (v === 'mob') setPhone(slide, 0);
     var L = slide.querySelector('.side-l'), R = slide.querySelector('.side-r');
     // 左のボタン: 説明へ(デスクトップ時) / デスクトップへ戻る(レスポンシブ時) / 説明を見ている間は隠す
     var lt = v === 'desk' ? 'desc' : (v === 'mob' ? 'desk' : null);
@@ -33,6 +34,56 @@
       if (k === v) p.removeAttribute('inert'); else p.setAttribute('inert', '');
     });
   }
+  /* ---- スマホ: レスポンシブ表示は1枚ずつ大きく(下のドットで何枚目か表示) ---- */
+  var mqMob = window.matchMedia('(max-width: 820px)');
+  function setPhone(slide, k){
+    var phs = slide.querySelectorAll('.pane-mob .ph');
+    if (!phs.length) return;
+    k = Math.max(0, Math.min(phs.length - 1, k));
+    slide.phIdx = k;
+    Array.prototype.forEach.call(phs, function(p, i){ p.classList.toggle('on', i === k); p.style.setProperty('--d', i - k); });
+    Array.prototype.forEach.call(slide.querySelectorAll('.ph-dots button'), function(d, i){ d.setAttribute('aria-current', i === k ? 'true' : 'false'); });
+  }
+  slides.forEach(function(s){
+    var phs = s.querySelectorAll('.pane-mob .ph');
+    if (phs.length > 1) {
+      var dots = document.createElement('span');
+      dots.className = 'ph-dots';
+      Array.prototype.forEach.call(phs, function(_, i){
+        var b = document.createElement('button');
+        b.type = 'button'; b.setAttribute('aria-label', 'スマホ画面 ' + (i + 1) + '枚目');
+        b.addEventListener('click', function(){ setPhone(s, i); });
+        dots.appendChild(b);
+      });
+      s.querySelector('.pane-mob .screen').appendChild(dots);
+    }
+    setPhone(s, 0);
+
+    /* ---- カードを左右にスワイプして切り替え(ボタンと同じ動き)
+       指を左へ → 右側の画面へ(説明 → デスクトップ → スマホ1・2・3)、指を右へ → 戻る ---- */
+    var card = s.querySelector('.card'), sx = 0, sy = 0, tracking = false;
+    card.addEventListener('touchstart', function(e){
+      if (e.touches.length !== 1) { tracking = false; return; }
+      sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
+    }, { passive: true });
+    card.addEventListener('touchend', function(e){
+      if (!tracking) return;
+      tracking = false;
+      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy) * 1.3) return;
+      var v = s.getAttribute('data-view'), multi = mqMob.matches && phs.length > 1;
+      if (dx < 0) {
+        if (v === 'desc') setView(s, 'desk');
+        else if (v === 'desk') setView(s, 'mob');
+        else if (v === 'mob' && multi) setPhone(s, s.phIdx + 1);
+      } else {
+        if (v === 'mob' && multi && s.phIdx > 0) setPhone(s, s.phIdx - 1);
+        else if (v === 'mob') setView(s, 'desk');
+        else if (v === 'desk') setView(s, 'desc');
+      }
+    }, { passive: true });
+  });
+
   slides.forEach(function(s){
     setView(s, 'desk');
     s.querySelectorAll('.side-btn').forEach(function(b){
@@ -122,7 +173,22 @@
   function onScroll(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   var rv = document.querySelectorAll('.rv,.split');
   // ナビ: 章の位置へなめらかに移動(章が重なって配置されているため)
-  function goTo(y){ window.scrollTo({ top: y, behavior: reduce.matches ? 'auto' : 'smooth' }); }
+  // ナビや back to top で移動するときは、スクロールスナップを一時的に外す
+  // (外さないと、途中のカードで必ず止まる設定に引っかかり、目的の位置まで行けない)
+  var snapTimer = null;
+  function goTo(y){
+    var html = document.documentElement;
+    html.style.scrollSnapType = 'none';
+    clearTimeout(snapTimer);
+    window.scrollTo({ top: y, behavior: reduce.matches ? 'auto' : 'smooth' });
+    var check = function(){
+      if (Math.abs(window.scrollY - y) < 3) { html.style.scrollSnapType = ''; window.removeEventListener('scroll', onArrive); clearTimeout(snapTimer); }
+    };
+    var onArrive = function(){ check(); };
+    window.addEventListener('scroll', onArrive, { passive: true });
+    snapTimer = setTimeout(function(){ html.style.scrollSnapType = ''; window.removeEventListener('scroll', onArrive); }, 2500);
+    check();
+  }
   document.querySelectorAll('a[href="#works"],a[href="#about"],a[href="#top"]').forEach(function(a){
     a.addEventListener('click', function(e){
       e.preventDefault();
