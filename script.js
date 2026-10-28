@@ -10,6 +10,9 @@
 
   /* ---- 作品カード: 説明 / デスクトップ / レスポンシブ をボタンで切り替える ---- */
   var LABEL = { desc: 'explanation', desk: 'desktop', mob: 'responsive' };
+  // スマホでは、ボタン横の文字を短く・わかりやすい単語にする
+  var LABEL_SP = { desc: 'guide', desk: 'desktop', mob: 'mobile' };
+  var narrowMQ = window.matchMedia('(max-width: 820px)');
   function setView(slide, v){
     slide.setAttribute('data-view', v);
     if (v === 'mob') setPhone(slide, 0);
@@ -22,7 +25,7 @@
       if (!t) { b.setAttribute('data-hide', ''); b.setAttribute('tabindex', '-1'); b.setAttribute('aria-hidden', 'true'); return; }
       b.removeAttribute('data-hide'); b.removeAttribute('tabindex'); b.removeAttribute('aria-hidden');
       b.setAttribute('data-to', t);
-      b.querySelector('.lbl').textContent = LABEL[t];
+      b.querySelector('.lbl').textContent = (narrowMQ.matches ? LABEL_SP : LABEL)[t];
       b.setAttribute('aria-label', LABEL[t]);
       var tp = b.querySelector('textPath');
       // 区切りの「·」の前後は消えないスペース(\u00a0)にして、円の継ぎ目でも点が単語にくっつかないようにする
@@ -41,7 +44,7 @@
     if (!phs.length) return;
     k = Math.max(0, Math.min(phs.length - 1, k));
     slide.phIdx = k;
-    Array.prototype.forEach.call(phs, function(p, i){ p.classList.toggle('on', i === k); p.style.setProperty('--d', i - k); });
+    Array.prototype.forEach.call(phs, function(p, i){ p.classList.toggle('on', i === k); p.style.setProperty('--d', i - k); p.style.setProperty('--s', i === k ? 1 : .86); });
     Array.prototype.forEach.call(slide.querySelectorAll('.ph-dots button'), function(d, i){ d.setAttribute('aria-current', i === k ? 'true' : 'false'); });
   }
   slides.forEach(function(s){
@@ -56,6 +59,8 @@
         dots.appendChild(b);
       });
       s.querySelector('.pane-mob .screen').appendChild(dots);
+      // 左右に見切れているスクショをタップしても、その1枚を中央に
+      Array.prototype.forEach.call(phs, function(p, i){ p.addEventListener('click', function(){ if (mqMob.matches) setPhone(s, i); }); });
     }
     setPhone(s, 0);
 
@@ -141,6 +146,8 @@
     works.querySelector('.stage').style.visibility = (w1 <= .001 || w2 >= .999) ? 'hidden' : 'visible';
     aboutEl.style.visibility = w2 <= .001 ? 'hidden' : 'visible';
     footEl.classList.toggle('on', ff > .85);
+    // スマホ: about に着いたら、back to top の帯をそのまま表示する(広がるアニメーションなし)
+    root.classList.toggle('at-about', w2 > .95);
 
     // 作品: 1枚ずつ下から上がる
     var pp = Math.min(Math.max(sm - m.W1, 0), m.step * (N - 1));
@@ -209,11 +216,13 @@
     var m = metrics(), tops = [0], i;
     for (i = 0; i < N; i++) tops.push(m.W1 + i * m.step + 2);
     tops.push(m.endS + m.W2 + 2);
-    tops.push(Math.max(0, document.documentElement.scrollHeight - m.vh));
+    // スマホでは about が最後(back to top の帯は出さない)。パソコンだけ、一番下にも止まる位置を置く
+    if (!narrowMQ.matches) tops.push(Math.max(0, document.documentElement.scrollHeight - m.vh));
     snapBox.innerHTML = tops.map(function(t){ return '<i style="top:' + Math.round(t) + 'px"></i>'; }).join('');
   }
   placeSnaps();
   window.addEventListener('resize', placeSnaps);
+  narrowMQ.addEventListener('change', function(){ slides.forEach(function(s){ setView(s, s.getAttribute('data-view')); }); placeSnaps(); });
   window.addEventListener('load', placeSnaps);
 
   /* ---- 作品サイトの「← portfolio」から戻ったとき(#nuee など)は、その作品のスライドを表示する ---- */

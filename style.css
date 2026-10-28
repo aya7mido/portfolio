@@ -476,3 +476,76 @@ html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
   .ph-dots button[aria-current="true"]::before{opacity:.85}
 }
 @media (max-width:820px) and (prefers-reduced-motion:reduce){.slide[data-view] .ph{transition:none}}
+
+/* ===== v14: スマホの調整 ===== */
+/* 一覧: タップした瞬間にページが移るので、作品名の下線は出さない(タッチ操作の端末) */
+@media (hover:none){
+  .gv-t,.gv-card:hover .gv-t,.gv-card:focus-visible .gv-t{background:none}
+}
+@media (max-width:820px){
+  /* 左右のボタン: 中央に「guide ‹ › mobile」と並べる。下線なし */
+  .wk{column-gap:10px}
+  .side-btn{flex-direction:row-reverse;gap:10px;padding:4px 0;font-size:14px;opacity:var(--c,1)}
+  .side-l{justify-self:end}
+  .side-r{justify-self:start}
+  .side-btn .lbl{background:none;padding:0;letter-spacing:.04em}
+  .side-btn .arr{position:relative;display:block;width:40px;height:40px;border:1.5px solid currentColor;border-radius:50%;font-size:0}
+  .side-btn .arr::before{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;border-top:1.8px solid currentColor;border-right:1.8px solid currentColor}
+  .side-r .arr::before{transform:translate(-65%,-50%) rotate(45deg)}
+  .side-l .arr::before{transform:translate(-35%,-50%) rotate(-135deg)}
+  /* レスポンシブ表示: カード(白い面と枠)を消して、スマホ画面のスクショを直接見せる。
+     代わりにスクショの周りに、カードと同じアイボリーの枠を付けて統一感を出す */
+  .card{transition:height .6s var(--ease),background-color .5s,box-shadow .5s}
+  .screen{transition:border-color .5s,background-color .5s}
+  .slide[data-view="mob"] .card{background-color:transparent;box-shadow:none}
+  .slide[data-view="mob"] .pane-mob .screen{border-color:transparent;background:transparent}
+  .slide[data-view] .ph{height:94%;top:47%;border:6px solid var(--ivory);border-radius:20px;background:var(--ivory);box-shadow:0 14px 28px -16px rgba(0,0,0,.55)}
+  .ph img{border-radius:13px}
+  .ph-dots{bottom:-14px}
+  .ph-dots button::before{background:var(--pink);opacity:.35}
+  .ph-dots button[aria-current="true"]::before{opacity:1}
+  /* back to top の帯はスマホでは出さない(about が最後の画面) */
+  .foot{display:none!important}
+}
+@media (max-width:820px){
+  .slide[data-view] .ph{height:86%;top:44%}
+  .ph-dots{bottom:2px}
+}
+
+/* ===== v15: スマホの back to top: about に着いたら、帯を常に表示(アニメーションなし) ===== */
+@media (max-width:820px){
+  .foot{display:flex!important;clip-path:none!important;visibility:hidden}
+  .foot a{opacity:1;pointer-events:auto}
+  html.at-about .foot{visibility:visible}
+}
+
+/* ===== v16: スマホ: スクショ → 作品名 → ボタンの順に中央揃え / ボタンは控えめに / スクショは前後が見切れるカルーセル ===== */
+@media (max-width:820px){
+  .cap{grid-row:2;justify-content:center;margin-top:18px;gap:4px 10px}
+  .side-btn{grid-row:3;margin-top:12px;gap:8px;font-size:12px;opacity:calc(var(--c,1) * .75)}
+  .side-btn .arr{width:30px;height:30px;border-width:1.2px}
+  .side-btn .arr::before{width:7px;height:7px;border-top-width:1.4px;border-right-width:1.4px}
+  /* スクショ: 中央に1枚、前後は小さく薄く、左右の端で見切れる */
+  .slide[data-view] .ph{height:88%;top:45%;transform:translate(calc(-50% + var(--d,0) * 150%),-50%) scale(var(--s,1))!important;cursor:pointer}
+  .slide[data-view="mob"] .ph:not(.on){opacity:.5}
+  .slide[data-view="mob"] .pane-mob .screen{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%)}
+}
+@media (max-width:820px){
+  /* 片方のボタンしかないとき(説明・スマホ画面のとき)は、残った1つを中央に */
+  .side-btn[data-hide]{display:none}
+  .wk:has(.side-l[data-hide]) .side-r,.wk:has(.side-r[data-hide]) .side-l{grid-column:1 / -1;justify-self:center}
+}
+
+/* ===== v17: スマホ ===== */
+@media (max-width:820px){
+  /* ボタンは、デスクトップ表示のときの位置に固定。片方しかないときも、残った方は動かさない */
+  .side-btn[data-hide]{display:inline-flex;visibility:hidden}
+  .wk:has(.side-l[data-hide]) .side-r{grid-column:2;justify-self:start}
+  .wk:has(.side-r[data-hide]) .side-l{grid-column:1;justify-self:end}
+  /* スマホ画面のスクショは、デスクトップ表示のカードと同じ高さに(しりすぼみにならないよう)。
+     ドットはなくし、左右に見切れている前後の1枚でスワイプできることを伝える */
+  .slide[data-view] .pane-mob{padding:0}
+  .slide[data-view] .pane-mob .screen{border-width:0;border-radius:0}
+  .slide[data-view] .ph{height:100%;top:50%}
+  .ph-dots{display:none}
+}
