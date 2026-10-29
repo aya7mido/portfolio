@@ -617,7 +617,7 @@ html.is-menu-open {
 
 .collection-text .notes {
     margin-top: 28px;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.08em;
 }
 
@@ -783,7 +783,7 @@ html.is-menu-open {
     font-size: 14px;
     line-height: 2;
     letter-spacing: 0.05em;
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* =========================
@@ -813,13 +813,13 @@ html.is-menu-open {
 }
 
 .footer-nav a {
-    font-size: 11px;
+    font-size: 12.5px;
     letter-spacing: 0.08em;
 }
 
 .copyright {
-    font-size: 11px;
-    opacity: 0.7;
+    font-size: 12px;
+    opacity: 0.8;
     justify-self: end;
 }
 
@@ -1259,7 +1259,7 @@ html.is-menu-open {
 
 .ship-note {
     margin-top: 14px;
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.06em;
     opacity: 0.8;
 }
@@ -1299,8 +1299,8 @@ html.is-menu-open {
 }
 
 .scents-label {
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 12px;
+    opacity: 0.7;
     margin-right: 4px;
 }
 
@@ -1410,14 +1410,14 @@ html.is-menu-open {
 }
 
 .buy-avail {
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.12em;
 }
 
 .buy-label {
     margin-right: 12px;
-    font-size: 11px;
-    opacity: 0.6;
+    font-size: 12px;
+    opacity: 0.7;
 }
 
 /* 日本語の短い文は、文節で折り返して1〜2文字だけの行を作らない */

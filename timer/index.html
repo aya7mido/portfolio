@@ -94,6 +94,8 @@ const cards=[...document.querySelectorAll('.sc')];
 
 function auto(now){
   const S=PERIODS.map(p=>[at(p[1]),at(p[2])]);
+  /* 8:00より前は数えずに止めておく(8:00から1限の開始までだけカウントする) */
+  if(now<at('08:00'))return{i:-1,brk:false,t:now,b:'授業前',g:'1限は '+PERIODS[0][1]+' から'};
   for(let i=0;i<S.length;i++){
     if(now<S[i][1]){
       if(now>=S[i][0])return{i,brk:false,t:S[i][1],b:PERIODS[i][0]+' 授業中',g:hm(S[i][1])+' まで'};

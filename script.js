@@ -2,6 +2,8 @@
   var root = document.documentElement;
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
   var N = slides.length;
+  // 作品の数に合わせて、作品エリアの高さ(スクロール量)を決める
+  document.documentElement.style.setProperty('--n1', N - 1);
   var works = document.getElementById('works'), aboutEl = document.getElementById('about');
   var live = document.getElementById('live');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -199,7 +201,7 @@
   window.addEventListener('resize', onScroll);
   update();
 
-  /* ---- スマホ: スクロールスナップ。止まる位置(ファーストビュー・5枚のカード・about・最後)に印を置き、
+  /* ---- スマホ: スクロールスナップ。止まる位置(ファーストビュー・6枚のカード・about・最後)に印を置き、
      どんなに強くスワイプしても、必ず1画面ずつ止まるようにする(CSSの scroll-snap-stop: always) ---- */
   var snapBox = document.createElement('div');
   snapBox.className = 'snaps'; snapBox.setAttribute('aria-hidden', 'true');
@@ -218,7 +220,7 @@
   window.addEventListener('load', placeSnaps);
 
   /* ---- 作品サイトの「← portfolio」から戻ったとき(#nuee など)は、その作品のスライドを表示する ---- */
-  var WORK_IDS = ['nuee', 'teno', 'fonce', 'mido', 'timer'];
+  var WORK_IDS = ['nuee', 'teno', 'fonce', 'mido', 'mewmellow', 'timer'];
   var backTo = WORK_IDS.indexOf(location.hash.slice(1));
   if (backTo > -1) {
     var mb = metrics();

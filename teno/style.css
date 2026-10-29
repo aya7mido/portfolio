@@ -429,7 +429,7 @@ header.site.scrolled .menu-btn span{ background: #465E78; }
 
 .shop-info-label{
     font-family: var(--font-display);
-    font-size: 0.58rem;
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     color: var(--ink-soft);
     margin-right: 10px;
@@ -542,7 +542,7 @@ section[id]{ scroll-margin-top: 64px; }
 
 .lineup-price{ color: var(--ink); font-weight: 500; white-space: nowrap; }
 
-.lineup-price small, .gift-set-price small{ font-size: 0.72em; font-weight: 400; }
+.lineup-price small, .gift-set-price small{ font-size: max(0.72em, 11px); font-weight: 400; }
 
 .btn-buy{
   display: inline-flex;
@@ -608,13 +608,13 @@ section[id]{ scroll-margin-top: 64px; }
 
 .foot-logo{margin:0;font-family:var(--font-display);font-weight:500;font-size:1.5rem;letter-spacing:0.42em;margin-right:-0.42em}
 
-.foot-nav{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.16em}
+.foot-nav{display:flex;flex-wrap:wrap;gap:8px 24px;font-family:var(--font-display);font-size:0.8rem;letter-spacing:0.16em}
 
-.foot-nav a{opacity:0.85;transition:opacity 0.2s ease}
+.foot-nav a{opacity:1;transition:opacity 0.2s ease}
 
-.foot-nav a:hover{opacity:1}
+.foot-nav a:hover{opacity:0.75}
 
-.foot-legal{max-width:var(--content-max);margin:56px auto 0;padding:20px var(--edge-pad) 0;border-top:1px solid rgba(251,248,241,0.25);font-family:var(--font-display);font-size:0.6rem;letter-spacing:0.08em;opacity:0.75}
+.foot-legal{max-width:var(--content-max);margin:56px auto 0;padding:20px var(--edge-pad) 0;border-top:1px solid rgba(251,248,241,0.25);font-family:var(--font-display);font-size:0.72rem;letter-spacing:0.08em;opacity:0.75}
 
 @media (max-width:719px) {
 
@@ -669,15 +669,15 @@ section[id]{ scroll-margin-top: 64px; }
 
 .foot-wave path{ fill: var(--blue-area); }
 
-.foot-legal{ opacity: 0.9; }
+.foot-legal{ opacity: 1; }
 
 .lineup-price small{ font-family: var(--font-jp); letter-spacing: 0.04em; }
 
 /* フッター: Instagramのアイコン(枠なし) */
 
-.foot-sns{display:inline-grid;place-items:center;width:40px;height:40px;margin:-6px -10px -10px 0;opacity:0.9;transition:opacity .2s ease}
+.foot-sns{display:inline-grid;place-items:center;width:40px;height:40px;margin:-6px -10px -10px 0;opacity:1;transition:opacity .2s ease}
 
-.foot-sns:hover{opacity:1}
+.foot-sns:hover{opacity:0.75}
 
 @media (max-width:719px) {
 
