@@ -766,11 +766,10 @@ body.menu-open .menu-backdrop { opacity: 1; visibility: visible; }
 
     body { font-size: 1rem; }
 
-    .concept__text { grid-template-columns: 5fr 6fr; max-width: none; column-gap: 8%; align-items: start; }
+    /* PCでは本文を一回り大きく */
+    .concept__text .lead { font-size: 1.125rem; }
 
-    .concept__text .h2 { grid-row: 1 / span 2; }
-
-    .concept__text .lead, .concept__text .body { grid-column: 2; }
+    .concept__text .body { font-size: 1.0625rem; }
 
     .collage { aspect-ratio: 16 / 10; }
 
@@ -786,7 +785,8 @@ body.menu-open .menu-backdrop { opacity: 1; visibility: visible; }
 
     .secret__panel { grid-column: 7 / 12; grid-row: 1; margin: 0; padding: 56px 48px; }
 
-    .secret__side { right: 0; top: 0; font-size: 1.5rem; }
+    /* 写真の上端から5文字分ほど下げ、パネルの見出しの横で目に入るように */
+    .secret__side { right: 0; top: 120px; font-size: 1.5rem; }
 
     .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; overflow: visible; margin-inline: 0; padding-inline: 0; 
     }
@@ -897,4 +897,14 @@ html, body { overflow-x: clip; }
 /* フッターメニュー(PC): 列ごとに上から下へ、ページの順番どおりに並べる */
 @media (min-width: 860px) {
     .footer__nav { grid-template-rows: repeat(3, auto); grid-auto-flow: column; }
+}
+
+/* コンセプト: 横幅に余裕がある画面では、見出しと本文を横に並べ、
+   1つのかたまりとして画面の中央に置く(広い画面で左に寄って見えないように) */
+@media (min-width: 1100px) {
+    .concept__text { grid-template-columns: auto auto; justify-content: center; max-width: none; column-gap: clamp(64px, 8vw, 128px); align-items: start; }
+
+    .concept__text .h2 { grid-row: 1 / span 2; }
+
+    .concept__text .lead, .concept__text .body { grid-column: 2; max-width: none; }
 }
