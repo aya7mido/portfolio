@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261029">
+<link rel="stylesheet" href="style.css?v=20261029i">
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
@@ -228,29 +228,32 @@ FONCÉが届ける、静かに残るひとときを。</p>
     /* 静止画を背景に敷いておき、動画が出ない環境でも写真は見えるようにする */
     if(v.poster) v.parentNode.style.backgroundImage='url("'+v.poster+'")', v.parentNode.style.backgroundSize='cover', v.parentNode.style.backgroundPosition='center';
   });
-  /* 動画はページを開いた時点では読み込まず、コラージュの手前(画面0.6枚分)まで来たら読み込み始める。
-     サーバーによっては動画の途中へ飛べない(シークできない)ため、丸ごと読み込んだ複製を用意し、
-     ちゃんと再生できると確認できたときだけ差し替える(失敗したら元の動画をそのまま読み込む) */
-  var loaded=false;
-  function loadVideos(){
-    if(loaded) return; loaded=true;
-    vids.forEach(function(v,i){
-      if(!(window.fetch&&window.URL&&URL.createObjectURL)){ v.preload='auto'; v.load(); return; }
-      fetch(v.currentSrc||v.src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
-        var n=v.cloneNode(false);
-        n.muted=true; n.preload='auto'; n.src=URL.createObjectURL(b);
-        n.addEventListener('loadeddata',function(){
-          try{ n.currentTime=v.currentTime||0; }catch(e){}
-          v.parentNode.replaceChild(n,v); vids[i]=n;
-        },{once:true});
-        n.load();
-      }).catch(function(){ v.preload='auto'; v.load(); });
-    });
+  /* 動画の読み込み: ページの表示が終わったら、すぐに裏で読み込み始める
+     (以前はコラージュの近くまで来てから読み込んでいたため、通信が遅いと間に合わず、写真のまま動かないことがあった)。
+     動画は1本ずつ丸ごと読み込んでから使う(サーバーによっては動画の途中へ飛べないため)。
+     読み込めたら一度だけ再生→停止して、iPhone でも再生位置を動かせる状態にしておく */
+  var started=false;
+  function prime(v){ var pr=v.play(); if(pr&&pr.then) pr.then(function(){ v.pause(); }).catch(function(){}); }
+  function loadOne(v){
+    function fallback(){ v.preload='auto'; v.load(); v.addEventListener('loadeddata',function(){ prime(v); },{once:true}); }
+    if(!(window.fetch&&window.URL&&URL.createObjectURL)) return Promise.resolve(fallback());
+    return fetch(v.currentSrc||v.src).then(function(r){ if(!r.ok) throw 0; return r.blob(); }).then(function(b){
+      v.preload='auto'; v.src=URL.createObjectURL(b);
+      v.addEventListener('loadeddata',function(){ prime(v); },{once:true});
+      v.load();
+    }).catch(fallback);
   }
+  function loadVideos(){
+    if(started) return; started=true;
+    /* 混ざる順(クリーム→チョコ→キャラメル)に1本ずつ。最初の1本が早く使えるようになる */
+    vids.reduce(function(p,v){ return p.then(function(){ return loadOne(v); }); },Promise.resolve());
+  }
+  if(document.readyState==='complete') loadVideos(); else window.addEventListener('load',loadVideos);
+  /* 表示の完了を待たずにコラージュの近くまで来た場合も、その時点で読み込みを始める */
   if('IntersectionObserver' in window){
-    var lio=new IntersectionObserver(function(e){ if(e[0].isIntersecting){ loadVideos(); lio.disconnect(); } },{rootMargin:'60% 0px'});
+    var lio=new IntersectionObserver(function(e){ if(e[0].isIntersecting){ loadVideos(); lio.disconnect(); } },{rootMargin:'150% 0px'});
     lio.observe(stage);
-  } else { loadVideos(); }
+  }
   function clamp(x){ return x<0?0:x>1?1:x; }
   function smooth(x){ return x*x*(3-2*x); }
   function targets(){
@@ -319,5 +322,5 @@ FONCÉが届ける、静かに残るひとときを。</p>
 </script>
 
 </body>
-<script src="script.js?v=20261029"></script>
+<script src="script.js?v=20261029i"></script>
 </html>

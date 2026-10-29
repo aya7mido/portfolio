@@ -122,7 +122,7 @@ retryBtn.addEventListener('click', () => {
 
 // ===== 最下部の猫：触れる／クリックで、しっぽを1秒ふる =====
 const lastCat = document.querySelector('.last-cat');
-const catTail = document.querySelector('.cat-tail');
+const catTail = lastCat.querySelector('.cat-tail');   // 最下部の猫のしっぽ(ページ内の最初のしっぽは、上の猫のもの)
 function wagTail() {
   if (lastCat.classList.contains('wag')) return;   // 振っている間は重ねない
   lastCat.classList.add('wag');

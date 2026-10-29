@@ -38,7 +38,22 @@
         document.querySelectorAll(selector).forEach((el) => observer.observe(el));
     };
 
-    reveal(".collection-item, .brand-statement, .objects, .cta, .collection", "0px 0px 20% 0px");
+    reveal(".collection-item, .objects, .cta, .collection", "0px 0px 20% 0px");
+    // 見出し(COLLECTION / OBJECTS)が画面に入ったら、ほんのり照らす
+    const glowObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => entry.target.classList.toggle("is-lit", entry.isIntersecting));
+    }, { rootMargin: "0px 0px -25% 0px" });
+    document.querySelectorAll(".section-heading.has-glow").forEach((el) => glowObserver.observe(el));
+
+    // 文字と写真は1つのグループとして、間隔を保ったまま同時に右からスライドさせる。
+    // 文字が実際に画面へ入ったら、セクションに is-in を付けて両方を動かす
+    const statement = document.querySelector(".brand-statement");
+    const statementText = document.querySelector(".statement-text");
+    if (statement && statementText) {
+        new IntersectionObserver((entries) => {
+            entries.forEach((entry) => statement.classList.toggle("is-in", entry.isIntersecting));
+        }, { rootMargin: "0px 0px -15% 0px" }).observe(statementText);
+    }
     reveal(".about", "0px");
 
 
@@ -58,7 +73,7 @@
     // ヒーローは main の外(ナビより上)にあるので、別に足して数える
     const sections = document.querySelectorAll(".hero, main > section");
     // ヒーロー画像の上でも色を反転させる
-    const darkAreas = document.querySelectorAll(".hero, .objects, .footer");
+    const darkAreas = document.querySelectorAll(".hero, .statement-image, .objects, .footer");
 
     const pad = (n) => String(n).padStart(2, "0");
 
@@ -70,23 +85,7 @@
         return rect.top <= center && rect.bottom >= center;
     };
 
-// 縦棒: 画面の下から現れて、スクロールに合わせて上から下へ伸びる
-const statementLine = document.querySelector(".statement-line");
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const updateStatementLine = () => {
-    let progress = 1;
-
-    if (!reduceMotion) {
-        const vh = window.innerHeight;
-        const top = statementLine.getBoundingClientRect().top;
-        const start = vh * 0.85;   // 棒の上端が画面の下から15%に来たら伸び始める
-        const end = vh * 0.35;     // 上から35%の位置まで来たら伸び切る
-        progress = Math.min(1, Math.max(0, (start - top) / (start - end)));
-    }
-
-    statementLine.style.transform = `translateX(-50%) scaleY(${progress})`;
-};
 
     /* ナビの状態
        ・is-stuck      : PC=ナビが最上部に固定された / スマホ=ヒーローを過ぎた(ロゴと背景が現れる)
@@ -121,7 +120,6 @@ const updateStatementLine = () => {
     const update = () => {
         const center = window.innerHeight / 2;
         updateHeader();
-        updateStatementLine();
 
         // 点の位置: 線の長さから点の大きさを引いた分だけ動く
         const scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);

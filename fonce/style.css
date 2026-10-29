@@ -893,3 +893,8 @@ html, body { overflow-x: clip; }
 
     .sp-br { display: inline; }
 }
+
+/* フッターメニュー(PC): 列ごとに上から下へ、ページの順番どおりに並べる */
+@media (min-width: 860px) {
+    .footer__nav { grid-template-rows: repeat(3, auto); grid-auto-flow: column; }
+}
