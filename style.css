@@ -1,1059 +1,332 @@
-/* =====================================================
-   v2：イラストを主役に、部品を静かにした版
-   ・太い縁取りや影をやめて、面の色と余白でセクションを分ける
-   ・角丸の「帯」を重ねて、やわらかい形で区切る
-   ・見出しは英字を大きく、日本語は小さく
-   ===================================================== */
-
-/* ===== 変数 ===== */
-
-:root {
-  --green: #2a8a5a;        /* 猫の斑点の緑（ページ背景・ボタン） */
-  --page-bg: #237a4e;      /* 外側の背景（帯の緑より、ほんの少し濃く） */
-  --green-dark: var(--green);   /* 深緑はやめて、ふつうの緑と同じに（戻したいときは #1f6b46）*/
-  --green-hover: color-mix(in srgb, var(--green) 86%, #fff);   /* ボタンにふれたときだけ、少しやわらかくなる緑（暗くはしない） */
-  --mint: #e4f1e8;         /* うすい緑の帯 */
-  --blush: #fdebf0;        /* うすいピンクの帯（猫の鼻・耳の色の仲間） */
-  --pink: #f8c4cf;         /* ホバーや現在地の色 */
-  --pink-deep: #f29eaf;    /* 猫の鼻・耳のピンク */
-  --cream: #fbf9f5;        /* 猫の体の白（クリームの帯） */
-  --text: #333;
-
-  --card-w: min(calc(100% - 48px), 360px);   /* カード類の共通の幅 */
-  --scallop: 22px;                            /* 帯の上の波の高さ */
-  --scallop-w: 104px;                         /* 波ひとつぶんの幅（大きいほどゆったり） */
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: "Zen Maru Gothic", sans-serif;
-  color: var(--text);
-  background-color: var(--page-bg);   /* ページの背景は緑（下の方は背景画像と同じ色でつながる） */
-  line-height: 1.7;
-}
-
-img { max-width: 100%; height: auto; display: block; }
-
-a { color: inherit; text-decoration: none; }
-
-ul, ol { list-style: none; }
-
-/* ===== 左上のブランド名（広い画面だけ） ===== */
-
-.brand {
-  position: fixed; top: 26px; left: 30px; z-index: 95;
-  color: #fff;
-  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 20px;
-  letter-spacing: .1em; line-height: 1.3;
-  transition: opacity .2s;
-}
-
-.brand:hover { opacity: .75; }
-
-/* ===== 左のメニュー／右のNEWS（背景なし。白い文字を点線で区切る。画面に固定）=====
-   左右とも同じ見た目・同じ高さ。位置は、画面の端とメインの間のちょうど真ん中。
-   区切りの線は、メインの水玉と同じ「丸いつぶ」のならび（点線ではなく水玉の線） */
-
-.side-menu {
-  --dots: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .75) 1.7px, transparent 2.2px);
-  position: fixed; top: 26vh; z-index: 90;
-  left: calc(25% - 235px); width: 230px;   /* MENUの高さは中身しだい。NEWSは、script.js でMENUと同じ高さにそろえる */
-  display: flex; flex-direction: column;
-  color: #fff;
-}
-
-.side-title {
-  flex-shrink: 0;
-  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 20px;
-  line-height: 1.2; letter-spacing: .12em; color: #fff; margin: 0 0 2px 2px;
-}
-
-/* 見出しの下の線（動かない） */
-
-.side-title::after { content: ""; display: block; height: 4px; margin: 14px 0 0 -2px; background: var(--dots) left top / 10px 4px repeat-x; }
-
-.side-menu ol, .side-menu ul { margin-top: 0; }
-
-/* 線と最初の項目のあいだは、li の上の余白だけ */
-
-.side-menu ol { flex: none; }
-
-/* MENUはスクロールしない */
-
-.side-menu ul {
-  flex: 1; min-height: 0; overflow-y: auto;   /* NEWSは、この中だけスクロール（上下の線は動かない） */
-  scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .6) transparent;
-}
-
-.side-menu ol::-webkit-scrollbar, .side-menu ul::-webkit-scrollbar { width: 6px; }
-
-.side-menu ol::-webkit-scrollbar-thumb, .side-menu ul::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, .6); border-radius: 999px; }
-
-.side-menu li { position: relative; padding: 4px 0 9px; }
-
-.side-menu:not(.side-news) li { padding: 2px 0; }
-
-.side-menu:not(.side-news) li:first-child { padding-top: 10px; }
-
-/* 上の線と最初の項目のあいだ */
-
-.side-menu:not(.side-news) li:last-child { padding-bottom: 18px; }
-
-/* 最後の項目と下の線のあいだ */
-
-.side-menu:not(.side-news) li:not(:last-child)::after { display: none; }
-
-/* MENUの線は、見出しの下と、いちばん下の2本だけ */
-
-.side-news li:last-child::after { display: none; }
-
-.side-menu.side-news li::after { display: none; }
-
-/* 記事のあいだの線はなし（上下の点線だけ残す） */
-
-.side-news::after { content: ""; flex: none; height: 4px; background: var(--dots) left top / 10px 4px repeat-x; }
-
-/* 下の線（動かない） */
-
-.side-menu li::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--dots) left top / 10px 4px repeat-x; }
-
-.side-menu ol a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 4px 12px 4px 4px; border-radius: 999px;
-  font-weight: 900; font-size: 15px; line-height: 1.3; letter-spacing: .04em;
-  transition: background .25s, color .25s;
-}
-
-.side-menu .label-text { display: inline-block; transition: transform .25s; }
-
-/* 番号：さわる／いまいるセクションのとき、肉球にかわる（ぽんとはねる）。文字は少しだけ右へ */
-
-.side-menu .num {
-  position: relative; flex-shrink: 0; width: 26px; height: 26px; display: grid; place-items: center;
-  border-radius: 50%; background: var(--pink);   /* 数字の丸（にっきのボタンのホバーと同じ、うすいピンク） */
-  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 13px;
-  color: var(--green); transition: color .2s, background .25s;
-}
-
-.side-menu .num::after {
-  content: ""; position: absolute; left: 50%; top: 50%; width: 15px; height: 15px; margin: -7.5px 0 0 -7.5px;
-  background: var(--green);
-  -webkit-mask: var(--paw-icon) center / contain no-repeat; mask: var(--paw-icon) center / contain no-repeat;
-  opacity: 0; transform: scale(.3) rotate(-25deg); transition: opacity .2s, transform .25s, background .25s;
-}
-
-.side-menu ol a:hover .label-text { transform: translateX(5px); }
-
-.side-menu ol a:hover .num { color: transparent; }
-
-.side-menu ol a:hover .num::after { opacity: 1; transform: none; animation: pawpop .45s ease-out; }
-
-@keyframes pawpop { 0% { transform: scale(.3) rotate(-25deg); } 60% { transform: scale(1.3) rotate(12deg); } 100% { transform: scale(1) rotate(0); } }
-
-/* いまいるセクション：白い丸でぬりつぶして、番号は肉球に */
-
-.side-menu ol a.active { background: #fff; color: var(--green); }
-
-.side-menu ol a.active .num { color: transparent; }
-
-.side-menu ol a.active .num::after { opacity: 1; transform: none; }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .side-menu ol a:hover .num::after { animation: none; }
-}
-
-/* NEWSのスクロールバー：棒は透明にして、上下の矢印だけ表示（Chrome・Safari・Edge）。Firefoxは矢印が出せないので、バーごと隠します（ホイールやスワイプではスクロールできます） */
-
-.side-news ul { scrollbar-width: auto; scrollbar-color: auto; margin-right: -18px; }
-
-/* 矢印の分だけ外にはみ出して、線の長さはMENUと同じ230pxにする */
-
-.side-news ul::-webkit-scrollbar { width: 18px; }
-
-.side-news ul::-webkit-scrollbar-track, .side-news ul::-webkit-scrollbar-thumb { background: transparent; }
-
-.side-news ul::-webkit-scrollbar-button:single-button {
-  display: block; width: 18px; height: 18px; cursor: pointer;
-  background-repeat: no-repeat; background-position: center; background-size: 12px 12px;
-}
-
-.side-news ul::-webkit-scrollbar-button:single-button:vertical:decrement {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 8l4-4 4 4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-
-.side-news ul::-webkit-scrollbar-button:single-button:vertical:increment {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-}
-
-@supports (-moz-appearance: none) { .side-news ul { scrollbar-width: none; } }
-
-/* 右のNEWS：日付と文章。多いときは中だけスクロール */
-
-.side-news { left: auto; right: calc(25% - 235px); }
-
-.side-news li { padding: 8px 8px 14px; }
-
-.side-news time {
-  display: block;
-  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em;
-  color: var(--pink);
-}
-
-.side-news li p { margin-top: 2px; font-weight: 900; font-size: 14px; line-height: 1.5; }
-
-/* ===== 画面の下の「地面」（固定。メインはこの手前に重なる） =====
-   質感：背景画像と同じ「粒状のざらつき」を、--grain（細かいノイズ）で重ねています。濃さは --grain の中の数字（.9 と -.45）で調整できます */
-
-.floor {
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .16 0 0 0 0 .38 0 0 0 0 .26 .55 0 0 0 -.17'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 0; height: 56px;
-  background: var(--grain) left top / 240px 240px, var(--cream);
-}
-
-.floor::before {
-  content: ""; position: absolute; left: 0; right: 0; bottom: 100%;
-  background: var(--grain) left bottom / 240px 240px, var(--cream);   /* ふちの形でくり抜く（質感は地面とつながる） */
-  -webkit-mask-image: var(--shape); mask-image: var(--shape);
-  -webkit-mask-repeat: repeat-x; mask-repeat: repeat-x;
-  -webkit-mask-position: left bottom; mask-position: left bottom;
-}
-
-.floor-wave { --shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1120 44' preserveAspectRatio='none'%3E%3Cpath d='M0 44V12C130 12 130 32 260 32C410 32 410 14 560 14C695 14 695 30 830 30C975 30 975 12 1120 12V44Z'/%3E%3C/svg%3E"); }
-
-/* 1つぶんの幅1120px（広いほどゆるやか）。両端は山のてっぺんで、つなぎ目は出ない */
-
-.floor-wave::before { height: 44px; -webkit-mask-size: 1120px 44px; mask-size: 1120px 44px; }
-
-/* 右下の案内：「scroll」の文字と、肉球ふたつ（左上と右下にずらして、歩いているように）を横一列に。
-   最初は「scroll」、少しスクロールしたら「top」になり、押すとファーストビューに戻る */
-
-.scroll-hint {
-  position: fixed; right: 34px; bottom: 22px; z-index: 1;
-  display: flex; align-items: center; gap: 8px;
-  color: var(--green); font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 16px; line-height: 1.2; letter-spacing: .04em;
-  pointer-events: none;
-}
-
-.scroll-hint .lbl-top, body.scrolled .scroll-hint .lbl-scroll { display: none; }
-
-body.scrolled .scroll-hint .lbl-top { display: block; }
-
-body.scrolled .scroll-hint { pointer-events: auto; cursor: pointer; }
-
-body.scrolled .scroll-hint:hover { opacity: .7; }
-
-.scroll-hint .paws { position: relative; width: 40px; height: 28px; }
-
-/* ※ transform:none が大事。足あと用の回転（--r）が残っていると、動くときに向きがぐるっと変わってしまう。向きは rotate で付ける */
-
-.scroll-hint .paw { position: absolute; fill: var(--green); transform: none; animation: nudge 1.6s ease-in-out infinite; }
-
-.scroll-hint .paw.p1 { left: 2px; top: 1px; width: 14px; height: 14px; rotate: -18deg; }
-
-.scroll-hint .paw.p2 { left: 18px; top: 9px; width: 18px; height: 18px; rotate: 16deg; animation-delay: .3s; }
-
-body.scrolled .scroll-hint .paw { animation-name: nudge-up; }
-
-/* 「top」のときは、肉球が上向きに動く */
-
-/* NEWSは、ファーストビューが終わったら消える */
-
-.side-news { transition: opacity .4s, transform .4s; }
-
-body.scrolled .side-news { opacity: 0; transform: translateX(14px); pointer-events: none; }
-
-/* ===== メイン（角丸のカードが緑の上に浮かぶ。線はなく、やわらかい影だけ） =====
-   ※画面の上下いっぱいに戻したいときは、.frame の margin を 0、border-radius を 0 にしてください */
-
-.frame {
-  position: relative; z-index: 2;
-  width: min(480px, 100%);
-  margin: 28px auto;   /* ど真ん中 */
-  border-radius: 40px;
-  box-shadow: 0 0 60px rgba(0, 0, 0, .18);
-}
-
-.frame-inner {
-  overflow: hidden;
-  border-radius: 40px;
-  background: var(--cream);
-}
-
-/* ===== 帯（セクション）：上のふちをゆるい波（スカラップ）にする ===== */
-
-.band {
-  position: relative;
-  text-align: center;
-  background-color: var(--band-bg);
-  scroll-margin-top: 40px;
-}
-
-.band-blush { --band-bg: var(--blush); }
-
-.band-cream { --band-bg: var(--cream); }
-
-.band-green { --band-bg: var(--green); color: #fff; }
-
-.band-white { --band-bg: #fff; }
-
-/* 上のふちの波：帯と同じ色の「横に広いこぶ」を、前の帯の上に並べる */
-
-.band::before {
-  content: "";
-  position: absolute; left: 0; right: 0;
-  top: calc(var(--scallop) * -1 + 1px); height: var(--scallop);
-  background-image: radial-gradient(ellipse calc(var(--scallop-w) / 2) var(--scallop) at 50% 100%, var(--band-bg) calc(100% - .5px), transparent 100%);
-  background-size: var(--scallop-w) var(--scallop);
-  background-repeat: repeat-x;
-  background-position: center bottom;
-  pointer-events: none;
-}
-
-/* 水玉（ところどころの帯に） */
-
-.dots {
-  --dot: rgba(42, 138, 90, .13);
-  background-image: radial-gradient(var(--dot) 3.5px, transparent 4px);
-  background-size: 44px 44px;
-  background-position: 22px 22px;
-}
-
-.band-green.dots { --dot: rgba(255, 255, 255, .16); }
-
-.band-blush.dots { --dot: #fff; }
-
-.band-white.dots { --dot: #f9c9d6; }
-
-/* 見出し：英字を大きく、日本語は小さく */
-
-.sec-head .en {
-  font-family: "Fredoka", sans-serif; font-weight: 600;
-  font-size: 48px; line-height: 1; letter-spacing: .02em;
-  color: var(--green);
-}
-
-.sec-head { display: flex; flex-direction: column; align-items: center; }
-
-.sec-head h2 {
-  order: -1; margin: 0 0 10px;   /* 日本語を上、英字を下に（HTMLの順番はそのまま、見た目だけ入れかえ） */
-  font-weight: 900; font-size: 14px; line-height: 1.4; letter-spacing: .24em;
-  color: var(--green-dark);
-}
-
-/* ===== ヒーロー（画面いっぱい。ロゴ・猫・ボタンをゆったり縦に並べる） ===== */
-
-.hero {
-  --hero-extra: 52px;   /* 最初の画面の下の余白。猫とボタンを下げたぶん、下のスカラップが最初の画面に見えないようにしている */
-  position: relative;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: clamp(12px, 3svh, 32px);
-  min-height: calc(100vh - 56px + var(--scallop) + var(--hero-extra)); min-height: calc(100svh - 56px + var(--scallop) + var(--hero-extra));   /* 枠の上下の余白(28px×2)を引く。下の波は最初の画面の外 */
-  padding: 52px 0 calc(17px + var(--scallop)); text-align: center;
-}
-
-.hero-logo { flex-shrink: 0; width: min(300px, 78%); margin: 0; }
-
-.hero-logo img { width: 100%; height: auto; }
-
-/* 壁からのぞく猫（ボタンを3回押すと全身が出てくる） */
-
-.cat-stage { position: relative; align-self: stretch; aspect-ratio: 1.502; margin-top: calc(-10% + var(--hero-extra) + 32px); width: 86%; align-self: center; }
-
-/* 猫の大きさは width（小さくしたいときは数字を下げる）。margin-top の + は、ロゴはそのままで猫とボタンを下げる量 */
-
-/* 猫の画像の上の余白ぶん、ロゴに近づける */
-
-.cat {
-  position: absolute; left: -3%; top: 0;
-  width: 100%; aspect-ratio: 1000 / 666;            /* 猫（体）としっぽの2枚の画像を重ねている */
-  pointer-events: none;
-  transform: translateX(67%);                          /* 0回：右の壁から顔を半分だけのぞかせている */
-  transition: transform 1.2s cubic-bezier(.22, .8, .3, 1);
-}
-
-.hero[data-stage="1"] .cat { transform: translateX(44%); }
-
-/* 1回 */
-
-.hero[data-stage="2"] .cat { transform: translateX(21%); }
-
-/* 2回 */
-
-.hero[data-stage="3"] .cat { transform: translateX(0); }
-
-/* 3回：全身 */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .cat { transition: none; }
-}
-
-/* メインのボタン：線や影のない、緑のシンプルな丸ボタン */
-
-.btn-pill {
-  display: inline-block; padding: 14px 44px; border: 0; border-radius: 999px;
-  background: var(--green); color: #fff;
-  font: 900 20px/1.7 "Zen Maru Gothic", sans-serif; letter-spacing: .1em;
-  cursor: pointer;
-  transition: background-color .2s, transform .15s;
-}
-
-/* 「おいで！」のときだけ、カーソルが手のイラストに（hotspot＝手の指先あたり：24 4） */
-
-.call-btn { cursor: pointer; }
-
-/* マウスのときは、JSが手のカーソルを出すので、ここでは消す（下の .fake-cursor） */
-
-.btn-pill:hover { background: var(--green-hover); transform: translateY(2px); }
-
-/* ボタンと「もう1回」をまとめる */
-
-.call-area { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 30px; }
-
-/* 猫とボタンのあいだ */
-
-.call-area { position: relative; }
-
-/* 「もう1回」：猫が全身で出たあと、魚が左から戻ってきて「もう1回！」と言う（押すと、最初から） */
-
-.retry-btn {
-  position: absolute; right: calc(100% + 4px); bottom: -6px; width: 230px;   /* ボタンのすぐ左。ひもは画面の左はしへ */
-  border: 0; background: none; padding: 0; cursor: pointer;
-  transform: translateX(-380px); opacity: 0; visibility: hidden;
-  transition: transform 1s cubic-bezier(.22, .8, .3, 1), opacity .4s, visibility 0s 1s;
-}
-
-.retry-btn.show { transform: none; opacity: 1; visibility: visible; transition-delay: .5s, .5s, 0s; }
-
-.retry-fish { display: block; width: 100%; height: auto; transform-origin: 0 50%; animation: toy-sway 3.2s ease-in-out infinite; }
-
-.retry-bubble {
-  position: absolute; right: -26px; bottom: 82%; white-space: nowrap;
-  padding: 3px 12px 4px; border-radius: 999px; background: #fff; border: 2.5px solid var(--green);
-  color: var(--green); font: 900 13px/1.5 "Zen Maru Gothic", sans-serif; letter-spacing: .08em;
-  transform-origin: 60% 100%; animation: bubble-pop 2.4s ease-in-out infinite;
-}
-
-.retry-bubble::after { content: ""; position: absolute; right: 32px; bottom: -8px; width: 9px; height: 9px; background: #fff; border-right: 2.5px solid var(--green); border-bottom: 2.5px solid var(--green); transform: rotate(45deg) skew(8deg, 8deg); }
-
-@keyframes bubble-pop { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.1) rotate(-3deg); } 90% { transform: scale(1) rotate(2deg); } }
-
-.retry-btn:hover .retry-fish { animation-duration: 1.2s; }
-
-.retry-btn:focus-visible { outline: 3px solid var(--green); outline-offset: 4px; border-radius: 10px; }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .retry-fish, .retry-bubble { animation: none; }
-
-    .retry-btn { transition: opacity .3s; transform: none; }
-}
-
-/* ファーストビューのボタン：「おいで！」も「みどりを知る！」も同じ小さめサイズ。
-   左に肉球のマークが付き、ゆっくり上下にはずみます（色だけで主張を変える） */
-
-.call-btn {
-  display: inline-flex; align-items: center; gap: 9px;
-  padding: 12px 28px; font-size: 18px; letter-spacing: .1em;
-  background: #fbcad7; color: var(--green-dark);     /* うすいピンク */
-  animation: bob 2.4s ease-in-out infinite;
-}
-
-.call-btn::before, .call-btn::after {              /* 肉球マーク（文字の両側・文字と同じ色） */
-  content: ""; width: 1.15em; height: 1.15em; flex-shrink: 0;
-  background: currentColor;
-  -webkit-mask: var(--paw-icon) center / contain no-repeat;
-          mask: var(--paw-icon) center / contain no-repeat;
-}
-
-.call-btn:hover { background: #f8b6c8; animation-play-state: paused; }
-
-.call-btn.is-know {
-  background: var(--green); color: #fff;
-  padding: 12px 34px 12px 28px;                      /* 肉球は左だけ */
-  animation: bob 2.4s ease-in-out infinite, ring-green 1.8s ease-out infinite;
-}
-
-.call-btn.is-know:hover { background: var(--green-hover); }
-
-:root {
-  --paw-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cellipse cx='32' cy='42' rx='15' ry='12'/%3E%3Cellipse cx='13' cy='26' rx='6' ry='8' transform='rotate(-20 13 26)'/%3E%3Cellipse cx='25' cy='14' rx='6' ry='8.5' transform='rotate(-6 25 14)'/%3E%3Cellipse cx='39' cy='14' rx='6' ry='8.5' transform='rotate(6 39 14)'/%3E%3Cellipse cx='51' cy='26' rx='6' ry='8' transform='rotate(20 51 26)'/%3E%3C/svg%3E");
-}
-
-@keyframes bob { 50% { transform: translateY(-4px); } }
-
-@keyframes ring-green { 0% { box-shadow: 0 0 0 0 rgba(42, 138, 90, .5); } 70%, 100% { box-shadow: 0 0 0 12px rgba(42, 138, 90, 0); } }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .call-btn, .call-btn.is-know { animation: none; }
-}
-
-/* 「次のセクションへ」：右寄せ・下線なし。文字と同じ色で塗りつぶした丸の中に、矢印（反対の色） */
-
-.next-link {
-  --arrow-bg: var(--green); --arrow-fg: #fff;   /* 緑の文字なら、緑の丸に白い矢印 */
-  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
-  width: var(--card-w); margin: 48px auto 0;
-  color: var(--green);
-  font-weight: 900; font-size: 14px; letter-spacing: .12em;
-  transition: opacity .2s;
-}
-
-.band-green .next-link { --arrow-bg: #fff; --arrow-fg: var(--green); }
-
-/* 白い文字なら、白い丸に緑の矢印 */
-
-/* ホバー：色はそのまま、矢印がぴょんと跳ねる（透明にはしない） */
-
-.next-link:hover .next-arrow { animation: hop-down .6s cubic-bezier(.3, 1.6, .5, 1) infinite; }
-
-.next-link:hover .next-arrow.up { animation-name: hop-up; }
-
-@keyframes hop-down { 0%, 100% { transform: none; } 40% { transform: translateY(6px) scale(1.12); } }
-
-@keyframes hop-up { 0%, 100% { transform: none; } 40% { transform: translateY(-6px) scale(1.12); } }
-
-/* セクション名（.lbl）は、見た目では隠して、読み上げ用に残す */
-
-.next-link .lbl { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-
-/* Q&Aの下の「つづくにゃ」と矢印は、ピンク */
-
-#qa .next-link { color: var(--pink-deep); --arrow-bg: var(--pink-deep); --arrow-fg: #fff; }
-
-/* ページ最後の「トップにもどる」は、広い画面では右下の「top」があるので隠す（狭い画面では必要） */
-
-@media (min-width: 1201px) {
-
-    #last .next-link { display: none; }
-}
-
-/* 矢印の横の、猫のひとこと（セクション名は、読み上げ用の .lbl に残してある） */
-
-.next-link .hint { display: inline; }
-
-.next-arrow {
-  display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%;
-  background: var(--arrow-bg); color: var(--arrow-fg); font-size: 16px; font-weight: 900; line-height: 1; padding-bottom: 1px;
-  animation: nudge 1.6s ease-in-out infinite;
-}
-
-.next-arrow.up { animation-name: nudge-up; }
-
-@keyframes nudge { 50% { transform: translateY(3px); } }
-
-@keyframes nudge-up { 50% { transform: translateY(-3px); } }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .next-arrow, .next-link:hover .next-arrow { animation: none; }
-}
-
-/* ===== じこしょうかい（写真・名前・タグだけ。ゆったり見せる） ===== */
-
-.profile { padding: 96px 0 170px; }
-
-.profile-img {
-  width: min(250px, 66%); aspect-ratio: 1 / 1; margin: 36px auto 18px;   /* 正円。写真は、猫の顔が円いっぱいになるように切り抜いてある */
-  object-fit: cover; object-position: 50% 50%;
-  border-radius: 50%;
-}
-
-.name {
-  font-weight: 900;
-  font-size: 30px; line-height: 1.3; letter-spacing: .08em;
-  color: var(--green-dark); margin: 0 16px;
-}
-
-.tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 18px 16px 0; }
-
-.tags li {
-  padding: 4px 16px; border-radius: 999px;
-  border: 1.5px solid var(--green); color: var(--green-dark);
-  font-weight: 900; font-size: 13px; line-height: 1.6; white-space: nowrap;
-}
-
-/* ===== 足あと（帯の下で、次の帯へ歩いていく） ===== */
-
-.paw-trail { position: absolute; left: 0; right: 0; bottom: 24px; height: 90px; pointer-events: none; }
-
-.paw {
-  position: absolute; width: 24px; height: 24px;
-  fill: var(--green); opacity: 1;
-  transform: rotate(var(--r, 90deg));
-}
-
-.paw-pink .paw { fill: var(--green); opacity: 1; }
-
-/* みどにっきの上の足あと：緑 */
-
-/* ===== とくちょう ===== */
-
-.features { padding: 88px 0 190px; }
-
-/* 下は、次の帯に猫が腰かけるぶんの余白 */
-
-.feature-list { width: var(--card-w); margin: 40px auto 0; display: grid; gap: 18px; }
-
-.feature-list li {
-  display: flex; align-items: center; gap: 20px; padding: 18px 22px;
-  background: #fff; border-radius: 20px; text-align: left; color: var(--text);
-}
-
-.feature-list li:nth-child(even) { flex-direction: row-reverse; }
-
-/* 写真を左右交互に */
-
-.feature-list img { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-
-.feature-list h4 { color: var(--green); font-size: 19px; font-weight: 900; }
-
-.feature-list p { font-weight: 700; font-size: 14px; }
-
-/* ===== 猫の「通りすがり」（境目に腰かける） ===== */
-
-.walker {
-  position: absolute; top: -8px; z-index: 4;
-  width: 36%; pointer-events: none;
-  transform: translateY(-66%);      /* 猫の足元が、帯の上の縁にそろう */
-}
-
-.walker img { width: 100%; max-width: none; }
-
-.walker-left { left: 2%; }
-
-/* 新しい猫は最初から右向きなので、反転はなし */
-
-/* 跳ねる猫：Q&Aの足あとの先で、次の帯へジャンプ（元の絵が左向き） */
-
-.leaper { position: absolute; left: 2%; bottom: -8px; z-index: 4; width: 42%; pointer-events: none; transform: translateY(20%); }
-
-.leaper img { width: 100%; max-width: none; }
-
-/* ===== Q&A ===== */
-
-.qa { padding: 96px 0 170px; }
-
-.accordion { width: var(--card-w); margin: 36px auto 0; display: grid; gap: 12px; text-align: left; }
-
-.acc-item { border-radius: 22px; overflow: hidden; background: #fff; border: 2px solid var(--green); }
-
-.acc-q {
-  width: 100%; border: 0; cursor: pointer; text-align: left; background: var(--green);
-  color: #fff; font: 900 17px "Zen Maru Gothic", sans-serif;
-  letter-spacing: .06em; padding: 14px 52px 14px 20px; position: relative;
-}
-
-.acc-q::after {
-  content: ""; position: absolute; right: 20px; top: 50%; margin-top: -3px;
-  border: 6px solid transparent; border-top-color: #fff; border-bottom: 0;
-}
-
-.acc-item.open .acc-q::after { border-top: 0; border-bottom: 6px solid #fff; }
-
-.acc-a { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
-
-.acc-item.open .acc-a { max-height: 300px; }
-
-.acc-a p { padding: 16px 20px 18px; font-weight: 700; font-size: 14px; line-height: 1.8; }
-
-/* ===== にっき ===== */
-
-.diary { padding: 96px 0 88px; }
-
-.slider { width: var(--card-w); margin: 36px auto 22px; }
-
-.slide { display: none; background: #fff; color: var(--text); border-radius: 22px; padding: 22px 22px 22px; text-align: left; }
-
-.slide.active { display: block; }
-
-.slide img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
-
-.slide h3 { color: var(--green); font-size: 19px; font-weight: 900; margin: 14px 0 6px; }
-
-.slide p { font-weight: 700; font-size: 14px; line-height: 1.9; }
-
-/* 緑の帯の上では、見出しと文字を白に */
-
-.band-green .sec-head .en, .band-green .sec-head h2 { color: #fff; }
-
-.band-green .next-link { color: #fff; }
-
-.band-green .name { color: #fff; }
-
-.band-green .tags li { background: var(--pink); border-color:var(--pink); color: var(--green); }
-
-/* 白ぬりの緑文字 */
-
-.band-green .paw { fill: var(--pink); opacity: 1; }
-
-/* じこしょうかいの足あと：うすいピンク */
-
-/* 前へ・次へ：メインのボタンと同じ、シンプルな丸ボタン */
-
-.slider-nav { display: flex; justify-content: center; gap: 12px; }
-
-.slider-nav button {
-  display: grid; place-items: center;
-  width: 46px; height: 46px; padding: 0 0 3px; border: 0; border-radius: 50%; cursor: pointer;   /* 完全な丸 */
-  background: var(--pink); color: var(--green);   /* 矢印の背景：うすいピンク */
-  font: 900 26px/1 "Zen Maru Gothic", sans-serif;
-  transition: background-color .2s, transform .15s;
-}
-
-.slider-nav button:hover { transform: translateY(2px); }
-
-/* 色はそのまま、少し沈む（SNSアイコンと同じ） */
-
-/* ===== さいごに ===== */
-
-.last { padding: 96px 28px 56px; color: var(--green-dark); }
-
-/* ふきだし（控えめに） */
-
-.bubble {
-  position: relative; width: fit-content; margin: 0 auto 28px; padding: 11px 22px;
-  background: var(--blush); color: var(--green-dark);
-  border-radius: 20px;
-  font-weight: 900; font-size: 15px; line-height: 1.6; letter-spacing: .04em;
-}
-
-.bubble::after {
-  content: ""; position: absolute; left: 50%; bottom: -10px; margin-left: -8px;
-  border-left: 8px solid transparent; border-right: 8px solid transparent;
-  border-top: 11px solid var(--blush);
-}
-
-/* 寝そべり猫（イラストの置き場所） */
-
-.last-cat {
-  position: relative; width: min(100%, 400px); aspect-ratio: 1000 / 666; margin: 0 auto 36px;
-  cursor: url("images/cursor-hand.png") 24 4, pointer;   /* 手のカーソル */
-}
-
-.last-cat img, .cat img { position: absolute; display: block; max-width: none; }
-
-.cat-body { left: 0; top: 0; width: 100%; height: 100%; }
-
-/* しっぽ：猫の画像（1000×666）の中の位置を％で指定。付け根（transform-origin）を中心に振る */
-
-.cat-tail { left: 81.3%; top: 32.3%; width: 13.8%; transform-origin: 26.1% 66.7%; }
-
-.last-cat.wag .cat-tail, .cat.wag .cat-tail { animation: wag 1s ease-in-out; }
-
-/* 振っている間だけ付く（2回ほど） */
-
-@keyframes wag {
-  0%, 100% { transform: rotate(0); }
-  15% { transform: rotate(-16deg); }
-  35% { transform: rotate(14deg); }
-  55% { transform: rotate(-12deg); }
-  75% { transform: rotate(8deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .last-cat.wag .cat-tail, .cat.wag .cat-tail { animation: none; }
-}
-
-/* SNSリンク：緑の丸いアイコンを横一列に（さりげなく） */
-
-.links { display: flex; justify-content: center; gap: 16px; }
-
-.links a {
-  display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%;
-  background: var(--green); color: #fff;   /* ピンクにするなら「background: var(--pink); color: var(--green)」 */
-  transition: transform .15s, background-color .2s;
-}
-
-.links a svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-
-.links a:hover { transform: translateY(2px); background: var(--green-hover); }
-
-.links a:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
-
-/* ページ最下部のブランド名 */
-
-.site-foot {
-  margin-top: 40px;
-  font-family: "Fredoka", sans-serif; font-weight: 600; font-size: 14px;
-  letter-spacing: .1em;
-}
-
-/* ===== 画面幅が狭いとき ===== */
-
-@media (max-width: 1200px) {
-
-    /* 左のメニューとブランド名を隠して、メインだけを中央に表示 */
-
-    .side-menu, .brand, .floor, .scroll-hint { display: none; }
-}
-
-/* 外側の背景画像（ざらつきのある緑のグラデーション）。スマホ幅では外側が見えないので読み込まない */
-
-@media (min-width: 601px) {
-
-    body {
-    background-image: url("images/bg.webp");
-    background-repeat: no-repeat; background-position: center top;
-    background-size: cover; background-attachment: fixed;
-  }
-}
-
-@media (max-width: 600px) {
-
-    .frame { margin: 0; border-radius: 0; box-shadow: none; }
-
-    .frame-inner { border-radius: 0; }
-
-    .hero { min-height: calc(100vh + var(--hero-extra)); min-height: calc(100svh + var(--hero-extra)); }
-
-    .sec-head .en { font-size: 44px; }
-}
-
-/* ===== トースト（準備中のリンクを押したときに、ちょっと出るお知らせ） ===== */
-
-.toast {
-  position: fixed; left: 50%; bottom: 84px; z-index: 300;
-  transform: translate(-50%, 16px); opacity: 0; pointer-events: none;
-  display: flex; align-items: center; gap: 8px;
-  padding: 12px 22px; border-radius: 999px;
-  background: var(--green-dark); color: #fff;
-  font-weight: 900; font-size: 14px; letter-spacing: .06em; white-space: nowrap;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, .25);
-  transition: opacity .3s, transform .3s;
-}
-
-.toast::before {
-  content: ""; width: 1.1em; height: 1.1em; flex-shrink: 0; background: var(--pink);
-  -webkit-mask: var(--paw-icon) center / contain no-repeat; mask: var(--paw-icon) center / contain no-repeat;
-}
-
-.toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-@media (max-width: 600px) {
-
-    .toast { bottom: 28px; }
-}
-
-/* ===== ハンバーガーメニュー（幅1200px以下） ===== */
-
-.menu-toggle {
-  display: none;                       /* 広い画面では出さない（上の @media で出す） */
-  position: fixed; top: 14px; right: 14px; z-index: 260;
-  width: 46px; height: 46px; border: 0; border-radius: 50%;
-  background: var(--pink); cursor: pointer;
-  flex-direction: column; align-items: center; justify-content: center; gap: 5px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .18);
-  transition: background .2s;
-}
-
-.menu-toggle:hover { background: #fde4ea; }
-
-.menu-toggle span { display: block; width: 20px; height: 3px; border-radius: 2px; background: var(--green); transition: transform .3s, opacity .2s; }
-
-.menu-open .menu-toggle span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-
-.menu-open .menu-toggle span:nth-child(2) { opacity: 0; }
-
-.menu-open .menu-toggle span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-.menu-toggle:focus-visible, .drawer a:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
-
-.drawer-backdrop {
-  position: fixed; inset: 0; z-index: 250; background: rgba(0, 0, 0, .35);
-  opacity: 0; transition: opacity .3s;
-}
-
-.menu-open .drawer-backdrop { opacity: 1; }
-
-.drawer {
-  position: fixed; top: 0; right: 0; bottom: 0; z-index: 255;
-  width: min(280px, 80vw); padding: 80px 26px 30px;
-  background: var(--page-bg); color: #fff;
-  transform: translateX(105%); visibility: hidden;
-  transition: transform .35s cubic-bezier(.3, .9, .3, 1), visibility 0s .35s;
-  box-shadow: -8px 0 24px rgba(0, 0, 0, .2);
-}
-
-.menu-open .drawer { transform: none; visibility: visible; transition: transform .35s cubic-bezier(.3, .9, .3, 1); }
-
-.drawer .side-title { margin: 0 0 14px 18px; }
-
-.drawer ol { list-style: none; }
-
-.drawer li { padding: 2px 0; }
-
-.drawer a { display: block; padding: 11px 18px; border-radius: 999px; color: #fff; text-decoration: none; font-weight: 900; font-size: 16px; letter-spacing: .06em; }
-
-.drawer a.active { background: #fff; color: var(--green); }
-
-.menu-open { overflow: hidden; }
-
-@media (max-width: 1200px) {
-
-    .menu-toggle { display: flex; }
-}
-
-@media (min-width: 1201px) {
-
-    .menu-toggle, .drawer, .drawer-backdrop { display: none !important; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .drawer, .drawer-backdrop, .menu-toggle span { transition: none; }
-}
-
-/* ===== ファーストビューのボタン：手描きの画像（仮）の上に、文字をのせる =====
-   画像は images/btn-oide.webp（おいで）と btn-know.webp（みどりを知る！）。
-   画像のなかに文字を描き込んだ場合は、下の「color: #fff」の文字を消して、HTMLの文字を空にしてください */
-
-.call-btn, .call-btn.is-know {
-  background: transparent center / 100% 100% no-repeat; border-radius: 0;
-  width: 214px; padding: 0; justify-content: center;
-  color: #fff; font-size: 19px; letter-spacing: .06em; font-weight: 900; text-shadow: 0 1px 3px rgba(0, 0, 0, .25);
-  transition: filter .2s;
-}
-
-.call-btn { background-image: url("images/btn-oide.webp"); aspect-ratio: 479 / 163; }
-
-.call-btn.is-know { background-image: url("images/btn-know.webp"); aspect-ratio: 479 / 157; padding: 0; animation: bob 2.4s ease-in-out infinite; }
-
-.call-btn:hover, .call-btn.is-know:hover { background-color: transparent; background-size: 100% 100%; background-position: center; background-repeat: no-repeat; filter: brightness(1.07); }
-
-/* ホバーで、古い「background: 色」の指定に画像が消されないように、画像をここで指定し直す */
-
-.call-btn:hover { background-image: url("images/btn-oide.webp"); }
-
-.call-btn.is-know:hover { background-image: url("images/btn-know.webp"); }
-
-/* ===== ボタンを押したとき：ボタンがポンとへこむ ===== */
-
-.call-btn.pressed { animation: btn-press .42s ease-out; }
-
-@keyframes btn-press { 0% { transform: none; } 30% { transform: translateY(5px) scale(1.04, .86); } 60% { transform: translateY(-2px) scale(.98, 1.05); } 100% { transform: none; } }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .call-btn.pressed { animation: none; }
-}
-
-/* ===== 猫じゃらし（魚のひも）=====
-   猫の左がわに、画面の左はしから魚がぶらさがっている。「おいで」を押すたびに左へ引かれて見切れ、3回目で消える。
-   位置は left / top / width、動く量は data-stage ごとの translateX で調整 */
-
-.toy {
-  position: absolute; z-index: 1; left: -8.5%; top: 20%; width: 64%;
-  pointer-events: none; transition: transform 1.2s cubic-bezier(.22, .8, .3, 1);
-}
-
-.toy img { width: 100%; height: auto; transform-origin: 0 50%; animation: toy-sway 3.2s ease-in-out infinite; }
-
-@keyframes toy-sway { 0%, 100% { transform: rotate(-1.2deg) translateY(0); } 50% { transform: rotate(1.6deg) translateY(5px); } }
-
-.hero[data-stage="1"] .toy { transform: translateX(-34%); }
-
-.hero[data-stage="2"] .toy { transform: translateX(-68%); }
-
-.hero[data-stage="3"] .toy { transform: translateX(-120%); }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .toy img { animation: none; }
-}
-
-/* ===== マウスのときだけ、ボタンの上に手のカーソル（JSで出す：クリックで手もぴょんと動く） ===== */
-
-.fake-cursor .call-btn { cursor: none; }
-
-.hand-cursor { position: fixed; left: 0; top: 0; z-index: 500; width: 62px; pointer-events: none; opacity: 0; transition: opacity .15s; will-change: transform; }
-
-.hand-cursor.show { opacity: 1; }
-
-.hand-cursor img { display: block; width: 100%; height: auto; transform-origin: 60% 20%; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .15)); }
-
-.hand-cursor.tap img { animation: hand-tap .42s ease-out; }
-
-@keyframes hand-tap { 0% { transform: none; } 30% { transform: translateY(9px) scale(.88) rotate(-12deg); } 65% { transform: translateY(-2px) rotate(4deg); } 100% { transform: none; } }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .hand-cursor.tap img { animation: none; }
-}
-
-/* ===== ボタンの色を入れかえる：「おいで」＝緑、「みどりって？」＝ピンク（<body class="btn-swap">。外すと、元の「おいで」＝ピンクに戻る） ===== */
-
-body.btn-swap .call-btn, body.btn-swap .call-btn:hover { background-image: url("images/btn-know.webp"); aspect-ratio: 479 / 157; }
-
-body.btn-swap .call-btn.is-know, body.btn-swap .call-btn.is-know:hover { background-image: url("images/btn-oide.webp"); aspect-ratio: 479 / 163; }
-
-/* ===== 「もう1回」の魚：広い画面では、カードの外（緑の背景）へ。狭い画面では、カードの中 =====
-   外の魚は、ひもなし。カードのうしろから、ぴょこっと顔を出す。白い線の魚（fish-white.webp）。 */
-
-.retry-out { display: none; }
-
-@media (min-width: 900px) {
-
-    .call-area .retry-btn { display: none; }
-
-    .retry-out {
-    display: block; position: absolute; z-index: 1; left: calc(50% + 284px); right: auto; bottom: auto; width: 62px;   /* 魚の大きさは width */
-    transform: translateX(-150px) rotate(-8deg);
-    transition: transform .7s cubic-bezier(.3, 1.7, .5, 1), opacity .4s, visibility 0s .7s;
-  }
-
-    .retry-out.show { transform: none; transition-delay: .5s, .5s, 0s; }
-
-    .retry-out .retry-fish { transform-origin: 20% 50%; animation: fish-wiggle 2.6s ease-in-out infinite; }
-
-    /* 吹き出しは手描き画像（bubble.webp）。文字は緑 */
-
-    .retry-out .retry-bubble {
-    right: auto; left: 46px; bottom: 84%; width: 80px; height: 41px; padding: 0 0 6px; border: 0; border-radius: 0;
-    background: url(images/bubble.webp) center / 100% 100% no-repeat; color: var(--green);
-    display: flex; align-items: center; justify-content: center; font-size: 10.5px; letter-spacing: .04em;
-  }
-
-    .retry-out .retry-bubble::after { display: none; }
-}
-
-@keyframes fish-wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(4deg) translateY(3px); } }
-
-@media (prefers-reduced-motion: reduce) {
-
-    .retry-out .retry-fish { animation: none; }
-}
-
-/* ===== 「もう1回」を猫が言う版：<body class="say-cat"> にすると、魚は出ず、猫から緑の吹き出しが出る ===== */
-
-.retry-cat { display: none; }
-
-body.say-cat .retry-cat { display: block; position: absolute; z-index: 3; left: 47%; top: 6%; right: auto; bottom: auto; width: auto; transform: scale(.6); transform-origin: 0 100%; transition: transform .45s cubic-bezier(.3, 1.8, .5, 1), opacity .3s, visibility 0s .45s; }
-
-body.say-cat .retry-cat.show { transform: none; transition-delay: .3s, .3s, 0s; }
-
-body.say-cat .retry-cat .retry-bubble { position: relative; right: auto; bottom: auto; display: block; padding: 6px 14px 7px; background: var(--green); border: 2.5px solid #fff; color: #fff; font-size: 13px; animation: bubble-pop 2.4s ease-in-out infinite; }
-
-body.say-cat .retry-cat .retry-bubble::after { display: block; right: auto; left: 16px; bottom: -8px; background: var(--green); border-color: #fff; }
-
-body.say-cat .retry-out, body.say-cat .call-area .retry-btn { display: none; }
-
-/* ===== 波と地面を1枚に(v2) =====
-   以前は「波のふち(::before)」と「地面」の2つの部品を重ねていたため、
-   ブラウザや画面サイズによって、部品の端に細い線が出ることがあった。
-   地面1枚(高さ100px)を、波の形で切り抜く作りに変更。つなぎ目がないので線は出ない。
-   波1つぶんの幅は1120px。5つぶん(5600px)まで用意してあるので、大きな画面でも途切れない */
-
-.floor {
-  height: 100px;
-  background: var(--grain) left bottom / 240px 240px, var(--cream);
-  clip-path: path("M0 100 V12 C130 12 130 32 260 32 C410 32 410 14 560 14 C695 14 695 30 830 30 C975 30 975 12 1120 12 C1250 12 1250 32 1380 32 C1530 32 1530 14 1680 14 C1815 14 1815 30 1950 30 C2095 30 2095 12 2240 12 C2370 12 2370 32 2500 32 C2650 32 2650 14 2800 14 C2935 14 2935 30 3070 30 C3215 30 3215 12 3360 12 C3490 12 3490 32 3620 32 C3770 32 3770 14 3920 14 C4055 14 4055 30 4190 30 C4335 30 4335 12 4480 12 C4610 12 4610 32 4740 32 C4890 32 4890 14 5040 14 C5175 14 5175 30 5310 30 C5455 30 5455 12 5600 12 V100 Z");
+/* ===== トークン ===== */
+:root{
+  /* ピンクの面の、ごく薄い粒状感 */
+  --grain-l:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' seed='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.09 0 0 0 0 0.29 0 0 0 0.156 -0.049'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' seed='9' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.156 -0.052'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E"), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.03 0 0 0 0 0.09 0 0 0 0 0.29 0 0 0 0.070 -0.025'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url%28%23n%29'/%3E%3C/svg%3E");
+  --pink:#ffe2e2; --ivory:#f8f4ec; --navy:#07184a; --shotbg:#f1eee7;
+  --fg:var(--navy); --fgl:var(--navy);
+  --gut:clamp(22px,5.6vw,88px);
+  --hh:72px;
+  --round:"Fredoka","Zen Maru Gothic",system-ui,sans-serif;
+  --jp:"Zen Maru Gothic","Hiragino Maru Gothic ProN",system-ui,sans-serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+  /* 章の切り替えにかけるスクロール量(script.js が実際の値に書き換える) */
+  --W1:75svh; --W2:75svh; --F:40svh;
+}
+html.dark{--fg:var(--pink)}
+html.dl{--fgl:var(--pink)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html.gridmode{overflow:hidden}
+body{margin:0;background:var(--pink);color:var(--navy);font-family:var(--jp);font-weight:500;line-height:1.8}
+img{max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+
+/* ===== ヘッダー: 表示切り替え / 進捗の星と線 / ナビ ===== */
+.topbar{position:fixed;inset:0 0 auto 0;height:var(--hh);z-index:30;display:flex;align-items:center;justify-content:flex-end;gap:clamp(18px,2.4vw,34px);padding-inline:var(--gut);color:var(--fg);transition:color .4s}
+.topbar nav{display:flex;gap:clamp(14px,1.8vw,26px);font-family:var(--round);font-weight:600;font-size:clamp(19px,1.95vw,29px);line-height:1;letter-spacing:.01em;transition:opacity .4s,visibility .4s}
+.topbar nav a{position:relative;padding:6px 0;transition:opacity .3s}
+.topbar nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2.5px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.topbar nav a:hover::after,.topbar nav a.on::after{transform:scaleX(1)}
+.prog{display:flex;align-items:center;width:clamp(60px,6.4vw,100px);height:26px;color:var(--fg);transition:opacity .4s,visibility .4s}
+.pd{flex:0 0 auto;width:calc(var(--pp,0) * (100% - 24px));height:6px;background:radial-gradient(circle at 3.5px 3px,currentColor 2px,transparent 2.6px) 0 0/12px 6px repeat-x}
+.ps{flex:0 0 24px;width:24px;height:24px;fill:currentColor;stroke:currentColor;stroke-width:2;stroke-linejoin:round;transform:rotate(calc(var(--pp,0) * 360deg))}
+.pl{flex:1 1 0;min-width:0;height:4px;border-radius:2px;background:currentColor}
+/* 一覧を開いている間は、ナビと星を隠す */
+html.gridmode .topbar nav,html.gridmode .prog{opacity:0;visibility:hidden}
+
+/* slide / grid の切り替え(作品パートにいる間だけ表示) */
+.view-toggle{margin-right:auto;display:flex;gap:4px;padding:4px;border:1.5px solid rgba(255,226,226,.45);border-radius:999px;color:var(--fg);opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+html.dark .view-toggle{opacity:1;visibility:visible}
+.vt-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px 7px 11px;border-radius:999px;font-family:var(--round);font-weight:500;font-size:14px;line-height:1;letter-spacing:.04em;transition:background-color .3s,color .3s}
+.vt-btn svg{width:15px;height:15px;fill:currentColor}
+.vt-btn[aria-pressed="true"]{background:var(--pink);color:var(--navy)}
+.vt-btn[aria-pressed="false"]:hover{background:rgba(255,226,226,.14)}
+
+/* 左端の縦のラベル(パソコンのみ) */
+.vt{position:fixed;left:clamp(14px,2.6vw,44px);z-index:20;margin:0;writing-mode:vertical-rl;font-family:var(--round);font-weight:500;font-size:clamp(13px,1vw,16px);letter-spacing:.1em;line-height:1;color:var(--fgl);opacity:.75;transition:color .4s,opacity .5s,visibility .5s;display:none;white-space:nowrap}
+.vt-top{top:max(14vh,96px)}
+.vt-bot{bottom:10vh}
+.vt b{font-weight:500;display:inline-block;transition:opacity .35s,transform .45s var(--ease)}
+.vt b.sw{opacity:0;transform:translateY(-6px)}
+@media (min-width:821px){.vt{display:block}}
+html.dl .vt{opacity:0;visibility:hidden}
+
+/* ===== ① ヒーロー ===== */
+.hero{position:sticky;top:0;z-index:0;height:100svh;display:flex;align-items:center;padding-inline:var(--gut);background:var(--grain-l),var(--pink);overflow:hidden}
+.hero-in{width:100%;padding-left:clamp(0px,6vw,110px);padding-bottom:4svh}
+.hero-title{margin:0;font-weight:inherit;line-height:1}
+.word{position:relative;display:inline-block;font-family:var(--round);font-weight:700;font-size:clamp(56px,13.4vw,185px);line-height:.95;letter-spacing:-.01em;color:var(--navy);white-space:nowrap;opacity:calc(1 - var(--hs,0) * .4)}
+/* マウスに合わせてロゴがほんの少し浮く(視差) */
+.chs{display:inline-block;translate:calc(var(--mx,0) * -1.1vw) calc(var(--my,0) * -1.1vw);transition:translate .9s var(--ease)}
+.ch{display:inline-block;transition:transform .6s var(--ease);will-change:transform}
+.ch:hover{transform:translateY(-5%) rotate(-3deg)}
+.handle{position:absolute;right:.02em;top:calc(92% + .2em);font-size:.15em;line-height:1;letter-spacing:.005em;font-weight:700;translate:calc(var(--mx,0) * .6vw) calc(var(--my,0) * .6vw);transition:translate .9s var(--ease)}
+
+/* scroll to explore: 点線の上を星が下へ進む(ナビの進捗表示と同じ表現) */
+.hero-cue{position:absolute;right:calc(var(--gut) + clamp(0px,2vw,36px));bottom:clamp(36px,9svh,96px);margin:0;display:flex;align-items:flex-end;gap:clamp(20px,3vw,48px);opacity:calc(1 - var(--hs,0) * 3)}
+.cue-t{font-family:var(--round);font-weight:500;font-size:clamp(15px,1.3vw,21px);line-height:1;letter-spacing:.06em;padding-top:3px}
+.cue-line{--cl:46px;position:relative;display:block;width:6px;height:var(--cl);margin-left:1.75px;background:radial-gradient(circle,rgba(7,24,74,.8) 1.35px,transparent 1.8px) center top/6px 9px repeat-y}
+.cue-line i{position:absolute;left:50%;top:0;width:16px;height:16px;margin-left:-8px;animation:cue 2.6s var(--ease) infinite}
+.cue-line svg{display:block;width:100%;height:100%;fill:var(--navy)}
+@keyframes cue{0%{transform:translateY(-6px);opacity:0}18%{opacity:1}72%{opacity:1}100%{transform:translateY(calc(var(--cl) - 10px));opacity:0}}
+@media (min-width:821px){
+  .hero-cue{gap:clamp(16px,2vw,32px)}
+  .cue-t{font-size:clamp(13px,1.05vw,17px);letter-spacing:.08em}
+  .cue-line{--cl:clamp(46px,6.5svh,66px)}
+}
+
+/* ===== ② 作品: 紺の背景に、アイボリーのカード ===== */
+/* 章の切り替え: 縦の境目が左から右へ流れ、次の画面が現れる */
+.works{position:relative;z-index:1;color:var(--pink);--step:calc(100svh * .85);margin-top:-100svh;height:calc(100svh + var(--W1) + 4 * var(--step) + var(--W2))}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--navy);clip-path:inset(0 calc((1 - var(--w1,1)) * 100%) 0 0)}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;translate:calc((1 - var(--w1,1)) * -4vw) 0;pointer-events:none}
+.slide .card,.slide .side-btn,.slide .cap a{pointer-events:auto}
+.wk{position:relative;--cw:min(60vw,calc((100svh - 2 * var(--hh) - 84px) * 1.6));width:var(--cw)}
+.card{transform:translateY(calc((1 - var(--t,1)) * 115svh));will-change:transform;position:relative;width:100%;aspect-ratio:16/10;--pad:clamp(10px,1.1vw,16px);--ir:12px;background:var(--ivory);border-radius:calc(var(--pad) + var(--ir));overflow:hidden;color:var(--navy);container-type:inline-size;box-shadow:0 30px 60px -40px rgba(0,0,0,.4)}
+/* カードの中身: 説明 / デスクトップ / レスポンシブ が横に並び、ボタンでスライドする */
+.track{display:flex;width:300%;height:100%;transition:transform .9s var(--ease)}
+.slide[data-view="desc"] .track{transform:translateX(0)}
+.slide[data-view="desk"] .track{transform:translateX(-33.3333%)}
+.slide[data-view="mob"] .track{transform:translateX(-66.6667%)}
+.pane{flex:0 0 33.3333%;height:100%;padding:var(--pad)}
+.screen{position:relative;height:100%;border:1.5px solid var(--navy);border-radius:var(--ir);background:var(--ivory);overflow:hidden}
+
+/* デスクトップのスクショ(クリックでサイトが開く) */
+.shot{position:relative;display:block;width:100%;height:100%;background:var(--shotbg);overflow:hidden}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;transform:scale(calc(1.07 - var(--t,1) * .07));transition:transform .9s var(--ease)}
+.shot:hover img{transform:scale(1.02)}
+
+/* 説明: 作品名 → 内容 → POINT / COLOR / ツール */
+.desc-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:safe center;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;padding:clamp(30px,5vw,76px)}
+.desc-in>*{opacity:0;transition:opacity .4s}
+.slide[data-view="desc"] .desc-in>*{opacity:1;transition:opacity .9s var(--ease) .3s}
+.desc-in h3{margin:0;font-family:var(--round);font-weight:600;font-size:max(17px,2.1cqw);line-height:1.3;letter-spacing:.02em}
+.desc-in .sub{margin:.5em 0 0;font-size:max(12px,1.4cqw);font-weight:500;opacity:.8}
+.facts{margin:clamp(12px,2.2vh,22px) 0 0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(12px,1.9vh,18px) clamp(14px,2cqw,24px);max-width:40em;align-items:baseline}
+.facts dt{font-family:var(--round);font-weight:500;font-size:max(10.5px,1.15cqw);letter-spacing:.12em;opacity:.6}
+.facts dd{margin:0;font-size:max(12.5px,1.5cqw);line-height:1.8;text-wrap:pretty;line-break:strict;word-break:auto-phrase}
+.facts dd.tools{grid-column:2}
+/* ツール名: ラベルと同じ書体で、少し薄く。区切りは空白だけ */
+.facts .tags{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:2px 1.3em;font-family:var(--round);font-weight:500;font-size:max(10.5px,1.15cqw);letter-spacing:.06em;line-height:1.7;opacity:.45}
+/* 色見本 */
+.sws{display:inline-flex;gap:5px;margin-right:.7em;vertical-align:-.15em}
+.sw{display:inline-block;width:1.2em;height:1.2em;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 1px rgba(7,24,74,.25)}
+
+/* レスポンシブ: スマホ画面のスクショ */
+.phones{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:4%}
+.ph{position:relative;display:block;height:74%;aspect-ratio:397/812;border:1.5px solid var(--navy);border-radius:14px;background:var(--navy);overflow:hidden;box-shadow:0 14px 24px -14px rgba(7,24,74,.5);opacity:0;transition:opacity .4s}
+.ph:nth-child(1){transform:translateY(-5%)}
+.ph:nth-child(2){transform:translateY(7%)}
+.ph:nth-child(3){transform:translateY(-2%)}
+.slide[data-view="mob"] .ph{opacity:1;transition:opacity .9s var(--ease) .3s}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top}
+
+/* 両脇の丸いボタン。ホバーで、縁に沿って名前が回りだす */
+.side-btn{position:absolute;top:50%;z-index:3;display:inline-flex;align-items:center;justify-content:center;width:clamp(46px,3.9vw,60px);height:clamp(46px,3.9vw,60px);border:1.5px solid currentColor;border-radius:50%;font-family:var(--round);font-weight:500;font-size:clamp(22px,1.9vw,30px);line-height:1;letter-spacing:.01em;color:var(--pink);white-space:nowrap;translate:0 -50%;opacity:var(--c,1);transition:opacity .4s,visibility .4s,background-color .35s,color .35s}
+.side-btn:hover,.side-btn:focus-visible{background:var(--pink);color:var(--navy)}
+.side-btn[data-hide]{opacity:0;visibility:hidden;pointer-events:none}
+.side-btn .lbl{display:none}
+.side-btn .arr{line-height:1;transition:transform .5s var(--ease)}
+.side-l{right:calc(100% + clamp(24px,3.6vw,64px))}
+.side-r{left:calc(100% + clamp(24px,3.6vw,64px))}
+.side-l:hover .arr{transform:translateX(-6px)}
+.side-r:hover .arr{transform:translateX(6px)}
+.side-btn .ring{position:absolute;width:215%;height:215%;left:-57.5%;top:-57.5%;overflow:visible;pointer-events:none;opacity:0;transform:scale(.8) rotate(-40deg);transition:opacity .4s,transform .8s var(--ease)}
+.side-btn .ring text{font-family:var(--round);font-size:8.4px;font-weight:500;fill:var(--pink)}
+.side-btn .ring g{transform-origin:50px 50px;animation:ringspin 14s linear infinite;animation-play-state:paused}
+.side-btn:hover .ring,.side-btn:focus-visible .ring{opacity:1;transform:none}
+.side-btn:hover .ring g,.side-btn:focus-visible .ring g{animation-play-state:running}
+@keyframes ringspin{to{transform:rotate(360deg)}}
+/* ボタンの文字が変わるときは、ふわっと入れ替える */
+.side-btn.lbl-in .lbl{animation:lblIn .45s var(--ease)}
+@keyframes lblIn{from{opacity:0}to{opacity:1}}
+
+/* 作品名(カードの下)。次の作品が上がってくる間だけ、ふっと入れ替わる */
+.cap{position:absolute;left:2px;right:2px;top:calc(100% + 20px);margin:0;display:flex;align-items:baseline;gap:18px;color:var(--pink);line-height:1.2;opacity:var(--c,1)}
+.cap-n{font-family:var(--round);font-size:14px;letter-spacing:.06em}
+.cap-n i{font-style:normal;opacity:.6}
+.cap-t{font-family:var(--round);font-weight:600;font-size:clamp(19px,1.5vw,24px);letter-spacing:.01em}
+
+/* ===== 一覧(グリッド): スライドの上に開くパネル ===== */
+.grid-view{position:absolute;z-index:11;inset:var(--hh) 0 0;overflow-y:auto;overscroll-behavior:contain;padding:clamp(48px,8vh,88px) var(--gut) 120px;background:rgba(7,24,74,.9);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 28px);mask-image:linear-gradient(to bottom,transparent 0,#000 28px);animation:gvfade .45s var(--ease)}
+.grid-view[hidden]{display:none}
+@keyframes gvfade{from{opacity:0}to{opacity:1}}
+.gv-sec{max-width:1120px;margin:0 auto}
+.gv-sec+.gv-sec{margin-top:clamp(100px,13vh,110px)}
+.gv-head{margin:0 0 clamp(36px,5.5vh,56px);font-family:var(--round);font-weight:500;font-size:clamp(17px,1.4vw,21px);letter-spacing:.12em;color:var(--ivory)}
+.gv-list{list-style:none;margin:0 auto;padding:0;max-width:1120px;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr));gap:clamp(56px,8vh,84px) clamp(24px,2.8vw,40px)}
+.gv-item{position:relative;animation:gvin .6s var(--ease) backwards}
+.gv-item:nth-child(2){animation-delay:.05s}
+.gv-item:nth-child(3){animation-delay:.1s}
+.gv-item:nth-child(4){animation-delay:.15s}
+.gv-item:nth-child(5){animation-delay:.2s}
+@keyframes gvin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.gv-card{display:block;color:var(--pink)}
+.gv-thumb{position:relative;display:block;aspect-ratio:16/10;--gp:8px;border-radius:16px;background:var(--ivory);overflow:hidden}
+.gv-thumb img{position:absolute;left:var(--gp);top:var(--gp);display:block;width:calc(100% - var(--gp) * 2);height:calc(100% - var(--gp) * 2);object-fit:cover;object-position:top;border-radius:9px;border:1.5px solid var(--navy);transition:transform .6s var(--ease)}
+.gv-card:hover .gv-thumb img,.gv-card:focus-visible .gv-thumb img{transform:scale(1.03)}
+.gv-meta{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px;margin:20px 0 0;line-height:1.3}
+.gv-n{font-family:var(--round);font-size:13px;letter-spacing:.06em;opacity:.7}
+.gv-t{font-family:var(--round);font-weight:600;font-size:clamp(17px,1.4vw,21px);background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .4s var(--ease)}
+.gv-card:hover .gv-t,.gv-card:focus-visible .gv-t{background-size:100% 1.5px}
+.gv-s{flex-basis:100%;margin-top:2px;font-size:13px;opacity:.75}
+/* タッチ操作では、タップした瞬間にページが移るので下線は出さない */
+@media (hover:none){.gv-t,.gv-card:hover .gv-t,.gv-card:focus-visible .gv-t{background:none}}
+
+/* ===== ③ About ===== */
+.about{position:sticky;top:0;z-index:2;height:100svh;overflow:hidden;margin-top:calc(-100svh - var(--W2));clip-path:inset(0 calc((1 - var(--w2,1)) * 100%) 0 0);background:var(--grain-l),var(--pink);color:var(--navy);display:flex;padding:var(--hh) var(--gut) calc(44px + clamp(18px,4svh,40px)) calc(var(--gut) + clamp(0px,6vw,110px))}
+.about-in{width:100%;display:flex;flex-direction:column;translate:calc((1 - var(--w2,1)) * -4vw) 0}
+.about-main{margin-block:auto}
+.about h2{margin:0;font-family:var(--round);font-weight:700;font-size:clamp(26px,2.3vw,38px);line-height:1;letter-spacing:0}
+.about-body{padding-top:clamp(22px,4.5vh,44px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:clamp(10px,2vw,28px);row-gap:32px}
+.about dl{grid-column:1 / span 5;margin:0;display:grid;grid-template-columns:6em minmax(0,1fr);gap:10px 14px;font-size:clamp(13px,.95vw,15px);align-content:start}
+.about dt{font-family:var(--round);font-size:14px;letter-spacing:.04em;padding-top:.3em}
+.about dd{margin:0}
+.about dd.lic span:not(.nw){display:block;word-break:keep-all;overflow-wrap:anywhere}
+.about dd.lic span+span{margin-top:4px}
+.nw{white-space:nowrap}
+.about .txt{grid-column:7 / span 6}
+.about .txt p{margin:0 0 1.5em;font-size:clamp(13px,.92vw,14.5px);line-height:2;max-width:30em;text-wrap:pretty;line-break:strict;word-break:auto-phrase}
+.about .txt p:last-child{margin-bottom:0}
+.about-foot{display:flex;justify-content:space-between;margin:0;font-family:var(--round);font-weight:500;font-size:15px;letter-spacing:.06em}
+/* About: カーソルに合わせて、見出しが少しずれる(ヒーローと同じ仕組み) */
+.split .ls{display:inline-block;translate:calc(var(--mx,0) * -.9vw) calc(var(--my,0) * -.9vw);transition:translate .9s var(--ease)}
+.split.in .l:hover{transition-delay:0s;transition-duration:.5s;transform:translateY(-4%) rotate(4deg)}
+.split.in .l:nth-child(even):hover{transform:translateY(-4%) rotate(-4deg)}
+.tail{height:calc(var(--W2) + var(--F))}
+
+/* back to top の帯: 一番下で、中央から左右に広がる */
+.foot{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;align-items:center;height:44px;background:var(--navy);color:var(--pink);font-family:var(--round);font-size:14px;letter-spacing:.06em;clip-path:inset(0 calc((1 - var(--f,1)) * 50%) 0 calc((1 - var(--f,1)) * 50%))}
+.foot a{display:inline-flex;gap:.6em;opacity:calc((var(--f,1) - .6) * 2.5);pointer-events:none;transition:opacity .3s}
+.foot a:hover{opacity:1}
+.foot.on a{pointer-events:auto}
+
+/* スクロールスナップの止まる位置の印(見えない。スマホのみ有効) */
+.snaps{position:absolute;left:0;top:0;width:1px;height:0;pointer-events:none;visibility:hidden}
+.snaps i{position:absolute;left:0;width:1px;height:1px;scroll-snap-align:start;scroll-snap-stop:always}
+
+/* ===== カーソル: 7つの角の星 ===== */
+.cur-star{overflow:visible;position:fixed;left:0;top:0;z-index:100;width:30px;height:30px;margin:-15px 0 0 -15px;pointer-events:none;opacity:0;transition:opacity .3s;will-change:transform}
+.cur-star polygon{fill:var(--navy);stroke:#fff;stroke-width:1.6;stroke-linejoin:round;paint-order:stroke;transition:transform .3s var(--ease),fill .3s,stroke .3s;transform-origin:12px 12px}
+html.dark .cur-star polygon{fill:var(--pink);stroke:var(--navy)}
+html.dark.cur-card .cur-star polygon{fill:var(--navy);stroke:#fff}
+.cur-on .cur-star{opacity:1}
+.cur-hover .cur-star polygon{transform:scale(1.7)}
+html.has-cursor,html.has-cursor *{cursor:none!important}
+@media (hover:none),(pointer:coarse){.cur-star{display:none}}
+
+/* ===== 読み込み時とスクロールで、ふわっと現れる ===== */
+@keyframes chin{from{opacity:0;transform:translateY(55%) rotate(6deg)}to{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+@keyframes riseFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:no-preference){
+  .ch{animation:chin 1.5s var(--ease) calc(.6s + var(--i) * .06s) backwards}
+  .handle{animation:rise 1.4s var(--ease) 1.5s backwards}
+  .vt{animation:rise 1.5s var(--ease) 1.2s backwards}
+  .topbar{animation:rise 1.5s var(--ease) .8s backwards}
+  .hero-cue{animation:rise 1.5s var(--ease) 1s backwards}
+  .rv{opacity:0;transition:opacity 1.2s var(--ease)}
+  .rv.in{opacity:1}
+  .about-body .rv:nth-child(2){transition-delay:.15s}
+  .split .l{display:inline-block;opacity:0;transition:opacity 1.2s var(--ease),transform .5s var(--ease)}
+  .split.in .l{opacity:1}
+}
+
+/* ===== スマホ(820px以下) ===== */
+@media (max-width:820px){
+  :root{--hh:60px}
+  .hero-in{padding-left:0}
+  .word{font-size:17.5vw}
+  .hero-cue{left:var(--gut);right:auto;bottom:36px}
+  /* Safariのアドレスバーが縮んでも、紺の面が画面の下まで届くように */
+  .stage{height:100lvh}
+
+  /* カードの下に「作品名 → ボタン」を中央揃えで */
+  .wk{--cw:calc(100vw - 2 * var(--gut));display:grid;grid-template-columns:1fr 1fr;gap:0 10px;align-content:center}
+  .card{grid-column:1 / -1;aspect-ratio:auto;height:calc(var(--cw) / 1.5);--ir:8px;touch-action:pan-y;transition:height .6s var(--ease),background-color .5s,box-shadow .5s}
+  .screen{transition:border-color .5s,background-color .5s}
+  .cap{position:static;grid-column:1 / -1;grid-row:2;margin-top:18px;flex-wrap:wrap;justify-content:center;gap:4px 10px}
+  .side-btn{position:static;translate:none;grid-row:3;flex-direction:row-reverse;width:auto;height:auto;margin-top:12px;padding:4px 0;gap:8px;border:0;font-size:12px;letter-spacing:.06em;opacity:calc(var(--c,1) * .75);background:none!important;color:var(--pink)!important}
+  .side-l{grid-column:1;justify-self:end}
+  .side-r{grid-column:2;justify-self:start}
+  .side-btn .lbl{display:inline;letter-spacing:.04em}
+  .side-btn .ring{display:none}
+  .side-btn .arr{position:relative;display:block;width:30px;height:30px;border:1.2px solid currentColor;border-radius:50%;font-size:0}
+  .side-btn .arr::before{content:"";position:absolute;left:50%;top:50%;width:7px;height:7px;border-top:1.4px solid currentColor;border-right:1.4px solid currentColor}
+  .side-r .arr::before{transform:translate(-65%,-50%) rotate(45deg)}
+  .side-l .arr::before{transform:translate(-35%,-50%) rotate(-135deg)}
+
+  /* 説明: カードの中でスクロール。続きがあることが伝わるよう、下端をふわっと消す */
+  .desc-in{padding:24px 18px 36px;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 30px),transparent)}
+  .desc-in h3{font-size:16px}
+  .desc-in .sub{font-size:11.5px}
+  .facts{margin-top:14px;grid-template-columns:1fr;gap:2px}
+  .facts dt{margin-top:14px;font-size:10px}
+  .facts dt:first-child{margin-top:0}
+  .facts dd{font-size:12px;line-height:1.75}
+  .facts dd.tools{grid-column:1;margin-top:14px}
+  .facts .tags{font-size:10px;gap:0 1.2em}
+
+  /* レスポンシブ: カードの面を消して、スマホ画面のスクショを1枚ずつ大きく。前後の1枚は左右に見切れる */
+  .slide[data-view="mob"] .card{background-color:transparent;box-shadow:none}
+  .slide[data-view] .pane-mob{padding:0}
+  .slide[data-view] .pane-mob .screen{border-width:0;border-radius:0}
+  .slide[data-view="mob"] .pane-mob .screen{border-color:transparent;background:transparent;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 28px,#000 calc(100% - 28px),transparent 100%)}
+  .phones{gap:0}
+  .slide[data-view] .ph{position:absolute;left:50%;top:50%;height:100%;transform:translate(calc(-50% + var(--d,0) * 118%),-50%) scale(var(--s,1))!important;border:6px solid var(--ivory);border-radius:20px;background:var(--ivory);box-shadow:0 14px 28px -16px rgba(0,0,0,.55);cursor:pointer;transition:transform .55s var(--ease),opacity .4s}
+  .slide[data-view] .ph:not(.on){opacity:0}
+  .slide[data-view="mob"] .ph:not(.on){opacity:.5}
+  .slide[data-view="mob"] .ph.on{opacity:1}
+  .ph img{border-radius:13px}
+
+  /* slide / grid の切り替えは、画面の下中央に浮かべる */
+  .view-toggle{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);padding:3px;background:var(--navy);border-color:rgba(255,226,226,.55);box-shadow:0 8px 22px -8px rgba(0,0,0,.6)}
+  .vt-btn{font-size:12px;padding:5px 10px 5px 8px;gap:4px}
+  .vt-btn svg{width:13px;height:13px}
+
+  /* 一覧 */
+  .grid-view{padding:40px var(--gut) 90px}
+  .gv-sec+.gv-sec{margin-top:84px}
+  .gv-head{margin-bottom:28px;font-size:15px}
+  .gv-list{grid-template-columns:1fr 1fr;row-gap:40px}
+  .gv-thumb{--gp:5px;border-radius:11px}
+  .gv-thumb img{border-radius:7px}
+  .gv-meta{margin-top:12px;row-gap:4px}
+  .gv-t{font-size:15px}
+  .gv-s{font-size:11px}
+
+  /* About */
+  .about{padding-top:var(--hh)}
+  .about h2{font-size:26px}
+  .about-body{display:block}
+  .about dl{margin-bottom:32px}
+  .about-foot{display:none}
+  /* back to top: about に着いたら、帯をそのまま表示(広がるアニメーションなし) */
+  .foot{clip-path:none;visibility:hidden}
+  .foot a{opacity:1;pointer-events:auto}
+  html.at-about .foot{visibility:visible}
+}
+@media (max-width:820px) and (prefers-reduced-motion:no-preference){
+  /* ナビの出現は動きなしのフェードに(動いている間は、下に固定した切り替えボタンがずれるため) */
+  .topbar{animation-name:riseFade}
+}
+/* スマホ(タッチ操作): 1画面ずつ止まる。章の切り替えは縦に(指の動きと同じ向き) */
+@media (max-width:820px) and (pointer:coarse){
+  html{scroll-snap-type:y mandatory}
+  html.gridmode{scroll-snap-type:none}
+  .stage{clip-path:inset(calc((1 - var(--w1,1)) * 100%) 0 0 0)}
+  .slide{translate:0 calc((1 - var(--w1,1)) * 6svh)}
+  .about{clip-path:inset(calc((1 - var(--w2,1)) * 100%) 0 0 0)}
+  .about-in{translate:0 calc((1 - var(--w2,1)) * 6svh)}
+}
+
+/* ===== 動きを減らす設定のとき ===== */
+@media (prefers-reduced-motion:reduce){
+  .track,.side-btn,.topbar,.chs,.handle,.split .ls,.card,.gv-thumb img,.slide[data-view] .ph{transition:none}
+  .cue-line i{animation:none;opacity:1;transform:translateY(calc(var(--cl) / 2 - 8px))}
+  .desc-in>*,.ph{opacity:1;transform:none;translate:none;transition:none}
+  .side-btn .ring g,.side-btn.lbl-in .lbl,.gv-item,.grid-view{animation:none}
 }
-
-.floor::before, .floor-wave::before { content: none; display: none; }

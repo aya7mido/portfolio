@@ -79,13 +79,7 @@
 
   /* ---------- Lineup: continuous left-flowing marquee ---------- */
   var track = document.getElementById('lineupTrack');
-  var countEl = document.getElementById('lineupCount');
-  var prevBtn = document.getElementById('prevBtn');
-  var nextBtn = document.getElementById('nextBtn');
   var originalItems = Array.prototype.slice.call(track.querySelectorAll('.lineup-item'));
-  var total = originalItems.length;
-
-  function pad(n){ return n < 10 ? '0' + n : '' + n; }
 
   // Duplicate the set once so the track can loop seamlessly (skipped under
   // reduced-motion, where the list stays static and finite).
@@ -114,26 +108,12 @@
     items.forEach(function(it, i){
       it.classList.toggle('active', i === idx);
     });
-    var displayIdx = idx % total;
-    if(countEl) countEl.textContent = pad(displayIdx + 1) + ' / ' + pad(total);
   }
 
   function refreshActive(){ setActiveByIndex(currentIndex()); }
 
   if(reduceMotion){
-    // Static fallback: same discrete prev/next behaviour as before.
-    var scrollTimer = null;
-    track.addEventListener('scroll', function(){
-      clearTimeout(scrollTimer);
-      scrollTimer = setTimeout(refreshActive, 60);
-    }, { passive: true });
-
-    function scrollToIndex(idx){
-      idx = Math.max(0, Math.min(total - 1, idx));
-      var target = items[idx];
-      var offset = target.offsetLeft - (track.clientWidth - target.clientWidth) / 2;
-      track.scrollTo({ left: offset, behavior: 'auto' });
-    }
+    // 動きを減らす設定: 流さずに6色を並べて表示する(CSS側で折り返し表示)
     setActiveByIndex(0);
   } else {
     // Continuous auto-scroll: the track drifts left on its own, wrapping
@@ -187,13 +167,6 @@
     track.addEventListener('pointercancel', function(){ scheduleResume(1200); }, { passive: true });
     track.addEventListener('wheel', function(){ pause(); scheduleResume(1500); }, { passive: true });
 
-    function nudge(dir){
-      pause();
-      // 1つ分の移動量 = 隣の丸との間隔(画面幅で gap が 34/44/56px と変わるので実測する)
-      var stepWidth = items[1].offsetLeft - items[0].offsetLeft;
-      track.scrollBy({ left: dir * stepWidth, behavior: 'smooth' });
-      scheduleResume(1500);
-    }
 
     // Keep the wrap point accurate if fonts/images finish loading late.
     window.addEventListener('resize', function(){ halfWidth = track.scrollWidth / 2; });

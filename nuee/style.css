@@ -19,7 +19,6 @@
     --collection-bg: #D9D4CC;
 }
 
-
 /* =========================
    RESET / BASE
 ========================= */
@@ -52,7 +51,6 @@ img {
     outline: 1px solid currentColor;
     outline-offset: 4px;
 }
-
 
 /* =========================
    LOADING
@@ -124,7 +122,6 @@ img {
     }
 }
 
-
 /* =========================
    HEADER
 ========================= */
@@ -149,7 +146,9 @@ img {
 /* PC: ヒーロー(画面いっぱい)の最下部にナビを重ね、半透明で写真を透かす。
    リンクはヒーローの文字や各セクションと同じ左の線(--pad-l)にそろえる。
    ロゴは固定されたときだけ、その左の余白に現れる */
+
 @media (min-width: 769px) {
+
     .header {
         margin-top: calc(var(--header-h) * -1);
         display: grid;
@@ -165,6 +164,7 @@ img {
 
     /* 固定されたら、リンクは右寄せ(ロゴ左・リンク右)。
        位置が切り替わる瞬間は、ふわっと出し直して跳ねて見えないようにする */
+
     .header .nav {
         animation: navFadeA 0.6s ease;
     }
@@ -176,6 +176,7 @@ img {
 }
 
 /* 同じ動きを2つの名前で用意し、状態が変わるたびにアニメーションを再生させる */
+
 @keyframes navFadeA {
     from {
         opacity: 0;
@@ -198,6 +199,7 @@ img {
 
 /* 背景色が違うセクション(COLLECTION / OBJECTS / フッター)の上では半透明にする。
    後ろが少しぼけて透けるので、文字は読みやすいまま */
+
 .header.is-translucent {
     background-color: rgba(241, 238, 231, 0.6);
     -webkit-backdrop-filter: blur(12px);
@@ -205,12 +207,14 @@ img {
 }
 
 /* COLLECTIONの上では、そのセクションと同じベージュの半透明にしてなじませる */
+
 .header.is-translucent.is-beige {
     background-color: rgba(217, 212, 204, 0.72);
     background-color: color-mix(in srgb, var(--collection-bg) 72%, transparent);
 }
 
 /* 暗いセクション(OBJECTS / フッター)の上では、半透明のブラウン+クリーム文字にする */
+
 .header.is-translucent.is-dark {
     background-color: rgba(82, 62, 50, 0.6);
     color: var(--cream);
@@ -218,6 +222,7 @@ img {
 
 /* スマホでメニューを開いているときは、どこでも通常の配色に戻す。
    ぼかし(backdrop-filter)が残るとメニューパネルが帯の中に閉じ込められるので外す */
+
 .header.is-open,
 .header.is-open.is-translucent.is-dark,
 .header.is-open.is-translucent.is-beige {
@@ -228,11 +233,13 @@ img {
 }
 
 /* アンカーで飛んだとき、固定ナビの裏に見出しが隠れないようにする */
+
 main > section {
     scroll-margin-top: var(--header-h);
 }
 
 /* ロゴはヒーローの大きな「nuée」と重ならないよう、固定されてから現れる */
+
 .logo {
     font-size: 18px;
     letter-spacing: 0.05em;
@@ -261,6 +268,7 @@ main > section {
 }
 
 /* ONLINE STORE: ページ内リンクとは役割が違うので、細い縦線で区切って矢印を添える */
+
 .nav .nav-store {
     position: relative;
     transition: opacity 0.3s ease;
@@ -283,6 +291,7 @@ main > section {
 }
 
 /* ハンバーガーボタン。デスクトップでは隠す(スマホは MOBILE で表示) */
+
 .menu-button {
     display: none;
     position: relative;
@@ -314,6 +323,7 @@ main > section {
 }
 
 /* 開いているときは × にする */
+
 .header.is-open .menu-button-line:nth-child(1) {
     top: 21.5px;
     transform: rotate(45deg);
@@ -325,6 +335,7 @@ main > section {
 }
 
 /* メニューを開いている間は、後ろのページをスクロールさせない */
+
 html.is-menu-open {
     overflow: hidden;
 }
@@ -380,7 +391,6 @@ html.is-menu-open {
     transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-
 /* =========================
    SHARED
    セクション共通の余白と見出し
@@ -393,6 +403,7 @@ html.is-menu-open {
 /* セクション見出し(COLLECTION / OBJECTS)。
    中の商品名(32px)より一段大きく、「Scent becomes space.」(56px)よりは控えめに。
    ABOUTの見出し・FIND YOUR SCENT(42px)と同じ格にそろえる */
+
 .section-heading {
     margin-bottom: 120px;
 }
@@ -410,13 +421,6 @@ html.is-menu-open {
     font-style: italic;
     letter-spacing: 0.03em;
 }
-
-.text-link {
-    display: inline-block;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-}
-
 
 /* =========================
    HERO
@@ -454,6 +458,7 @@ html.is-menu-open {
 }
 
 /* 左側だけ少し暗くして、白文字を読みやすくする */
+
 .hero-image::after {
     content: "";
     position: absolute;
@@ -485,7 +490,6 @@ html.is-menu-open {
     font-size: 14px;
     letter-spacing: 0.05em;
 }
-
 
 /* =========================
    BRAND STATEMENT
@@ -519,16 +523,6 @@ html.is-menu-open {
     font-size: 56px;
     font-weight: 400;
     line-height: 1;
-}
-
-.statement-text p {
-    margin-top: 40px;
-    font-size: 15px;
-    line-height: 2;
-}
-
-.statement-text .text-link {
-    margin-top: 40px;
 }
 
 .statement-image {
@@ -586,6 +580,7 @@ html.is-menu-open {
 }
 
 @media (min-width: 769px) {
+
     .collection-item:nth-child(odd) .collection-text {
         margin-left: clamp(24px, 5vw, 80px);
     }
@@ -599,6 +594,7 @@ html.is-menu-open {
 
 /* 文字の強さ: 名前・英文 > 番号・ノート > 日本語。
    日本語は小さく・薄くして、英文の流れを邪魔しないようにする */
+
 .collection-text .number {
     font-size: 12px;
     letter-spacing: 0.12em;
@@ -619,16 +615,6 @@ html.is-menu-open {
     opacity: 0.9;
 }
 
-.collection-text .tagline {
-    /* 添えるだけの一言。名前より目立たないよう、小さく・少し薄く */
-    margin-top: 28px;
-    font-size: 14px;
-    font-style: italic;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-    opacity: 0.75;
-}
-
 .collection-text .notes {
     margin-top: 28px;
     font-size: 12px;
@@ -642,7 +628,6 @@ html.is-menu-open {
     letter-spacing: 0.05em;
     opacity: 0.88;
 }
-
 
 /* =========================
    OBJECTS
@@ -673,16 +658,6 @@ html.is-menu-open {
     letter-spacing: 0.12em;
 }
 
-.object-item .tagline {
-    margin-top: 8px;
-    font-size: 13px;
-    font-style: italic;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-    opacity: 0.75;
-}
-
-
 /* =========================
    ABOUT
 ========================= */
@@ -706,6 +681,7 @@ html.is-menu-open {
 
 /* 元画像は2:3でPCだと画面より高くなるので、4:5にトリミング。
    上半分は何もない壁なので、人物と窓辺が残るよう下寄りで切る */
+
 .about-image img {
     width: 100%;
     aspect-ratio: 4 / 5;
@@ -736,6 +712,7 @@ html.is-menu-open {
 }
 
 /* READ MORE を消したので、最後の段落の下余白は不要 */
+
 .about-text > :last-child {
     margin-bottom: 0;
 }
@@ -743,6 +720,7 @@ html.is-menu-open {
 /* 波線: ABOUTとCTAの「境目の線」として、セクションの下端にぴったり置く。
    余白の真ん中に浮かせず、振れ幅を小さく・線を細くして、
    ブランドステートメントの縦線(0.5px)と同じ細さの仲間にする */
+
 .about-wave {
     position: absolute;
     left: 0;
@@ -782,7 +760,6 @@ html.is-menu-open {
     }
 }
 
-
 /* =========================
    CTA
 ========================= */
@@ -800,6 +777,7 @@ html.is-menu-open {
 }
 
 /* 締めの一言。見出しに添える程度に、小さく・少し薄く */
+
 .cta-copy {
     margin-top: 28px;
     font-size: 14px;
@@ -807,7 +785,6 @@ html.is-menu-open {
     letter-spacing: 0.05em;
     opacity: 0.8;
 }
-
 
 /* =========================
    FOOTER
@@ -845,7 +822,6 @@ html.is-menu-open {
     opacity: 0.7;
     justify-self: end;
 }
-
 
 /* =========================
    REVEAL (スクロールで現れる動き)
@@ -885,11 +861,11 @@ html.is-menu-open {
 }
 
 /* 必ず上の初期状態より後ろに書く */
+
 .is-visible {
     opacity: 1;
     transform: none;
 }
-
 
 /* =========================
    MOBILE
@@ -909,6 +885,7 @@ html.is-menu-open {
     /* スマホ: ナビバーはヒーローの下に置かず、最初から画面上部に固定。
        ヒーローの上では背景なし・白いハンバーガーだけが右上に見え、
        ヒーローを過ぎるとクリーム色の帯+ロゴが現れる */
+
     .header {
         position: fixed;
         left: 0;
@@ -934,6 +911,7 @@ html.is-menu-open {
 
     /* スマホのメニュー: ハンバーガーを押すと画面全体に広がる。
        z-index: -1 なので、ロゴと×ボタンはパネルの上に残る */
+
     .nav {
         position: fixed;
         inset: 0;
@@ -983,6 +961,7 @@ html.is-menu-open {
     }
 
     /* スマホ: ONLINE STOREは短い横線で区切り、少し小さくして「別の行き先」と分かるように */
+
     .nav .nav-store {
         margin-top: 24px;
         font-size: 16px;
@@ -996,7 +975,6 @@ html.is-menu-open {
         height: 1px;
         transform: none;
     }
-
 
     .scroll-indicator {
         right: 10px;
@@ -1025,11 +1003,13 @@ html.is-menu-open {
     }
 
     /* HERO: スマホでも画面いっぱい。縦長画面では人物の顔が入るように寄せる */
+
     .hero-image img {
         object-position: 80% center;
     }
 
     /* ロゴを顔・首(明るい肌)から外し、下のジャケット(暗い部分)の上に置く */
+
     .hero {
         align-items: flex-end;
         padding-bottom: 24svh;
@@ -1057,6 +1037,7 @@ html.is-menu-open {
     }
 
     /* BRAND STATEMENT */
+
     .brand-statement {
         --line-h: 50px;
         --line-above: 100px;
@@ -1079,6 +1060,7 @@ html.is-menu-open {
     }
 
     /* COLLECTION */
+
     .collection {
         padding-bottom: var(--section-y);
     }
@@ -1104,11 +1086,8 @@ html.is-menu-open {
         font-size: 28px;
     }
 
-    .collection-text .tagline {
-        margin-top: 22px;
-    }
-
     /* OBJECTS */
+
     .objects {
         padding-bottom: 100px;
     }
@@ -1123,6 +1102,7 @@ html.is-menu-open {
     }
 
     /* ABOUT */
+
     .about {
         grid-template-columns: 1fr;
         gap: 60px;
@@ -1139,11 +1119,13 @@ html.is-menu-open {
     }
 
     /* 波線はスマホでは出さない(PCだけのアクセント) */
+
     .about-wave {
         display: none;
     }
 
     /* CTA */
+
     .cta {
         padding-top: 90px;
         padding-bottom: 120px;
@@ -1154,6 +1136,7 @@ html.is-menu-open {
     }
 
     /* FOOTER */
+
     .footer {
         padding: 40px 20px 25px;
         flex-direction: column;
@@ -1167,7 +1150,6 @@ html.is-menu-open {
         gap: 15px 25px;
     }
 }
-
 
 /* =========================
    REDUCED MOTION
@@ -1225,13 +1207,6 @@ html.is-menu-open {
     letter-spacing: 0.08em;
 }
 
-.statement-text .jp-catch {
-    margin-top: 28px;
-    font-size: 17px;
-    line-height: 1.8;
-    letter-spacing: 0.12em;
-}
-
 .price {
     font-size: 17px;
     letter-spacing: 0.04em;
@@ -1256,22 +1231,6 @@ html.is-menu-open {
     border-top: 1px solid rgba(82, 62, 50, 0.25);
 }
 
-.buy-link {
-    display: inline-flex;
-    gap: 10px;
-    margin-top: 14px;
-    padding-bottom: 4px;
-    border-bottom: 1px solid currentColor;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    transition: gap 0.3s ease, opacity 0.3s ease;
-}
-
-.buy-link:hover {
-    gap: 16px;
-    opacity: 0.7;
-}
-
 .buy-button {
     display: inline-block;
     padding: 16px 40px;
@@ -1286,13 +1245,6 @@ html.is-menu-open {
     opacity: 0.85;
 }
 
-/* OBJECTS(暗い背景) */
-.object-item .obj-jp {
-    margin-top: 14px;
-    font-size: 16px;
-    letter-spacing: 0.1em;
-}
-
 .object-item .obj-desc {
     margin-top: 6px;
     font-size: 14px;
@@ -1304,106 +1256,6 @@ html.is-menu-open {
     margin-top: 14px;
 }
 
-/* はじめての方へ */
-.first {
-    background-color: var(--cream);
-}
-
-.first .section-heading {
-    margin-bottom: 70px;
-}
-
-.first-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 60px;
-    align-items: start;
-}
-
-.first-label {
-    font-size: 11px;
-    letter-spacing: 0.14em;
-}
-
-.first h3 {
-    margin-top: 14px;
-    font-size: 24px;
-    font-weight: 400;
-    letter-spacing: 0.1em;
-}
-
-.trial {
-    padding: 48px;
-    border: 1px solid rgba(82, 62, 50, 0.3);
-}
-
-.first-text {
-    margin-top: 20px;
-    font-size: 15px;
-    line-height: 2;
-}
-
-.trial .price {
-    margin-top: 24px;
-}
-
-.trial-note {
-    margin-top: 10px;
-    font-size: 13px;
-    line-height: 1.8;
-    opacity: 0.85;
-}
-
-.trial .buy-button {
-    margin-top: 28px;
-}
-
-.guide {
-    padding-top: 48px;
-}
-
-.guide-list {
-    list-style: none;
-    margin-top: 22px;
-    border-top: 1px solid rgba(82, 62, 50, 0.25);
-}
-
-.guide-list a {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 20px;
-    padding: 18px 4px;
-    border-bottom: 1px solid rgba(82, 62, 50, 0.25);
-    transition: padding 0.3s ease, opacity 0.3s ease;
-}
-
-.guide-list a:hover {
-    padding-left: 12px;
-    opacity: 0.75;
-}
-
-.g-when {
-    font-size: 15px;
-    letter-spacing: 0.06em;
-}
-
-.g-name {
-    font-size: 13px;
-    letter-spacing: 0.14em;
-}
-
-/* CTA */
-.cta-jp {
-    margin-top: 22px;
-    font-size: 15px;
-    letter-spacing: 0.08em;
-}
-
-.cta .buy-button {
-    margin-top: 40px;
-}
-
 .ship-note {
     margin-top: 14px;
     font-size: 12px;
@@ -1412,31 +1264,11 @@ html.is-menu-open {
 }
 
 @media (max-width: 768px) {
-    .first .section-heading {
-        margin-bottom: 44px;
-    }
-
-    .first-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-
-    .trial {
-        padding: 30px 24px;
-    }
-
-    .first h3 {
-        font-size: 21px;
-    }
 
     .buy-button {
         display: block;
         text-align: center;
         padding: 16px 20px;
-    }
-
-    .cta-jp {
-        line-height: 1.9;
     }
 }
 
@@ -1445,17 +1277,14 @@ html.is-menu-open {
 }
 
 @media (max-width: 768px) {
-    .first-text br {
-        display: none;
-    }
 
     .buy-button {
         letter-spacing: 0.08em;
     }
 }
 
-
 /* OBJECTS: 製品ごとの香りのレパートリーと、オンラインストアへのボタン */
+
 .object-item .scents {
     display: flex;
     flex-wrap: wrap;
@@ -1497,31 +1326,15 @@ html.is-menu-open {
     margin-top: 14px;
 }
 
-/* CTA: 英語だけのテキストリンク */
-.cta-link {
-    display: inline-flex;
-    gap: 12px;
-    margin-top: 40px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid currentColor;
-    font-size: 13px;
-    letter-spacing: 0.16em;
-    transition: gap 0.3s ease, opacity 0.3s ease;
-}
-
-.cta-link:hover {
-    gap: 18px;
-    opacity: 0.7;
-}
-
 @media (max-width: 768px) {
+
     .objects-cta {
         margin-top: 60px;
     }
 }
 
-
 /* フッター: Instagramのアイコン(枠なし)と、コピーライトを右側にまとめる */
+
 .footer-end {
     justify-self: end;
     display: flex;
@@ -1548,6 +1361,7 @@ html.is-menu-open {
 }
 
 @media (max-width: 768px) {
+
     .footer-end {
         align-items: flex-start;
     }
@@ -1558,21 +1372,25 @@ html.is-menu-open {
 }
 
 /* スマホ: 左下の「← portfolio」ボタンにコピーライトが隠れないよう、下に余白を足す */
+
 @media (max-width: 768px) {
+
     .footer {
         padding-bottom: 76px;
     }
 }
 
 /* PC: 左下の「← portfolio」ボタンにフッターのロゴが隠れないよう、下に余白を足す */
+
 @media (min-width: 769px) {
+
     .footer {
         padding-bottom: 64px;
     }
 }
 
-
 /* OBJECTS: 製品名(01 / PERFUME)を、消したカタカナ名と同じ大きさに */
+
 .object-item h3 {
     font-size: 16px;
     letter-spacing: 0.12em;
@@ -1582,8 +1400,8 @@ html.is-menu-open {
     margin-top: 10px;
 }
 
-
 /* COLLECTION: 各香りから、その香りのあるアイテム(OBJECTS)へつなぐ */
+
 .collection-text .buy {
     margin-top: 32px;
     padding-top: 0;
@@ -1601,23 +1419,12 @@ html.is-menu-open {
     opacity: 0.6;
 }
 
-.collection-text .buy-link {
-    margin-top: 12px;
-}
-
 /* 日本語の短い文は、文節で折り返して1〜2文字だけの行を作らない */
+
 .heading-jp,
 .jp-catch,
 .obj-desc,
 .collection-text .desc {
     word-break: auto-phrase;
     text-wrap: balance;
-}
-
-
-/* スマホだけで改行する<br> */
-.sp-br { display: none; }
-
-@media (max-width: 768px) {
-    .sp-br { display: inline; }
 }
